@@ -1,4 +1,4 @@
-Starter Code for BMinor Project
+Tram Trinh (htrinh@nd.edu) - BMinor Project
 -------------------------------
 
 This directory contains the starter code for the BMinor compiler.
