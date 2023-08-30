@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
                 }
             }
             else {
-                printf("encoding failed.\n");
+                //printf("encoding failed.\n");
                 return 1;
             }
         }
