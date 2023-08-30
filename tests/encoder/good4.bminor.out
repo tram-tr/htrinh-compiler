@@ -1,3 +1,0 @@
-decoded: Mixed: \t\n\"\\\0x20\'Good\' Bye!
-encoded: "Mixed: \\t\\n\\\"\\\\\\0x20\\'Good\\' Bye!"
-encoding successful.
