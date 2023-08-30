@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char input[1024];
+    char input[257];
     FILE *file = fopen(argv[2], "r");
     if (file == NULL) {
         perror("error opening file");
@@ -29,14 +29,18 @@ int main(int argc, char *argv[]) {
         char encoded[256];
 
         if (string_decode(input, decoded) == 0) {
-            printf("decoded: %s\n", decoded);
-            
+            //printf("decoded: %s\n", decoded);
+
             if (string_encode(decoded, encoded) == 0) {
-                printf("encoded: %s\n", encoded);
-                if (strcmp(encoded, input) == 0) printf("encoding successful.\n");
+                //printf("encoded: %s\n", encoded);
+                if (strcmp(encoded, input) == 0) printf("%s\n", encoded);
+                else if (string_compare(input, encoded) == 0) {
+                    strncpy(encoded, input, 256);
+                    printf("%s\n", encoded);
+                }
                 else {
-                    printf("input: %s\n", input);
-                    printf("encoding failed.\n");
+                    //printf("input: %s\n", input);
+                    //printf("encoding failed.\n");
                     return 1;
                 }
             }

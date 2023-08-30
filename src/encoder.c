@@ -3,6 +3,7 @@
 int string_decode(const char *es, char *s) {
     int s_index = 0;
     int es_index = 0;
+    int closing_quote = 0;
 
     // check for opening quote and skip if present
     if (es[es_index] == '\"') es_index++;
@@ -33,7 +34,8 @@ int string_decode(const char *es, char *s) {
                 case '\"': s[s_index++] = 34; break;
                 case '0':
                     if (es[es_index + 1] != 'x') {
-                        printf("error: unrecognized escape\n");
+                        printf("error: unexpected end of string.\n");
+                        s[s_index++] = '\0';
                         return 1;
                     }
                     es_index++;
@@ -45,7 +47,7 @@ int string_decode(const char *es, char *s) {
                     // convert the hexadecimal sequence to a byte
                     char hexValue[5] = { '0', 'x', es[es_index + 1], es[es_index + 2], '\0' };
                     s[s_index++] = (char)strtol(hexValue, NULL, 16);
-                    es_index += 3; // skip the two hex digits
+                    es_index += 2; // skip the two hex digits
                     break;
                 default:
                     printf("error: unrecognized escape.\n"); 
@@ -60,6 +62,7 @@ int string_decode(const char *es, char *s) {
                 printf("error: unexpected character after closing quote.\n");
                 return 1;
             }
+            closing_quote = 1;
         }
         // check for invalid characters
         else if (es[es_index] < 32 || es[es_index] > 126) {
@@ -69,11 +72,10 @@ int string_decode(const char *es, char *s) {
         else s[s_index++] = es[es_index++];
     }
 
-    if (es[es_index-1] != '\"') {
+    if (!closing_quote) {
         printf("error: missing closing quote.\n");
         return 1;
     }
-
 
     s[s_index] = '\0';
 
@@ -115,6 +117,7 @@ int string_encode(const char *s, char *es) {
                     es[es_index++] = (c >> 4) < 10 ? (c >> 4) + '0' : (c >> 4) + 'a' - 10;
                     es[es_index++] = (c & 0x0F) < 10 ? (c & 0x0F) + '0' : (c & 0x0F) + 'a' - 10;
                 }
+                break;
         }
 
         s_index++;
@@ -124,4 +127,37 @@ int string_encode(const char *s, char *es) {
     es[es_index] = '\0';
 
     return 0;
+}
+
+int string_compare(const char *es, const char *s) {
+    int es_index = 0;
+    int s_index = 0;
+
+    while (es[es_index] != '\0' && s[s_index] != '\0') {
+        if (es[es_index] == '\\' && es[es_index + 1] == '0') {
+            es_index += 2;
+            if (es[es_index] == 'x' && isxdigit((unsigned char)es[es_index + 1]) && isxdigit((unsigned char)es[es_index + 2])) {
+                int hex_value;
+                sscanf(&es[es_index + 1], "%2x", &hex_value);
+                
+                if (hex_value != s[s_index]) {
+                    return 1;
+                }
+                es_index += 3;  // skip over the hex sequence
+            } else {
+                if (es[es_index] != s[s_index]) {
+                    return 1;
+                }
+                s_index++;  // skip over the escaped character
+            }
+        } else {
+            if (es[es_index] != s[s_index]) return 1;
+            es_index++;
+        }
+        s_index++;
+    }
+
+    if (es[es_index] == '\0' && s[s_index] == '\0') return 0;
+    else return 1;
+    
 }

@@ -8,5 +8,6 @@
 
 int string_encode(const char *s, char *es);
 int string_decode(const char *es, char *s);
+int string_compare(const char *es, const char *s);
 
 #endif
