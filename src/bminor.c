@@ -30,20 +30,7 @@ int main(int argc, char *argv[]) {
 
         if (string_decode(input, decoded) == 0) {
             //printf("decoded: %s\n", decoded);
-
-            if (string_encode(decoded, encoded) == 0) {
-                //printf("encoded: %s\n", encoded);
-                if (strcmp(encoded, input) == 0) printf("%s\n", encoded);
-                else if (string_compare(input, encoded) == 0) {
-                    strncpy(encoded, input, 256);
-                    printf("%s\n", encoded);
-                }
-                else {
-                    //printf("input: %s\n", input);
-                    //printf("encoding failed.\n");
-                    return 1;
-                }
-            }
+            if (string_encode(decoded, encoded) == 0) printf("%s\n", encoded);            
             else {
                 //printf("encoding failed.\n");
                 return 1;

@@ -45,8 +45,13 @@ int string_decode(const char *es, char *s) {
                         return 1;
                     }
                     // convert the hexadecimal sequence to a byte
-                    char hexValue[5] = { '0', 'x', es[es_index + 1], es[es_index + 2], '\0' };
-                    s[s_index++] = (char)strtol(hexValue, NULL, 16);
+                    char hex_seq[5] = { '0', 'x', es[es_index + 1], es[es_index + 2], '\0' };
+                    int hex_value = (int)strtol(hex_seq, NULL, 16);
+                    if (hex_value >= 32 && hex_value <= 126) s[s_index++] = (char)hex_value;
+                    else {
+                        printf("error: invalid character value in hexadecimal sequence.\n");
+                        return 1;
+                    }
                     es_index += 2; // skip the two hex digits
                     break;
                 default:
@@ -108,14 +113,10 @@ int string_encode(const char *s, char *es) {
             case '\t': es[es_index++] = '\\'; es[es_index++] = 't'; break;
             case '\v': es[es_index++] = '\\'; es[es_index++] = 'v'; break;
             default:
-                if (c >= 32 && c <= 126) {
-                    es[es_index++] = c;
-                } else {
-                    es[es_index++] = '\\';
-                    es[es_index++] = '0';
-                    es[es_index++] = 'x';
-                    es[es_index++] = (c >> 4) < 10 ? (c >> 4) + '0' : (c >> 4) + 'a' - 10;
-                    es[es_index++] = (c & 0x0F) < 10 ? (c & 0x0F) + '0' : (c & 0x0F) + 'a' - 10;
+                if (c >= 32 && c <= 126) es[es_index++] = c;
+                else {
+                    printf("error: unrecognized escape.\n"); 
+                    return 1;
                 }
                 break;
         }
@@ -127,37 +128,4 @@ int string_encode(const char *s, char *es) {
     es[es_index] = '\0';
 
     return 0;
-}
-
-int string_compare(const char *es, const char *s) {
-    int es_index = 0;
-    int s_index = 0;
-
-    while (es[es_index] != '\0' && s[s_index] != '\0') {
-        if (es[es_index] == '\\' && es[es_index + 1] == '0') {
-            es_index += 2;
-            if (es[es_index] == 'x' && isxdigit((unsigned char)es[es_index + 1]) && isxdigit((unsigned char)es[es_index + 2])) {
-                int hex_value;
-                sscanf(&es[es_index + 1], "%2x", &hex_value);
-                
-                if (hex_value != s[s_index]) {
-                    return 1;
-                }
-                es_index += 3;  // skip over the hex sequence
-            } else {
-                if (es[es_index] != s[s_index]) {
-                    return 1;
-                }
-                s_index++;  // skip over the escaped character
-            }
-        } else {
-            if (es[es_index] != s[s_index]) return 1;
-            es_index++;
-        }
-        s_index++;
-    }
-
-    if (es[es_index] == '\0' && s[s_index] == '\0') return 0;
-    else return 1;
-    
 }
