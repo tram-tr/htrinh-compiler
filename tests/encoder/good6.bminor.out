@@ -1,0 +1,4 @@
+decoded: Form Feed: \f
+Carriage Return: \r
+encoded: "Form Feed: \\f\nCarriage Return: \\r"
+encoding successful.
