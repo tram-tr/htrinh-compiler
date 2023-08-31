@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char input[257];
+    char input[1280];
     FILE *file = fopen(argv[2], "r");
     if (file == NULL) {
         perror("error opening file");
@@ -25,8 +25,8 @@ int main(int argc, char *argv[]) {
     fclose(file);
 
     if (strcmp(argv[1], "--encode") == 0) {
-        char decoded[256];
-        char encoded[256];
+        char decoded[1280];
+        char encoded[1280];
 
         if (string_decode(input, decoded) == 0) {
             //printf("decoded: %s\n", decoded);
