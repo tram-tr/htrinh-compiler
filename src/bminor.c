@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     fclose(file);
 
     if (strcmp(argv[1], "--encode") == 0) {
-        char decoded[1280];
+        char decoded[256];
         char encoded[1280];
 
         if (string_decode(input, decoded) == 0) {

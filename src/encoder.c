@@ -13,7 +13,7 @@ int string_decode(const char *es, char *s) {
     }
 
     while (es[es_index] != '\0') {
-        if (s_index >= 255) {
+        if (s_index > 255) {
             printf("error: decoded string exceeds maximum length.\n");
             return 1;
         }
@@ -103,7 +103,7 @@ int string_encode(const char *s, char *es) {
     es[es_index++] = '\"';
 
     while (s[s_index] != '\0') {
-        if (es_index >= 255) {
+        if (es_index > 255) {
             printf("error: encoded string exceeds maximum length.\n");
             return 1;
         }
