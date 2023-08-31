@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=gnu99 -g -O2 -Iinc
+CFLAGS = -std=gnu99 -g
 SHELL = /bin/bash
 SRCDIR = src
 INCDIR = inc 

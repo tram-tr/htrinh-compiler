@@ -47,9 +47,18 @@ int string_decode(const char *es, char *s) {
                     // convert the hexadecimal sequence to a byte
                     char hex_seq[5] = { '0', 'x', es[es_index + 1], es[es_index + 2], '\0' };
                     int hex_value = (int)strtol(hex_seq, NULL, 16);
-                    if (hex_value >= 32 && hex_value <= 126) s[s_index++] = (char)hex_value;
+                    
+                    if (hex_value >= 0x20 && hex_value <= 0x7E) s[s_index++] = (char)hex_value; // ascii range 32 - 126
+                    else if ((hex_value >= 0x07 && hex_value <= 0x0D) || (hex_value == 0x1B) || (hex_value == 0x22) || (hex_value == 0x27)) s[s_index++] = (char)hex_value; // outside of range, but in the backlash code
+                    else if (hex_value > 0) {
+                        s[s_index++] = '\\';
+                        s[s_index++] = '0';
+                        s[s_index++] = 'x';
+                        s[s_index++] = (hex_value >> 4) < 10 ? (hex_value >> 4) + '0' : (hex_value >> 4) + 'a' - 10;
+                        s[s_index++] = (hex_value & 0x0F) < 10 ? (hex_value & 0x0F) + '0' : (hex_value & 0x0F) + 'a' - 10;
+                    } 
                     else {
-                        printf("error: invalid character value in hexadecimal sequence.\n");
+                        printf("error: unexpected end of string.\n");
                         return 1;
                     }
                     es_index += 2; // skip the two hex digits
@@ -103,7 +112,9 @@ int string_encode(const char *s, char *es) {
 
         switch (c) {
             case '\"': es[es_index++] = '\\'; es[es_index++] = '\"'; break;
-            case '\\': es[es_index++] = '\\'; es[es_index++] = '\\'; break;
+            case '\\':
+                if (s[s_index + 1] != '0') 
+                    es[es_index++] = '\\'; es[es_index++] = '\\'; break;
             case '\a': es[es_index++] = '\\'; es[es_index++] = 'a'; break;
             case '\b': es[es_index++] = '\\'; es[es_index++] = 'b'; break;
             case '\e': es[es_index++] = '\\'; es[es_index++] = 'e'; break;
@@ -113,10 +124,15 @@ int string_encode(const char *s, char *es) {
             case '\t': es[es_index++] = '\\'; es[es_index++] = 't'; break;
             case '\v': es[es_index++] = '\\'; es[es_index++] = 'v'; break;
             default:
-                if (c >= 32 && c <= 126) es[es_index++] = c;
+                if (c >= 32 && c <= 126) {
+                    es[es_index++] = c;
+                } 
                 else {
-                    printf("error: unrecognized escape.\n"); 
-                    return 1;
+                    es[es_index++] = '\\';
+                    es[es_index++] = '0';
+                    es[es_index++] = 'x';
+                    es[es_index++] = (c >> 4) < 10 ? (c >> 4) + '0' : (c >> 4) + 'a' - 10;
+                    es[es_index++] = (c & 0x0F) < 10 ? (c & 0x0F) + '0' : (c & 0x0F) + 'a' - 10;
                 }
                 break;
         }

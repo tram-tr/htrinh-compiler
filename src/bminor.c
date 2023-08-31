@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
             //printf("decoded: %s\n", decoded);
             if (string_encode(decoded, encoded) == 0) printf("%s\n", encoded);            
             else {
-                //printf("encoding failed.\n");
+                printf("encoding failed.\n");
                 return 1;
             }
         }
