@@ -16,7 +16,7 @@ $(OBJSDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 test_encoder: dirs $(TARGET)
-	$(SHELL) runtest.sh encoder
+	$(SHELL) runtest.sh encode
 
 $(TARGET): $(OBJSDIR)/hash_table.o $(OBJSDIR)/library.o $(OBJSDIR)/encoder.o $(OBJSDIR)/bminor.o
 	$(CC) $(CFLAGS) $^ -o $@

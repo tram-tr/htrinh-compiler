@@ -9,7 +9,7 @@ TEST_DIR=tests
 TEST_TYPE="$1"
 BMINOR=./bminor
 
-if [ "$TEST_TYPE" == "encoder" ]; then
+if [ "$TEST_TYPE" == "encode" ]; then
     for testfile in $TEST_DIR/$TEST_TYPE/good*.bminor
     do
         if $BMINOR --encode "$testfile" > "$testfile.out"
