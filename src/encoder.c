@@ -79,7 +79,7 @@ int string_decode(const char *es, char *s) {
             closing_quote = 1;
         }
         // check for invalid characters
-        else if (es[es_index] < 32 || es[es_index] > 126) {
+        else if (es[es_index] < 32 || es[es_index] > 126 || es[es_index] == '\'') {
             printf("error: invalid character found.\n");
             return 1;
         }
