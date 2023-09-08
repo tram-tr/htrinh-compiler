@@ -18,6 +18,11 @@ int string_decode(const char *es, char *s) {
             return 1;
         }
 
+        if (closing_quote == 1) {
+            printf("error: unexpected character after closing quote.\n");
+            return 1;
+        }
+
         if (es[es_index] == '\\') {
             es_index++;
             switch (es[es_index]) {
@@ -72,14 +77,14 @@ int string_decode(const char *es, char *s) {
         // check for closing quote
         else if (es[es_index] == '\"') {
             es_index++;
-            if (es[es_index] != ' ' && es[es_index] != '\0') {
+            /*if (es[es_index] != ' ' && es[es_index] != '\0') {
                 printf("error: unexpected character after closing quote.\n");
                 return 1;
-            }
+            */
             closing_quote = 1;
         }
         // check for invalid characters
-        else if (es[es_index] < 32 || es[es_index] > 126 || es[es_index] == '\'') {
+        else if (es[es_index] < 32 || es[es_index] > 126) {
             printf("error: invalid character found.\n");
             return 1;
         }
