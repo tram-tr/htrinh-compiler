@@ -8,18 +8,18 @@ int string_decode(const char *es, char *s) {
     // check for opening quote and skip if present
     if (es[es_index] == '\"') es_index++;
     else {
-        printf("error: missing opening quote.\n");
+        printf("encode error: missing opening quote.\n");
         return 1;
     }
 
     while (es[es_index] != '\0') {
         if (s_index > 255) {
-            printf("error: decoded string exceeds maximum length.\n");
+            printf("encode error: decoded string exceeds maximum length.\n");
             return 1;
         }
 
         if (closing_quote == 1) {
-            printf("error: unexpected character after closing quote.\n");
+            printf("encode error: unexpected character after closing quote.\n");
             return 1;
         }
 
@@ -39,14 +39,14 @@ int string_decode(const char *es, char *s) {
                 case '\"': s[s_index++] = 34; break;
                 case '0':
                     if (es[es_index + 1] != 'x') {
-                        printf("error: unexpected end of string.\n");
+                        printf("encode error: unexpected end of string.\n");
                         s[s_index++] = '\0';
                         return 1;
                     }
                     es_index++;
                     // check for incomplete hexadecimal sequence
                     if (!isxdigit((unsigned char)es[es_index + 1]) || !isxdigit((unsigned char)es[es_index + 2])) {
-                        printf("error: incomplete hexadecimal sequence.\n");
+                        printf("encode error: incomplete hexadecimal sequence.\n");
                         return 1;
                     }
                     // convert the hexadecimal sequence to a byte
@@ -63,13 +63,13 @@ int string_decode(const char *es, char *s) {
                         s[s_index++] = (hex_value & 0x0F) < 10 ? (hex_value & 0x0F) + '0' : (hex_value & 0x0F) + 'a' - 10;
                     } 
                     else {
-                        printf("error: unexpected end of string.\n");
+                        printf("encode error: unexpected end of string.\n");
                         return 1;
                     }
                     es_index += 2; // skip the two hex digits
                     break;
                 default:
-                    printf("error: unrecognized escape.\n"); 
+                    printf("encode error: unrecognized escape.\n"); 
                     return 1;
             }
             es_index++;
@@ -80,19 +80,19 @@ int string_decode(const char *es, char *s) {
             /*if (es[es_index] != ' ' && es[es_index] != '\0') {
                 printf("error: unexpected character after closing quote.\n");
                 return 1;
-            */
+            }*/
             closing_quote = 1;
         }
         // check for invalid characters
         else if (es[es_index] < 32 || es[es_index] > 126) {
-            printf("error: invalid character found.\n");
+            printf("encode error: invalid character found.\n");
             return 1;
         }
         else s[s_index++] = es[es_index++];
     }
 
     if (!closing_quote) {
-        printf("error: missing closing quote.\n");
+        printf("encode error: missing closing quote.\n");
         return 1;
     }
 
@@ -105,11 +105,11 @@ int string_encode(const char *s, char *es) {
     int s_index = 0;
     int es_index = 0;
 
-    es[es_index++] = '\"';
+    //es[es_index++] = '\"';
 
     while (s[s_index] != '\0') {
         if (es_index > 255) {
-            printf("error: encoded string exceeds maximum length.\n");
+            printf("encode error: encoded string exceeds maximum length.\n");
             return 1;
         }
 
@@ -145,8 +145,67 @@ int string_encode(const char *s, char *es) {
         s_index++;
     }
 
-    es[es_index++] = '\"';
+    //es[es_index++] = '\"';
     es[es_index] = '\0';
+
+    return 0;
+}
+
+int char_decode(const char *es, char *c) {
+    int es_index = 0;
+    int closing_quote = 0;
+    
+    es_index++;
+    if (es[es_index] == '\\') {
+        es_index++;
+        if (es[es_index] == '\'') {
+            printf("encode error: invalid character found.\n");
+            return 1;
+        }
+        switch (es[es_index]) {
+            case 'a': (*c) = 7; break;
+            case 'b': (*c) = 8; break;
+            case 'e': (*c) = 27; break;
+            case 'f': (*c) = 12; break;
+            case 'n': (*c) = 10; break;
+            case 'r': (*c) = 13; break;
+            case 't': (*c) = 9; break;
+            case 'v': (*c) = 11; break;
+            case '\\': (*c) = 92; break;
+            case '\'': (*c) = 39; break;
+            case '\"': (*c) = 34; break;
+            case '0':
+                if (es[es_index + 1] != 'x') {
+                    (*c) = 0;
+                    break;
+                }
+                es_index++;
+                // check for incomplete hexadecimal sequence
+                if (!isxdigit((unsigned char)es[es_index + 1]) || !isxdigit((unsigned char)es[es_index + 2])) {
+                    printf("encode error: incomplete hexadecimal sequence.\n");
+                    return 1;
+                }
+                // convert the hexadecimal sequence to a byte
+                char hex_seq[5] = { '0', 'x', es[es_index + 1], es[es_index + 2], '\0' };
+                int hex_value = (int)strtol(hex_seq, NULL, 16);
+                
+                if (hex_value >= 0x20 && hex_value <= 0x7E && hex_value != 0x5C || hex_value == 0) (*c) = (char)hex_value;
+                else {
+                    printf("encode error: invalid character.\n");
+                    return 1;
+                }
+                es_index += 2;
+                break;
+            default:
+                printf("encode error: unrecognized escape.\n"); 
+                return 1;
+        }
+    }
+    else if (es[es_index] < 32 || es[es_index] > 126 || es[es_index] == 92) {
+        printf("encode error: invalid character found.\n");
+        return 1;
+    }
+    else (*c) = es[es_index];
 
     return 0;
 }
