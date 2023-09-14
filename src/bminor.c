@@ -158,8 +158,11 @@ int scan() {
             break;
         case TOKEN_TYPE_CHAR: {
             char c_decoded;
-            if (char_decode(yytext, &c_decoded) == 0)
-                printf("%-20s %20c\n", "CHAR_LITERAL", c_decoded);
+            if (char_decode(yytext, &c_decoded) == 0) {
+                if (c_decoded == 0)
+                    printf("%-20s %20c\n", "CHAR_LITERAL", "(null)");
+                else printf("%-20s %20c\n", "CHAR_LITERAL", c_decoded);
+            }
             else {
                 printf("scan error: %s contains invalid character(s).\n", yytext);
                 flag = 1;
@@ -251,7 +254,7 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(argv[1], "--scan") == 0) {
         file = argv[2];
         yyin = fopen(file, "r");
-
+        
         if (!yyin) {
             print_usage(argv[0]);
             return 1;

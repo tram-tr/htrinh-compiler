@@ -1,13 +1,13 @@
 %{
     #include "../inc/token.h"
 %}
-SINGLE_COMMENT  \/\/[^\n]*\n  
+SINGLE_COMMENT  \/\/[^\n\r]*
 BLOCK_COMMENT   \/\*[^*]*\*+([^*\/][^*]*\*+)*\/
 STRING          \"([^\"\0\n\t]|(\\.))*\"
-CHAR            \'(.|\\[0-9a-zA-Z]|\\[\\'"]|\\0x[0-7][0-9a-fA-F])\'
+CHAR            \'(\\.|\\0x[0-7][0-9a-fA-F]|.)\'
 FLOAT           [-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?
 INTEGER         [-+]?[0-9]+
-IDENT           ([a-zA-Z]|_)+([a-zA-Z]|[0-9]_)*
+IDENT           ([a-zA-Z]|_)+([a-zA-Z]|[0-9]|_)* 
 %%
 (" "|\t|\n|\s)          /* skip whitespace */
 {SINGLE_COMMENT}        {   return TOKEN_SINGLE_COMMENT; }

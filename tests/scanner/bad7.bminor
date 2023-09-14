@@ -1,0 +1,6 @@
+x: integer = 42;
+
+/*
+This is a block comment without a closing delimiter.
+
+The lexer should report an error due to the missing closing '*/'.

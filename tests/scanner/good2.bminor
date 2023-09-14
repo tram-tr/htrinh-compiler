@@ -1,0 +1,2 @@
+s: string = "Hello, World!\n";
+c: char = 'A';

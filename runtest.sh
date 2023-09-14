@@ -29,7 +29,7 @@ if [ "$TEST_TYPE" == "encode" ] || [ "$TEST_TYPE" == "encode-hidden" ]; then
             echo "$testfile failure (as expected)"
         fi
     done
-elif [ "$TEST_TYPE" == "scanner" ]; then
+elif [ "$TEST_TYPE" == "scanner" ] || [ "$TEST_TYPE" == "scanner-sample" ]; then
     for testfile in $TEST_DIR/$TEST_TYPE/good*.bminor
     do
         if $BMINOR --scan "$testfile" > "$testfile.out"

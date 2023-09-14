@@ -4,7 +4,7 @@
 character:	 	char = 'c';
 character: char = '\n';
 character:	char = '\0';
-character = '\6';
-character = '\c'
+character = '\n';
+character = '\n'
 character = '\t'
 

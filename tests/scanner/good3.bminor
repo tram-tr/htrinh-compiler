@@ -1,0 +1,5 @@
+square: function integer (x: integer) = {
+    return x * x;
+}
+
+result: integer = square(4);

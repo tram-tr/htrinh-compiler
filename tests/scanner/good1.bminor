@@ -1,0 +1,2 @@
+a: integer = 5 * (3 + 2);
+b: boolean = a > 10;

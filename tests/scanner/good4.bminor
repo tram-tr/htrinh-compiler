@@ -1,0 +1,2 @@
+arr1: array [5] integer;
+arr2: array [3] char = {'a', 'b', 'c'};

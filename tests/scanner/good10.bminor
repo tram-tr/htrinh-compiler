@@ -1,0 +1,14 @@
+isEven: function boolean (n: integer) = {
+    return n % 2 == 0;
+}
+
+x: integer = 10;
+y: integer = 15;
+
+if (isEven(x)) {
+    print "x is even.\n";
+} else {
+    print "x is odd.\n";
+}
+
+result: integer = x + y;
