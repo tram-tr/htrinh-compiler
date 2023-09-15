@@ -1,11 +1,12 @@
 %{
     #include "../inc/token.h"
+    #include "../inc/encoder.h"
 %}
 SINGLE_COMMENT  \/\/[^\n\r]*
 BLOCK_COMMENT   \/\*[^*]*\*+([^*\/][^*]*\*+)*\/
 STRING          \"([^\"\0\n\t]|(\\.))*\"
 CHAR            \'(\\.|\\0x[0-7][0-9a-fA-F]|.)\'
-FLOAT           [-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?
+FLOAT           [-+]?[0-9]*\.[0-9]|[-+]?[0-9]+([eE][-+]?[0-9]+)?
 INTEGER         [-+]?[0-9]+
 IDENT           ([a-zA-Z]|_)+([a-zA-Z]|[0-9]|_)* 
 %%
@@ -60,8 +61,24 @@ while                   {   return TOKEN_WHILE;          }
 \/                      {   return TOKEN_FSLASH;         }
 %                       {   return TOKEN_PERCENT;        }
 
-{CHAR}                  {   return TOKEN_TYPE_CHAR;      }
-{STRING}                {   return TOKEN_TYPE_STRING;    }
+{CHAR}                  {   
+                            char c_decoded;
+                            if (char_decode(yytext, &c_decoded) == 0) 
+                                return TOKEN_TYPE_CHAR; 
+                            else
+                                return TOKEN_ERROR;     
+                        }
+{STRING}                {
+                            char s_decoded[256];
+                            char s_encoded[1280];
+                            if (string_decode(yytext, s_decoded) == 0) {
+                                if (string_encode(s_decoded, s_encoded) == 0) 
+                                    return TOKEN_TYPE_STRING;
+                                else
+                                    return TOKEN_ERROR;
+                            } else 
+                                    return TOKEN_ERROR;   
+                        }
 {INTEGER}               {   return TOKEN_TYPE_INT;       }
 {FLOAT}                 {   return TOKEN_TYPE_FLOAT;     }
 {IDENT}                 {   return TOKEN_IDENT;          }

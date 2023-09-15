@@ -157,7 +157,7 @@ int scan() {
             printf("%-20s %20s\n", "PERCENT", yytext);
             break;
         case TOKEN_TYPE_CHAR: {
-            char c_decoded;
+            /*char c_decoded;
             if (char_decode(yytext, &c_decoded) == 0) {
                 if (c_decoded == 0)
                     printf("%-20s %20c\n", "CHAR_LITERAL", "(null)");
@@ -166,11 +166,12 @@ int scan() {
             else {
                 printf("scan error: %s contains invalid character(s).\n", yytext);
                 flag = 1;
-            }
+            }*/
+            printf("%-20s %20s\n", "CHAR_LITERAL", yytext);
             break;
         }
         case TOKEN_TYPE_STRING: {
-            char s_decoded[256];
+            /*char s_decoded[256];
             char s_encoded[1280];
             if (string_decode(yytext, s_decoded) == 0) {
                 if (string_encode(s_decoded, s_encoded) == 0) 
@@ -182,7 +183,8 @@ int scan() {
             } else {
                 printf("scan error: %s contains invalid character(s).\n", yytext);
                 flag = 1;
-            } 
+            }*/
+            printf("%-20s %20s\n", "STRING_LITERAL", yytext);
             break;
         }
         case TOKEN_TYPE_INT:
