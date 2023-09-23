@@ -1,0 +1,3442 @@
+=====STUDENT TESTS=====
+====Good Tests====
+===[STUDENT TESTS/good1.bminor Input]===
+// just runs all basic tokens
+//
+/* comment */
+array 
+boolean 
+char 
+else 
+false 
+for 
+function 
+if 
+integer 
+print 
+return 
+string 
+true
+void
+while
+:
+;
+,
+[
+]
+{
+}
+(
+)
+=
+^
++
+-
+++
+--
+*
+/
+%
+==
+>=
+<=
+<
+>
+!=
+a
+ab
+ab3
+ab3a
+12314
+1
+12
+123
+'A'
+""
+"a"
+"aa"
+
+===[STUDENT TESTS/good1.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good1.bminor Output]===
+SINGLE_COMMENT       // just runs all basic tokens
+SINGLE_COMMENT                         //
+BLOCK_COMMENT               /* comment */
+ARRAY                               array
+IDENTIFIER                        boolean
+CHAR                                 char
+ELSE                                 else
+BOOLEAN_LITERAL                     false
+FOR                                   for
+FUNCTION                         function
+IF                                     if
+IDENTIFIER                        integer
+PRINT                               print
+RETURN                             return
+STRING                             string
+BOOLEAN_LITERAL                      true
+VOID                                 void
+WHILE                               while
+COLON                                   :
+SEMICOLON                               ;
+COMMA                                   ,
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+LEFT_BRACE                              {
+RIGHT_BRACE                             }
+LEFT_PARENTHESIS                        (
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+EXPONENT                                ^
+ADD                                     +
+HYPHEN                                  -
+INCREMENT                              ++
+DECREMENT                              --
+ASTERISK                                *
+FORWARD SLASH                           /
+PERCENT                                 %
+EQ                                     ==
+GE                                     >=
+LE                                     <=
+LT                                      <
+GT                                      >
+NE                                     !=
+IDENTIFIER                              a
+IDENTIFIER                             ab
+IDENTIFIER                            ab3
+IDENTIFIER                           ab3a
+INT_LITERAL                         12314
+INT_LITERAL                             1
+INT_LITERAL                            12
+INT_LITERAL                           123
+CHAR_LITERAL                          'A'
+STRING_LITERAL                         ""
+STRING_LITERAL                        "a"
+STRING_LITERAL                       "aa"
+
+
+
+
+===[STUDENT TESTS/good10.bminor Input]===
+/* tests some more constructs in bminor */
+z = -x; // unary negation
+x^2; //exponantiotion
+//simple test cases
+x ^ 2
+z != x % 2
+z = 5 + 6;
+z = 5 * 6;
+z = 5 - 6;
+z = 5 / 6;
+q++;
+z--;
+z = 7 + 7 - z;
+
+
+===[STUDENT TESTS/good10.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good10.bminor Output]===
+BLOCK_COMMENT        /* tests some more constructs in bminor */
+IDENTIFIER                              z
+ASSIGN                                  =
+HYPHEN                                  -
+IDENTIFIER                              x
+SEMICOLON                               ;
+SINGLE_COMMENT          // unary negation
+IDENTIFIER                              x
+EXPONENT                                ^
+INT_LITERAL                             2
+SEMICOLON                               ;
+SINGLE_COMMENT           //exponantiotion
+SINGLE_COMMENT        //simple test cases
+IDENTIFIER                              x
+EXPONENT                                ^
+INT_LITERAL                             2
+IDENTIFIER                              z
+NE                                     !=
+IDENTIFIER                              x
+PERCENT                                 %
+INT_LITERAL                             2
+IDENTIFIER                              z
+ASSIGN                                  =
+INT_LITERAL                             5
+ADD                                     +
+INT_LITERAL                             6
+SEMICOLON                               ;
+IDENTIFIER                              z
+ASSIGN                                  =
+INT_LITERAL                             5
+ASTERISK                                *
+INT_LITERAL                             6
+SEMICOLON                               ;
+IDENTIFIER                              z
+ASSIGN                                  =
+INT_LITERAL                             5
+HYPHEN                                  -
+INT_LITERAL                             6
+SEMICOLON                               ;
+IDENTIFIER                              z
+ASSIGN                                  =
+INT_LITERAL                             5
+FORWARD SLASH                           /
+INT_LITERAL                             6
+SEMICOLON                               ;
+IDENTIFIER                              q
+INCREMENT                              ++
+SEMICOLON                               ;
+IDENTIFIER                              z
+DECREMENT                              --
+SEMICOLON                               ;
+IDENTIFIER                              z
+ASSIGN                                  =
+INT_LITERAL                             7
+ADD                                     +
+INT_LITERAL                             7
+HYPHEN                                  -
+IDENTIFIER                              z
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good11.bminor Input]===
+// some more complicated corner cases
+z = -(5 * 4);
+z = 15 + 5 - 4*3/7;
+z = x + (y * 5 - (4 + 20/v) - 15) % 6 + z; //long integer expr
+z+++; // these will cause parsing errors
+w---;
+
+
+===[STUDENT TESTS/good11.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good11.bminor Output]===
+SINGLE_COMMENT       // some more complicated corner cases
+IDENTIFIER                              z
+ASSIGN                                  =
+HYPHEN                                  -
+LEFT_PARENTHESIS                        (
+INT_LITERAL                             5
+ASTERISK                                *
+INT_LITERAL                             4
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+IDENTIFIER                              z
+ASSIGN                                  =
+INT_LITERAL                            15
+ADD                                     +
+INT_LITERAL                             5
+HYPHEN                                  -
+INT_LITERAL                             4
+ASTERISK                                *
+INT_LITERAL                             3
+FORWARD SLASH                           /
+INT_LITERAL                             7
+SEMICOLON                               ;
+IDENTIFIER                              z
+ASSIGN                                  =
+IDENTIFIER                              x
+ADD                                     +
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              y
+ASTERISK                                *
+INT_LITERAL                             5
+HYPHEN                                  -
+LEFT_PARENTHESIS                        (
+INT_LITERAL                             4
+ADD                                     +
+INT_LITERAL                            20
+FORWARD SLASH                           /
+IDENTIFIER                              v
+RIGHT_PARENTHESIS                       )
+HYPHEN                                  -
+INT_LITERAL                            15
+RIGHT_PARENTHESIS                       )
+PERCENT                                 %
+INT_LITERAL                             6
+ADD                                     +
+IDENTIFIER                              z
+SEMICOLON                               ;
+SINGLE_COMMENT        //long integer expr
+IDENTIFIER                              z
+INCREMENT                              ++
+ADD                                     +
+SEMICOLON                               ;
+SINGLE_COMMENT       // these will cause parsing errors
+IDENTIFIER                              w
+DECREMENT                              --
+HYPHEN                                  -
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good12.bminor Input]===
+//tests the for/print keyword and while keyword
+x:integer;
+for(x = 0; x < 5; x++)
+{
+	print "counting: ", x;
+}
+a:integer = 0;
+while(a > 0)
+{
+	a--;
+}
+
+
+
+===[STUDENT TESTS/good12.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good12.bminor Output]===
+SINGLE_COMMENT       //tests the for/print keyword and while keyword
+IDENTIFIER                              x
+COLON                                   :
+IDENTIFIER                        integer
+SEMICOLON                               ;
+FOR                                   for
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              x
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                              x
+LT                                      <
+INT_LITERAL                             5
+SEMICOLON                               ;
+IDENTIFIER                              x
+INCREMENT                              ++
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL               "counting: "
+COMMA                                   ,
+IDENTIFIER                              x
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                              a
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+WHILE                               while
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+GT                                      >
+INT_LITERAL                             0
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IDENTIFIER                              a
+DECREMENT                              --
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[STUDENT TESTS/good13.bminor Input]===
+//test some odd identifier names
+ident55
+ident55_
+ident__55__
+thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt = 7
+variable_names_may_contain_underscores_
+_variables_can_start_with_an_underscore_67
+7minus5 
+
+===[STUDENT TESTS/good13.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good13.bminor Output]===
+SINGLE_COMMENT       //test some odd identifier names
+IDENTIFIER                        ident55
+IDENTIFIER                       ident55_
+IDENTIFIER                    ident__55__
+IDENTIFIER           thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt
+ASSIGN                                  =
+INT_LITERAL                             7
+IDENTIFIER           variable_names_may_contain_underscores_
+IDENTIFIER           _variables_can_start_with_an_underscore_67
+INT_LITERAL                             7
+IDENTIFIER                         minus5
+
+
+
+
+===[STUDENT TESTS/good14.bminor Input]===
+main: function integer ( argc: integer, argv: array [] string ) =
+{
+}
+boolFunction: function boolean(intVar:integer) =
+{
+	return intVar > 5;
+}
+intFunction: function integer(integer n) =
+{
+	total:integer = 0;
+	int count;
+	for(count = 0; count < n+1; count++)
+	{
+		total = total + count;
+	
+}
+
+
+===[STUDENT TESTS/good14.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good14.bminor Output]===
+IDENTIFIER                           main
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                           argc
+COLON                                   :
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                           argv
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+STRING                             string
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+RIGHT_BRACE                             }
+IDENTIFIER                   boolFunction
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        boolean
+LEFT_PARENTHESIS                        (
+IDENTIFIER                         intVar
+COLON                                   :
+IDENTIFIER                        integer
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+RETURN                             return
+IDENTIFIER                         intVar
+GT                                      >
+INT_LITERAL                             5
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                    intFunction
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                        integer
+IDENTIFIER                              n
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+IDENTIFIER                          total
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                            int
+IDENTIFIER                          count
+SEMICOLON                               ;
+FOR                                   for
+LEFT_PARENTHESIS                        (
+IDENTIFIER                          count
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                          count
+LT                                      <
+IDENTIFIER                              n
+INT_LITERAL                            +1
+SEMICOLON                               ;
+IDENTIFIER                          count
+INCREMENT                              ++
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IDENTIFIER                          total
+ASSIGN                                  =
+IDENTIFIER                          total
+ADD                                     +
+IDENTIFIER                          count
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[STUDENT TESTS/good15.bminor Input]===
+intFunction: function integer(intVar:integer, boolVar: boolean)
+{
+	if(boolVar)
+	{
+		intVar = intVar * 2;
+	}
+	return intVar;
+}
+// finds the largest value in the array
+getLargest: function integer(intArrVar:array [] integer, int len) =
+{
+	largest:integer = 0;
+	x:integer;
+	for(x = 0; x < len; x++)
+	{
+		if(intArrVar[x] > largest)
+		{
+			largest = intArrVar[x];
+		}
+	}
+	return largest;
+		
+}
+
+main: function integer ( argc: integer, argv: array [] string ) =
+{
+	b:array [10] integer = {0,1,2,3,4,5};
+	b[4] = 6;
+	i:integer;
+	z:integer = intFunction(i, true);
+	print intArrFunction(v, z);
+}
+
+===[STUDENT TESTS/good15.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good15.bminor Output]===
+IDENTIFIER                    intFunction
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                         intVar
+COLON                                   :
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                        boolVar
+COLON                                   :
+IDENTIFIER                        boolean
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                        boolVar
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IDENTIFIER                         intVar
+ASSIGN                                  =
+IDENTIFIER                         intVar
+ASTERISK                                *
+INT_LITERAL                             2
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+RETURN                             return
+IDENTIFIER                         intVar
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+SINGLE_COMMENT       // finds the largest value in the array
+IDENTIFIER                     getLargest
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                      intArrVar
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                            int
+IDENTIFIER                            len
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+IDENTIFIER                        largest
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                              x
+COLON                                   :
+IDENTIFIER                        integer
+SEMICOLON                               ;
+FOR                                   for
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              x
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                              x
+LT                                      <
+IDENTIFIER                            len
+SEMICOLON                               ;
+IDENTIFIER                              x
+INCREMENT                              ++
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                      intArrVar
+LEFT_BRACKET                            [
+IDENTIFIER                              x
+RIGHT_BRACKET                           ]
+GT                                      >
+IDENTIFIER                        largest
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IDENTIFIER                        largest
+ASSIGN                                  =
+IDENTIFIER                      intArrVar
+LEFT_BRACKET                            [
+IDENTIFIER                              x
+RIGHT_BRACKET                           ]
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+RIGHT_BRACE                             }
+RETURN                             return
+IDENTIFIER                        largest
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                           main
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                           argc
+COLON                                   :
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                           argv
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+STRING                             string
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+IDENTIFIER                              b
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+INT_LITERAL                            10
+RIGHT_BRACKET                           ]
+IDENTIFIER                        integer
+ASSIGN                                  =
+LEFT_BRACE                              {
+INT_LITERAL                             0
+COMMA                                   ,
+INT_LITERAL                             1
+COMMA                                   ,
+INT_LITERAL                             2
+COMMA                                   ,
+INT_LITERAL                             3
+COMMA                                   ,
+INT_LITERAL                             4
+COMMA                                   ,
+INT_LITERAL                             5
+RIGHT_BRACE                             }
+SEMICOLON                               ;
+IDENTIFIER                              b
+LEFT_BRACKET                            [
+INT_LITERAL                             4
+RIGHT_BRACKET                           ]
+ASSIGN                                  =
+INT_LITERAL                             6
+SEMICOLON                               ;
+IDENTIFIER                              i
+COLON                                   :
+IDENTIFIER                        integer
+SEMICOLON                               ;
+IDENTIFIER                              z
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+IDENTIFIER                    intFunction
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              i
+COMMA                                   ,
+BOOLEAN_LITERAL                      true
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+PRINT                               print
+IDENTIFIER                 intArrFunction
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              v
+COMMA                                   ,
+IDENTIFIER                              z
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[STUDENT TESTS/good2.bminor Input]===
+// basic data types
+number: integer;
+number = 56;
+number = -56;
+number = +56;
+number = 0005006;
+number = +0005006;
+number = -000050006;
+
+
+
+
+
+
+
+
+
+===[STUDENT TESTS/good2.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good2.bminor Output]===
+SINGLE_COMMENT        // basic data types
+IDENTIFIER                         number
+COLON                                   :
+IDENTIFIER                        integer
+SEMICOLON                               ;
+IDENTIFIER                         number
+ASSIGN                                  =
+INT_LITERAL                            56
+SEMICOLON                               ;
+IDENTIFIER                         number
+ASSIGN                                  =
+INT_LITERAL                           -56
+SEMICOLON                               ;
+IDENTIFIER                         number
+ASSIGN                                  =
+INT_LITERAL                           +56
+SEMICOLON                               ;
+IDENTIFIER                         number
+ASSIGN                                  =
+INT_LITERAL                       0005006
+SEMICOLON                               ;
+IDENTIFIER                         number
+ASSIGN                                  =
+INT_LITERAL                      +0005006
+SEMICOLON                               ;
+IDENTIFIER                         number
+ASSIGN                                  =
+INT_LITERAL                    -000050006
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good3.bminor Input]===
+//test some boolean types
+bool:boolean = true;
+bool:boolean = false;
+bool = 5 > 4;
+
+
+===[STUDENT TESTS/good3.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good3.bminor Output]===
+SINGLE_COMMENT       //test some boolean types
+BOOL                                 bool
+COLON                                   :
+IDENTIFIER                        boolean
+ASSIGN                                  =
+BOOLEAN_LITERAL                      true
+SEMICOLON                               ;
+BOOL                                 bool
+COLON                                   :
+IDENTIFIER                        boolean
+ASSIGN                                  =
+BOOLEAN_LITERAL                     false
+SEMICOLON                               ;
+BOOL                                 bool
+ASSIGN                                  =
+INT_LITERAL                             5
+GT                                      >
+INT_LITERAL                             4
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good4.bminor Input]===
+// basic data types
+
+
+character:	 	char = 'c';
+character: char = '\n';
+character:	char = '\0';
+character = '\n';
+character = '\n'
+character = '\t'
+
+
+===[STUDENT TESTS/good4.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good4.bminor Output]===
+SINGLE_COMMENT        // basic data types
+IDENTIFIER                      character
+COLON                                   :
+CHAR                                 char
+ASSIGN                                  =
+CHAR_LITERAL                          'c'
+SEMICOLON                               ;
+IDENTIFIER                      character
+COLON                                   :
+CHAR                                 char
+ASSIGN                                  =
+CHAR_LITERAL                         '\n'
+SEMICOLON                               ;
+IDENTIFIER                      character
+COLON                                   :
+CHAR                                 char
+ASSIGN                                  =
+CHAR_LITERAL                         '\0'
+SEMICOLON                               ;
+IDENTIFIER                      character
+ASSIGN                                  =
+CHAR_LITERAL                         '\n'
+SEMICOLON                               ;
+IDENTIFIER                      character
+ASSIGN                                  =
+CHAR_LITERAL                         '\n'
+IDENTIFIER                      character
+ASSIGN                                  =
+CHAR_LITERAL                         '\t'
+
+
+
+
+===[STUDENT TESTS/good5.bminor Input]===
+"This is a string"
+"Notre \n Dame"
+" "
+" string with numbers 3213"
+"String with @@ works in the program"
+""
+
+===[STUDENT TESTS/good5.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good5.bminor Output]===
+STRING_LITERAL         "This is a string"
+STRING_LITERAL            "Notre \n Dame"
+STRING_LITERAL                        " "
+STRING_LITERAL       " string with numbers 3213"
+STRING_LITERAL       "String with @@ works in the program"
+STRING_LITERAL                         ""
+
+
+
+
+===[STUDENT TESTS/good6.bminor Input]===
+// strings
+str:string = "";
+
+str:string = "we can write an escaped backslash \\";
+" \"this is a unique test case \" ";
+" \n \t \n"
+"\t \t \t"
+str:string = "single qoute ' or \' ";
+str:string = " double qoute \" ";
+
+
+===[STUDENT TESTS/good6.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good6.bminor Output]===
+SINGLE_COMMENT                 // strings
+IDENTIFIER                            str
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL                         ""
+SEMICOLON                               ;
+IDENTIFIER                            str
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL       "we can write an escaped backslash \\"
+SEMICOLON                               ;
+STRING_LITERAL       " \"this is a unique test case \" "
+SEMICOLON                               ;
+STRING_LITERAL                " \n \t \n"
+STRING_LITERAL                 "\t \t \t"
+IDENTIFIER                            str
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL       "single qoute ' or \' "
+SEMICOLON                               ;
+IDENTIFIER                            str
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL        " double qoute \" "
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good7.bminor Input]===
+// strings
+str:string = "";
+
+str:string = "hello this is a string!";
+str:string = "hello this is \t a string!";
+
+str:string = "11234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567"// less then 160 characters 
+
+
+
+===[STUDENT TESTS/good7.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good7.bminor Output]===
+SINGLE_COMMENT                 // strings
+IDENTIFIER                            str
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL                         ""
+SEMICOLON                               ;
+IDENTIFIER                            str
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL       "hello this is a string!"
+SEMICOLON                               ;
+IDENTIFIER                            str
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL       "hello this is \t a string!"
+SEMICOLON                               ;
+IDENTIFIER                            str
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL       "11234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567"
+SINGLE_COMMENT       // less then 160 characters 
+
+
+
+
+===[STUDENT TESTS/good8.bminor Input]===
+//test arrays
+f:array [5]integer = { 1, 2, 3, 4, 5};
+f:array[5]char = {'a', 'b', 'c', 'd', 'e'};
+f:array[5] boolean = {false, false, true, true, true};
+f:array [] 	string = {"this", "i", "s", "a,", "test", "."};
+
+===[STUDENT TESTS/good8.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good8.bminor Output]===
+SINGLE_COMMENT              //test arrays
+IDENTIFIER                              f
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+INT_LITERAL                             5
+RIGHT_BRACKET                           ]
+IDENTIFIER                        integer
+ASSIGN                                  =
+LEFT_BRACE                              {
+INT_LITERAL                             1
+COMMA                                   ,
+INT_LITERAL                             2
+COMMA                                   ,
+INT_LITERAL                             3
+COMMA                                   ,
+INT_LITERAL                             4
+COMMA                                   ,
+INT_LITERAL                             5
+RIGHT_BRACE                             }
+SEMICOLON                               ;
+IDENTIFIER                              f
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+INT_LITERAL                             5
+RIGHT_BRACKET                           ]
+CHAR                                 char
+ASSIGN                                  =
+LEFT_BRACE                              {
+CHAR_LITERAL                          'a'
+COMMA                                   ,
+CHAR_LITERAL                          'b'
+COMMA                                   ,
+CHAR_LITERAL                          'c'
+COMMA                                   ,
+CHAR_LITERAL                          'd'
+COMMA                                   ,
+CHAR_LITERAL                          'e'
+RIGHT_BRACE                             }
+SEMICOLON                               ;
+IDENTIFIER                              f
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+INT_LITERAL                             5
+RIGHT_BRACKET                           ]
+IDENTIFIER                        boolean
+ASSIGN                                  =
+LEFT_BRACE                              {
+BOOLEAN_LITERAL                     false
+COMMA                                   ,
+BOOLEAN_LITERAL                     false
+COMMA                                   ,
+BOOLEAN_LITERAL                      true
+COMMA                                   ,
+BOOLEAN_LITERAL                      true
+COMMA                                   ,
+BOOLEAN_LITERAL                      true
+RIGHT_BRACE                             }
+SEMICOLON                               ;
+IDENTIFIER                              f
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+STRING                             string
+ASSIGN                                  =
+LEFT_BRACE                              {
+STRING_LITERAL                     "this"
+COMMA                                   ,
+STRING_LITERAL                        "i"
+COMMA                                   ,
+STRING_LITERAL                        "s"
+COMMA                                   ,
+STRING_LITERAL                       "a,"
+COMMA                                   ,
+STRING_LITERAL                     "test"
+COMMA                                   ,
+STRING_LITERAL                        "."
+RIGHT_BRACE                             }
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good9.bminor Input]===
+// test comparotors and boolean logic
+if ( a >= 5 )
+{
+	print "a >= 5";
+}
+if( a > 5 )
+{
+	print "a > 5";
+}
+if( a <= 5 )
+{
+	print "a <= 5";
+}
+if( a < 5 )
+{
+	print "a < 5";
+}
+if( a == 5 )
+{
+	print "a == 5";
+}
+if( a != 5 )
+{
+	print "a != 5";
+}
+a = 5; // test assigment
+if (a || b)
+{
+	print " a || b is true";
+}
+if (a && b)
+{
+	print " a && b is true";
+}
+
+===[STUDENT TESTS/good9.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good9.bminor Output]===
+SINGLE_COMMENT       // test comparotors and boolean logic
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+GE                                     >=
+INT_LITERAL                             5
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                   "a >= 5"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+GT                                      >
+INT_LITERAL                             5
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                    "a > 5"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+LE                                     <=
+INT_LITERAL                             5
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                   "a <= 5"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+LT                                      <
+INT_LITERAL                             5
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                    "a < 5"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+EQ                                     ==
+INT_LITERAL                             5
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                   "a == 5"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+NE                                     !=
+INT_LITERAL                             5
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                   "a != 5"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                              a
+ASSIGN                                  =
+INT_LITERAL                             5
+SEMICOLON                               ;
+SINGLE_COMMENT          // test assigment
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+OR                                     ||
+IDENTIFIER                              b
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL          " a || b is true"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+AND                                    &&
+IDENTIFIER                              b
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL          " a && b is true"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[STUDENT TESTS/good0.bminor Input]===
+x: integer;
+y: float = 3.14;
+z: char = '\0'
+===[STUDENT TESTS/good0.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good0.bminor Output]===
+IDENTIFIER                              x
+COLON                                   :
+IDENTIFIER                        integer
+SEMICOLON                               ;
+IDENTIFIER                              y
+COLON                                   :
+IDENTIFIER                          float
+ASSIGN                                  =
+FLOAT_LITERAL                         3.1
+INT_LITERAL                             4
+SEMICOLON                               ;
+IDENTIFIER                              z
+COLON                                   :
+CHAR                                 char
+ASSIGN                                  =
+CHAR_LITERAL                         '\0'
+
+
+
+
+===[STUDENT TESTS/good1.bminor Input]===
+a: integer = 5 * (3 + 2);
+b: boolean = a > 10;
+===[STUDENT TESTS/good1.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good1.bminor Output]===
+IDENTIFIER                              a
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                             5
+ASTERISK                                *
+LEFT_PARENTHESIS                        (
+INT_LITERAL                             3
+ADD                                     +
+INT_LITERAL                             2
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+IDENTIFIER                              b
+COLON                                   :
+IDENTIFIER                        boolean
+ASSIGN                                  =
+IDENTIFIER                              a
+GT                                      >
+INT_LITERAL                            10
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good10.bminor Input]===
+isEven: function boolean (n: integer) = {
+    return n % 2 == 0;
+}
+
+x: integer = 10;
+y: integer = 15;
+
+if (isEven(x)) {
+    print "x is even.\n";
+} else {
+    print "x is odd.\n";
+}
+
+result: integer = x + y;
+
+===[STUDENT TESTS/good10.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good10.bminor Output]===
+IDENTIFIER                         isEven
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        boolean
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              n
+COLON                                   :
+IDENTIFIER                        integer
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+RETURN                             return
+IDENTIFIER                              n
+PERCENT                                 %
+INT_LITERAL                             2
+EQ                                     ==
+INT_LITERAL                             0
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                              x
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                            10
+SEMICOLON                               ;
+IDENTIFIER                              y
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                            15
+SEMICOLON                               ;
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                         isEven
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              x
+RIGHT_PARENTHESIS                       )
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL             "x is even.\n"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+ELSE                                 else
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL              "x is odd.\n"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                         result
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+IDENTIFIER                              x
+ADD                                     +
+IDENTIFIER                              y
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good2.bminor Input]===
+s: string = "Hello, World!\n";
+c: char = 'A';
+
+===[STUDENT TESTS/good2.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good2.bminor Output]===
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+STRING_LITERAL          "Hello, World!\n"
+SEMICOLON                               ;
+IDENTIFIER                              c
+COLON                                   :
+CHAR                                 char
+ASSIGN                                  =
+CHAR_LITERAL                          'A'
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good3.bminor Input]===
+square: function integer (x: integer) = {
+    return x * x;
+}
+
+result: integer = square(4);
+
+===[STUDENT TESTS/good3.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good3.bminor Output]===
+IDENTIFIER                         square
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              x
+COLON                                   :
+IDENTIFIER                        integer
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+RETURN                             return
+IDENTIFIER                              x
+ASTERISK                                *
+IDENTIFIER                              x
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                         result
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+IDENTIFIER                         square
+LEFT_PARENTHESIS                        (
+INT_LITERAL                             4
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good4.bminor Input]===
+arr1: array [5] integer;
+arr2: array [3] char = {'a', 'b', 'c'};
+
+===[STUDENT TESTS/good4.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good4.bminor Output]===
+IDENTIFIER                           arr1
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+INT_LITERAL                             5
+RIGHT_BRACKET                           ]
+IDENTIFIER                        integer
+SEMICOLON                               ;
+IDENTIFIER                           arr2
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+INT_LITERAL                             3
+RIGHT_BRACKET                           ]
+CHAR                                 char
+ASSIGN                                  =
+LEFT_BRACE                              {
+CHAR_LITERAL                          'a'
+COMMA                                   ,
+CHAR_LITERAL                          'b'
+COMMA                                   ,
+CHAR_LITERAL                          'c'
+RIGHT_BRACE                             }
+SEMICOLON                               ;
+
+
+
+
+===[STUDENT TESTS/good5.bminor Input]===
+if (x < 10) {
+    print "x is less than 10\n";
+} else {
+    print "x is greater than or equal to 10\n";
+}
+
+===[STUDENT TESTS/good5.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good5.bminor Output]===
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              x
+LT                                      <
+INT_LITERAL                            10
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL       "x is less than 10\n"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+ELSE                                 else
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL       "x is greater than or equal to 10\n"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[STUDENT TESTS/good6.bminor Input]===
+puts: function void (s: string);
+
+main: function integer () = {
+    puts("Hello from B-Minor!");
+}
+
+===[STUDENT TESTS/good6.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good6.bminor Output]===
+IDENTIFIER                           puts
+COLON                                   :
+FUNCTION                         function
+VOID                                 void
+LEFT_PARENTHESIS                        (
+COLON                                   :
+STRING                             string
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+IDENTIFIER                           main
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+IDENTIFIER                           puts
+LEFT_PARENTHESIS                        (
+STRING_LITERAL       "Hello from B-Minor!"
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[STUDENT TESTS/good7.bminor Input]===
+foo: function integer (a: integer, b: float) = {
+    return a + b;
+}
+
+result: integer = foo(3, 4.5);  // Type checking should pass.
+
+===[STUDENT TESTS/good7.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good7.bminor Output]===
+IDENTIFIER                            foo
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+COLON                                   :
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                              b
+COLON                                   :
+IDENTIFIER                          float
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+RETURN                             return
+IDENTIFIER                              a
+ADD                                     +
+IDENTIFIER                              b
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                         result
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+IDENTIFIER                            foo
+LEFT_PARENTHESIS                        (
+INT_LITERAL                             3
+COMMA                                   ,
+FLOAT_LITERAL                         4.5
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+SINGLE_COMMENT       // Type checking should pass.
+
+
+
+
+===[STUDENT TESTS/good8.bminor Input]===
+/*for (i=0; i<10; i=i+1) {
+    if (i % 2 == 0) {
+        print "Even\n";
+    } else {
+        print "Odd\n";
+    }
+}*/
+
+// above is block comment
+
+===[STUDENT TESTS/good8.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good8.bminor Output]===
+BLOCK_COMMENT        /*for (i=0; i<10; i=i+1) {
+    if (i % 2 == 0) {
+        print "Even\n";
+    } else {
+        print "Odd\n";
+    }
+}*/
+SINGLE_COMMENT       // above is block comment
+
+
+
+
+===[STUDENT TESTS/good9.bminor Input]===
+for (i=0; i<10; i=i+1) {
+    if (i % 2 == 0) {
+        print "Even\n";
+    } else {
+        print "Odd\n";
+    }
+}
+
+===[STUDENT TESTS/good9.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good9.bminor Output]===
+FOR                                   for
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              i
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                              i
+LT                                      <
+INT_LITERAL                            10
+SEMICOLON                               ;
+IDENTIFIER                              i
+ASSIGN                                  =
+IDENTIFIER                              i
+INT_LITERAL                            +1
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              i
+PERCENT                                 %
+INT_LITERAL                             2
+EQ                                     ==
+INT_LITERAL                             0
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                   "Even\n"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+ELSE                                 else
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                    "Odd\n"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+RIGHT_BRACE                             }
+
+
+
+
+====Bad Tests====
+===[STUDENT TESTS/bad1.bminor Input]===
+@
+#
+&
+|
+\
+
+===[STUDENT TESTS/bad1.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad1.bminor Output]===
+scan error: @ is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad10.bminor Input]===
+// invalid character
+'\'
+
+===[STUDENT TESTS/bad10.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad10.bminor Output]===
+SINGLE_COMMENT       // invalid character
+encode error: invalid character found.
+scan error: '\' is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad11.bminor Input]===
+/*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+
+"invalid
+
+string"
+
+===[STUDENT TESTS/bad11.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad11.bminor Output]===
+BLOCK_COMMENT        /*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad12.bminor Input]===
+'ca'
+
+===[STUDENT TESTS/bad12.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad12.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad13.bminor Input]===
+''
+
+===[STUDENT TESTS/bad13.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad13.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad14.bminor Input]===
+'\ac'
+
+===[STUDENT TESTS/bad14.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad14.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad15.bminor Input]===
+'
+
+===[STUDENT TESTS/bad15.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad15.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad2.bminor Input]===
+// unmatched comment throws error 
+/* This is a comment.
+
+
+
+
+
+
+
+
+===[STUDENT TESTS/bad2.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad2.bminor Output]===
+SINGLE_COMMENT       // unmatched comment throws error 
+FORWARD SLASH                           /
+ASTERISK                                *
+IDENTIFIER                           This
+IDENTIFIER                             is
+IDENTIFIER                              a
+IDENTIFIER                        comment
+scan error: . is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad3.bminor Input]===
+// basic data types
+" the quote is unmatched
+
+
+
+
+
+
+
+===[STUDENT TESTS/bad3.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad3.bminor Output]===
+SINGLE_COMMENT        // basic data types
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad4.bminor Input]===
+'\'
+
+===[STUDENT TESTS/bad4.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad4.bminor Output]===
+encode error: invalid character found.
+scan error: '\' is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad5.bminor Input]===
+// test comparotors and boolean logic
+if (a | b)
+{
+	print " a || b is true";
+}
+if (a & b)// must had 2 &&
+{
+	print " a || b is true";
+}
+
+===[STUDENT TESTS/bad5.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad5.bminor Output]===
+SINGLE_COMMENT       // test comparotors and boolean logic
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+scan error: | is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad6.bminor Input]===
+
+"""
+
+
+===[STUDENT TESTS/bad6.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad6.bminor Output]===
+STRING_LITERAL                         ""
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad7.bminor Input]===
+"012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+
+
+===[STUDENT TESTS/bad7.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad7.bminor Output]===
+encode error: decoded string exceeds maximum length.
+scan error: "012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad8.bminor Input]===
+$minus
+
+===[STUDENT TESTS/bad8.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad8.bminor Output]===
+scan error: $ is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad9.bminor Input]===
+minus#44
+
+===[STUDENT TESTS/bad9.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad9.bminor Output]===
+IDENTIFIER                          minus
+scan error: # is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad0.bminor Input]===
+\
+
+// invalid backlash
+===[STUDENT TESTS/bad0.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad0.bminor Output]===
+scan error: \ is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad1.bminor Input]===
+invalid@identifier;
+
+===[STUDENT TESTS/bad1.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad1.bminor Output]===
+IDENTIFIER                        invalid
+scan error: @ is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad10.bminor Input]===
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tristique\nquam ut ante efficitur iaculis. Nunc sed tortor ut purus rhoncus bibendum.\nFusce id dolor nulla. Suspendisse laoreet facilisis est, eu posuere mi\nsagittis id. Etiam pharetra odio sit amet nibh dignissim volutpat. Sed\niaculis sapien at aliquam eleifend. Quisque ultrices sem quis justo blandit,\nquis venenatis odio blandit. Proin quis libero eu purus tristique elementum.\nInteger in dui nec arcu laoreet interdum. Donec auctor nec sapien et malesuada.\nIn pellentesque libero quis nunc pharetra, in convallis libero convallis.\nNam vel suscipit elit, vel mattis libero. Suspendisse potenti. Fusce iaculis,\ndolor eget congue varius, risus metus vehicula sapien, vel tincidunt mi augue\nsed ligula. Phasellus a sollicitudin libero. Duis at rhoncus quam. Nulla\nconsequat neque ut urna suscipit, eget euismod purus faucibus."
+===[STUDENT TESTS/bad10.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad10.bminor Output]===
+encode error: decoded string exceeds maximum length.
+scan error: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tristique\nquam ut ante efficitur iaculis. Nunc sed tortor ut purus rhoncus bibendum.\nFusce id dolor nulla. Suspendisse laoreet facilisis est, eu posuere mi\nsagittis id. Etiam pharetra odio sit amet nibh dignissim volutpat. Sed\niaculis sapien at aliquam eleifend. Quisque ultrices sem quis justo blandit,\nquis venenatis odio blandit. Proin quis libero eu purus tristique elementum.\nInteger in dui nec arcu laoreet interdum. Donec auctor nec sapien et malesuada.\nIn pellentesque libero quis nunc pharetra, in convallis libero convallis.\nNam vel suscipit elit, vel mattis libero. Suspendisse potenti. Fusce iaculis,\ndolor eget congue varius, risus metus vehicula sapien, vel tincidunt mi augue\nsed ligula. Phasellus a sollicitudin libero. Duis at rhoncus quam. Nulla\nconsequat neque ut urna suscipit, eget euismod purus faucibus." is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad2.bminor Input]===
+''
+
+// invalid char
+===[STUDENT TESTS/bad2.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad2.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad3.bminor Input]===
+s: string = "Unclosed string literal;
+
+===[STUDENT TESTS/bad3.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad3.bminor Output]===
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad4.bminor Input]===
+
+s: string = "Invalid escape sequence: \u";
+
+===[STUDENT TESTS/bad4.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad4.bminor Output]===
+COLON                                   :
+STRING                             string
+ASSIGN                                  =
+encode error: unrecognized escape.
+scan error: "Invalid escape sequence: \u" is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad5.bminor Input]===
+$number: integer;  // Invalid identifier.
+
+===[STUDENT TESTS/bad5.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad5.bminor Output]===
+scan error: $ is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad6.bminor Input]===
+// unmatched comment throws error 
+/* This is a comment.
+
+
+
+===[STUDENT TESTS/bad6.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad6.bminor Output]===
+SINGLE_COMMENT       // unmatched comment throws error 
+FORWARD SLASH                           /
+ASTERISK                                *
+IDENTIFIER                           This
+IDENTIFIER                             is
+IDENTIFIER                              a
+IDENTIFIER                        comment
+scan error: . is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad7.bminor Input]===
+x: integer = 42;
+
+/*
+This is a block comment without a closing delimiter.
+
+The lexer should report an error due to the missing closing '*/'.
+
+===[STUDENT TESTS/bad7.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad7.bminor Output]===
+IDENTIFIER                              x
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                            42
+SEMICOLON                               ;
+BLOCK_COMMENT        /*
+This is a block comment without a closing delimiter.
+
+The lexer should report an error due to the missing closing '*/
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad8.bminor Input]===
+this_is_a_very_long_identifier_that_exceeds_the_maximum_identifier_length_limit_in_b_minor_and_should_result_in_an_error_this_is_a_very_long_identifier_that_exceeds_the_maximum_identifier_length_limit_in_b_minor_and_should_result_in_an_error_this_is_a_very_long_identifier_that_exceeds_the_maximum_identifier_length_limit_in_b_minor_and_should_result_in_an_error: integer = 42;
+===[STUDENT TESTS/bad8.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad8.bminor Output]===
+scan error: identifier exceeds maximum length.
+scanning failed.
+
+
+
+
+===[STUDENT TESTS/bad9.bminor Input]===
+'/0xFF'
+
+// invalid character
+===[STUDENT TESTS/bad9.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[STUDENT TESTS/bad9.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+=====HIDDEN TESTS=====
+====Good Tests====
+===[HIDDEN TESTS/good11.bminor Input]===
+// some more complicated corner cases
+z = -(5 * 4);
+z = 15 + 5 - 4*3/7;
+z = x + (y * 5 - (4 + 20/v) - 15) % 6 + z; //long integer expr
+z+++; // these will cause parsing errors
+w---;
+
+
+===[HIDDEN TESTS/good11.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good11.bminor Output]===
+SINGLE_COMMENT       // some more complicated corner cases
+IDENTIFIER                              z
+ASSIGN                                  =
+HYPHEN                                  -
+LEFT_PARENTHESIS                        (
+INT_LITERAL                             5
+ASTERISK                                *
+INT_LITERAL                             4
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+IDENTIFIER                              z
+ASSIGN                                  =
+INT_LITERAL                            15
+ADD                                     +
+INT_LITERAL                             5
+HYPHEN                                  -
+INT_LITERAL                             4
+ASTERISK                                *
+INT_LITERAL                             3
+FORWARD SLASH                           /
+INT_LITERAL                             7
+SEMICOLON                               ;
+IDENTIFIER                              z
+ASSIGN                                  =
+IDENTIFIER                              x
+ADD                                     +
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              y
+ASTERISK                                *
+INT_LITERAL                             5
+HYPHEN                                  -
+LEFT_PARENTHESIS                        (
+INT_LITERAL                             4
+ADD                                     +
+INT_LITERAL                            20
+FORWARD SLASH                           /
+IDENTIFIER                              v
+RIGHT_PARENTHESIS                       )
+HYPHEN                                  -
+INT_LITERAL                            15
+RIGHT_PARENTHESIS                       )
+PERCENT                                 %
+INT_LITERAL                             6
+ADD                                     +
+IDENTIFIER                              z
+SEMICOLON                               ;
+SINGLE_COMMENT        //long integer expr
+IDENTIFIER                              z
+INCREMENT                              ++
+ADD                                     +
+SEMICOLON                               ;
+SINGLE_COMMENT       // these will cause parsing errors
+IDENTIFIER                              w
+DECREMENT                              --
+HYPHEN                                  -
+SEMICOLON                               ;
+
+
+
+
+===[HIDDEN TESTS/good12.bminor Input]===
+//tests the for/print keyword and while keyword
+x:integer;
+for(x = 0; x < 5; x++)
+{
+	print "counting: ", x;
+}
+a:integer = 0;
+while(a > 0)
+{
+	a--;
+}
+
+
+
+===[HIDDEN TESTS/good12.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good12.bminor Output]===
+SINGLE_COMMENT       //tests the for/print keyword and while keyword
+IDENTIFIER                              x
+COLON                                   :
+IDENTIFIER                        integer
+SEMICOLON                               ;
+FOR                                   for
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              x
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                              x
+LT                                      <
+INT_LITERAL                             5
+SEMICOLON                               ;
+IDENTIFIER                              x
+INCREMENT                              ++
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL               "counting: "
+COMMA                                   ,
+IDENTIFIER                              x
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                              a
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+WHILE                               while
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+GT                                      >
+INT_LITERAL                             0
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IDENTIFIER                              a
+DECREMENT                              --
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[HIDDEN TESTS/good13.bminor Input]===
+//test some odd identifier names
+ident55
+ident55_
+ident__55__
+thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt = 7
+variable_names_may_contain_underscores_
+_variables_can_start_with_an_underscore_67
+7minus5 
+
+===[HIDDEN TESTS/good13.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good13.bminor Output]===
+SINGLE_COMMENT       //test some odd identifier names
+IDENTIFIER                        ident55
+IDENTIFIER                       ident55_
+IDENTIFIER                    ident__55__
+IDENTIFIER           thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt
+ASSIGN                                  =
+INT_LITERAL                             7
+IDENTIFIER           variable_names_may_contain_underscores_
+IDENTIFIER           _variables_can_start_with_an_underscore_67
+INT_LITERAL                             7
+IDENTIFIER                         minus5
+
+
+
+
+===[HIDDEN TESTS/good14.bminor Input]===
+main: function integer ( argc: integer, argv: array [] string ) =
+{
+}
+boolFunction: function boolean(intVar:integer) =
+{
+	return intVar > 5;
+}
+intFunction: function integer(integer n) =
+{
+	total:integer = 0;
+	int count;
+	for(count = 0; count < n+1; count++)
+	{
+		total = total + count;
+	
+}
+
+
+===[HIDDEN TESTS/good14.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good14.bminor Output]===
+IDENTIFIER                           main
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                           argc
+COLON                                   :
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                           argv
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+STRING                             string
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+RIGHT_BRACE                             }
+IDENTIFIER                   boolFunction
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        boolean
+LEFT_PARENTHESIS                        (
+IDENTIFIER                         intVar
+COLON                                   :
+IDENTIFIER                        integer
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+RETURN                             return
+IDENTIFIER                         intVar
+GT                                      >
+INT_LITERAL                             5
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                    intFunction
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                        integer
+IDENTIFIER                              n
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+IDENTIFIER                          total
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                            int
+IDENTIFIER                          count
+SEMICOLON                               ;
+FOR                                   for
+LEFT_PARENTHESIS                        (
+IDENTIFIER                          count
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                          count
+LT                                      <
+IDENTIFIER                              n
+INT_LITERAL                            +1
+SEMICOLON                               ;
+IDENTIFIER                          count
+INCREMENT                              ++
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IDENTIFIER                          total
+ASSIGN                                  =
+IDENTIFIER                          total
+ADD                                     +
+IDENTIFIER                          count
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[HIDDEN TESTS/good15.bminor Input]===
+intFunction: function integer(intVar:integer, boolVar: boolean)
+{
+	if(boolVar)
+	{
+		intVar = intVar * 2;
+	}
+	return intVar;
+}
+// finds the largest value in the array
+getLargest: function integer(intArrVar:array [] integer, int len) =
+{
+	largest:integer = 0;
+	x:integer;
+	for(x = 0; x < len; x++)
+	{
+		if(intArrVar[x] > largest)
+		{
+			largest = intArrVar[x];
+		}
+	}
+	return largest;
+		
+}
+
+main: function integer ( argc: integer, argv: array [] string ) =
+{
+	b:array [10] integer = {0,1,2,3,4,5};
+	b[4] = 6;
+	i:integer;
+	z:integer = intFunction(i, true);
+	print intArrFunction(v, z);
+}
+
+===[HIDDEN TESTS/good15.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good15.bminor Output]===
+IDENTIFIER                    intFunction
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                         intVar
+COLON                                   :
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                        boolVar
+COLON                                   :
+IDENTIFIER                        boolean
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                        boolVar
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IDENTIFIER                         intVar
+ASSIGN                                  =
+IDENTIFIER                         intVar
+ASTERISK                                *
+INT_LITERAL                             2
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+RETURN                             return
+IDENTIFIER                         intVar
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+SINGLE_COMMENT       // finds the largest value in the array
+IDENTIFIER                     getLargest
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                      intArrVar
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                            int
+IDENTIFIER                            len
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+IDENTIFIER                        largest
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                              x
+COLON                                   :
+IDENTIFIER                        integer
+SEMICOLON                               ;
+FOR                                   for
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              x
+ASSIGN                                  =
+INT_LITERAL                             0
+SEMICOLON                               ;
+IDENTIFIER                              x
+LT                                      <
+IDENTIFIER                            len
+SEMICOLON                               ;
+IDENTIFIER                              x
+INCREMENT                              ++
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                      intArrVar
+LEFT_BRACKET                            [
+IDENTIFIER                              x
+RIGHT_BRACKET                           ]
+GT                                      >
+IDENTIFIER                        largest
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+IDENTIFIER                        largest
+ASSIGN                                  =
+IDENTIFIER                      intArrVar
+LEFT_BRACKET                            [
+IDENTIFIER                              x
+RIGHT_BRACKET                           ]
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+RIGHT_BRACE                             }
+RETURN                             return
+IDENTIFIER                        largest
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+IDENTIFIER                           main
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                           argc
+COLON                                   :
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                           argv
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+STRING                             string
+RIGHT_PARENTHESIS                       )
+ASSIGN                                  =
+LEFT_BRACE                              {
+IDENTIFIER                              b
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+INT_LITERAL                            10
+RIGHT_BRACKET                           ]
+IDENTIFIER                        integer
+ASSIGN                                  =
+LEFT_BRACE                              {
+INT_LITERAL                             0
+COMMA                                   ,
+INT_LITERAL                             1
+COMMA                                   ,
+INT_LITERAL                             2
+COMMA                                   ,
+INT_LITERAL                             3
+COMMA                                   ,
+INT_LITERAL                             4
+COMMA                                   ,
+INT_LITERAL                             5
+RIGHT_BRACE                             }
+SEMICOLON                               ;
+IDENTIFIER                              b
+LEFT_BRACKET                            [
+INT_LITERAL                             4
+RIGHT_BRACKET                           ]
+ASSIGN                                  =
+INT_LITERAL                             6
+SEMICOLON                               ;
+IDENTIFIER                              i
+COLON                                   :
+IDENTIFIER                        integer
+SEMICOLON                               ;
+IDENTIFIER                              z
+COLON                                   :
+IDENTIFIER                        integer
+ASSIGN                                  =
+IDENTIFIER                    intFunction
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              i
+COMMA                                   ,
+BOOLEAN_LITERAL                      true
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+PRINT                               print
+IDENTIFIER                 intArrFunction
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              v
+COMMA                                   ,
+IDENTIFIER                              z
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[HIDDEN TESTS/good1.bminor Input]===
+// Easy comment
+/* Easy comment */
+
+===[HIDDEN TESTS/good1.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good1.bminor Output]===
+SINGLE_COMMENT            // Easy comment
+BLOCK_COMMENT          /* Easy comment */
+
+
+
+
+===[HIDDEN TESTS/good10.bminor Input]===
+// Modulus operator
+15%3
+
+// Exponentiation operator
+2^6
+
+// Negation
+-value
+
+// Postincrement and postdecrement
+number++;
+
+number--;
+
+===[HIDDEN TESTS/good10.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good10.bminor Output]===
+SINGLE_COMMENT        // Modulus operator
+INT_LITERAL                            15
+PERCENT                                 %
+INT_LITERAL                             3
+SINGLE_COMMENT       // Exponentiation operator
+INT_LITERAL                             2
+EXPONENT                                ^
+INT_LITERAL                             6
+SINGLE_COMMENT                // Negation
+HYPHEN                                  -
+IDENTIFIER                          value
+SINGLE_COMMENT       // Postincrement and postdecrement
+IDENTIFIER                         number
+INCREMENT                              ++
+SEMICOLON                               ;
+IDENTIFIER                         number
+DECREMENT                              --
+SEMICOLON                               ;
+
+
+
+
+===[HIDDEN TESTS/good2.bminor Input]===
+////* Harder comment ***/
+/******************/
+/*
+This one works too.
+*/
+/***************
+Also a good comment.
+****************/
+// comment // comment // comment
+
+
+===[HIDDEN TESTS/good2.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good2.bminor Output]===
+SINGLE_COMMENT       ////* Harder comment ***/
+BLOCK_COMMENT        /******************/
+BLOCK_COMMENT        /*
+This one works too.
+*/
+BLOCK_COMMENT        /***************
+Also a good comment.
+****************/
+SINGLE_COMMENT       // comment // comment // comment
+
+
+
+
+===[HIDDEN TESTS/good3.bminor Input]===
+// Identifiers
+CamelCase
+lower_case
+skiddo23
+B4UFLY
+i
+x15
+
+
+===[HIDDEN TESTS/good3.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good3.bminor Output]===
+SINGLE_COMMENT             // Identifiers
+IDENTIFIER                      CamelCase
+IDENTIFIER                     lower_case
+IDENTIFIER                       skiddo23
+IDENTIFIER                         B4UFLY
+IDENTIFIER                              i
+IDENTIFIER                            x15
+
+
+
+
+===[HIDDEN TESTS/good4.bminor Input]===
+// Equality Operators
+== != <= < > >=
+
+===[HIDDEN TESTS/good4.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good4.bminor Output]===
+SINGLE_COMMENT       // Equality Operators
+EQ                                     ==
+NE                                     !=
+LE                                     <=
+LT                                      <
+GT                                      >
+GE                                     >=
+
+
+
+
+===[HIDDEN TESTS/good5.bminor Input]===
+// Various bits of punctuation
+, : ; ( ) [ ] { }
+
+
+===[HIDDEN TESTS/good5.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good5.bminor Output]===
+SINGLE_COMMENT       // Various bits of punctuation
+COMMA                                   ,
+COLON                                   :
+SEMICOLON                               ;
+LEFT_PARENTHESIS                        (
+RIGHT_PARENTHESIS                       )
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+LEFT_BRACE                              {
+RIGHT_BRACE                             }
+
+
+
+
+===[HIDDEN TESTS/good6.bminor Input]===
+// Complete function prototype
+main: function integer ( argc: integer, argv: array [] string );
+
+
+===[HIDDEN TESTS/good6.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good6.bminor Output]===
+SINGLE_COMMENT       // Complete function prototype
+IDENTIFIER                           main
+COLON                                   :
+FUNCTION                         function
+IDENTIFIER                        integer
+LEFT_PARENTHESIS                        (
+IDENTIFIER                           argc
+COLON                                   :
+IDENTIFIER                        integer
+COMMA                                   ,
+IDENTIFIER                           argv
+COLON                                   :
+ARRAY                               array
+LEFT_BRACKET                            [
+RIGHT_BRACKET                           ]
+STRING                             string
+RIGHT_PARENTHESIS                       )
+SEMICOLON                               ;
+
+
+
+
+===[HIDDEN TESTS/good7.bminor Input]===
+// Nested statements
+if( x<15 ) {
+    print "small";
+} else {
+    print "large!";
+}
+
+
+===[HIDDEN TESTS/good7.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good7.bminor Output]===
+SINGLE_COMMENT       // Nested statements
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              x
+LT                                      <
+INT_LITERAL                            15
+RIGHT_PARENTHESIS                       )
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                    "small"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+ELSE                                 else
+LEFT_BRACE                              {
+PRINT                               print
+STRING_LITERAL                   "large!"
+SEMICOLON                               ;
+RIGHT_BRACE                             }
+
+
+
+
+===[HIDDEN TESTS/good8.bminor Input]===
+// Valid integers
+0
+1024
+-512
++256
+// valid floats
+1.2
+0.45
+.67
+12e10
++1.2
+-1.2
+1.2e+1
+1.2e-1
++1.2e+1
++1.2e-1
+-1.2e+1
+-1.2e-1
+
+===[HIDDEN TESTS/good8.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good8.bminor Output]===
+SINGLE_COMMENT          // Valid integers
+INT_LITERAL                             0
+INT_LITERAL                          1024
+INT_LITERAL                          -512
+INT_LITERAL                          +256
+SINGLE_COMMENT            // valid floats
+FLOAT_LITERAL                         1.2
+FLOAT_LITERAL                         0.4
+INT_LITERAL                             5
+FLOAT_LITERAL                          .6
+INT_LITERAL                             7
+FLOAT_LITERAL                       12e10
+FLOAT_LITERAL                        +1.2
+FLOAT_LITERAL                        -1.2
+FLOAT_LITERAL                         1.2
+IDENTIFIER                              e
+INT_LITERAL                            +1
+FLOAT_LITERAL                         1.2
+IDENTIFIER                              e
+INT_LITERAL                            -1
+FLOAT_LITERAL                        +1.2
+IDENTIFIER                              e
+INT_LITERAL                            +1
+FLOAT_LITERAL                        +1.2
+IDENTIFIER                              e
+INT_LITERAL                            -1
+FLOAT_LITERAL                        -1.2
+IDENTIFIER                              e
+INT_LITERAL                            +1
+FLOAT_LITERAL                        -1.2
+IDENTIFIER                              e
+INT_LITERAL                            -1
+
+
+
+
+===[HIDDEN TESTS/good9.bminor Input]===
+// Type Keywords
+array
+boolean
+char
+string
+void
+integer
+float
+
+===[HIDDEN TESTS/good9.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good9.bminor Output]===
+SINGLE_COMMENT           // Type Keywords
+ARRAY                               array
+IDENTIFIER                        boolean
+CHAR                                 char
+STRING                             string
+VOID                                 void
+IDENTIFIER                        integer
+IDENTIFIER                          float
+
+
+
+
+====Bad Tests====
+===[HIDDEN TESTS/bad11.bminor Input]===
+/*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+
+"invalid
+
+string"
+
+===[HIDDEN TESTS/bad11.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad11.bminor Output]===
+BLOCK_COMMENT        /*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad12.bminor Input]===
+'ca'
+
+===[HIDDEN TESTS/bad12.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad12.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad13.bminor Input]===
+''
+
+===[HIDDEN TESTS/bad13.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad13.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad14.bminor Input]===
+'\ac'
+
+===[HIDDEN TESTS/bad14.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad14.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad15.bminor Input]===
+'
+
+===[HIDDEN TESTS/bad15.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad15.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad1.bminor Input]===
+"unmatched string""
+
+===[HIDDEN TESTS/bad1.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad1.bminor Output]===
+STRING_LITERAL         "unmatched string"
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad10.bminor Input]===
+#compilers // No hashtags in B-minor
+
+===[HIDDEN TESTS/bad10.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad10.bminor Output]===
+scan error: # is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad2.bminor Input]===
+"unterminated \"
+
+
+===[HIDDEN TESTS/bad2.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad2.bminor Output]===
+encode error: missing closing quote.
+scan error: "unterminated \" is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad3.bminor Input]===
+never started"
+
+
+
+
+
+
+===[HIDDEN TESTS/bad3.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad3.bminor Output]===
+IDENTIFIER                          never
+IDENTIFIER                        started
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad4.bminor Input]===
+'character?' // Character too long.
+
+===[HIDDEN TESTS/bad4.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad4.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad5.bminor Input]===
+'' // Empty character not allowed.
+
+===[HIDDEN TESTS/bad5.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad5.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad6.bminor Input]===
+~tilde // Invalid symbol
+
+===[HIDDEN TESTS/bad6.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad6.bminor Output]===
+scan error: ~ is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad7.bminor Input]===
+/* Is this a valid comment */ @ */
+
+
+===[HIDDEN TESTS/bad7.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad7.bminor Output]===
+BLOCK_COMMENT        /* Is this a valid comment */
+scan error: @ is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad8.bminor Input]===
+"\0xGG" // invalid escape sequence
+
+===[HIDDEN TESTS/bad8.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad8.bminor Output]===
+encode error: incomplete hexadecimal sequence.
+scan error: "\0xGG" is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad9.bminor Input]===
+minus#44
+
+===[HIDDEN TESTS/bad9.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad9.bminor Output]===
+IDENTIFIER                          minus
+scan error: # is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad16.bminor Input]===
+@
+#
+&
+|
+\
+
+===[HIDDEN TESTS/bad16.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad16.bminor Output]===
+scan error: @ is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad17.bminor Input]===
+// unmatched comment throws error 
+/* This is a comment.
+
+
+
+
+
+
+
+
+===[HIDDEN TESTS/bad17.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad17.bminor Output]===
+SINGLE_COMMENT       // unmatched comment throws error 
+FORWARD SLASH                           /
+ASTERISK                                *
+IDENTIFIER                           This
+IDENTIFIER                             is
+IDENTIFIER                              a
+IDENTIFIER                        comment
+scan error: . is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad18.bminor Input]===
+// basic data types
+" the quote is unmatched
+
+
+
+
+
+
+
+===[HIDDEN TESTS/bad18.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad18.bminor Output]===
+SINGLE_COMMENT        // basic data types
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad19.bminor Input]===
+// floating point mistake
+5..6..0..5..0;
+
+===[HIDDEN TESTS/bad19.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad19.bminor Output]===
+SINGLE_COMMENT       // floating point mistake
+INT_LITERAL                             5
+scan error: . is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad20.bminor Input]===
+// test comparotors and boolean logic
+if (a | b)
+{
+	print " a || b is true";
+}
+if (a & b)// must had 2 &&
+{
+	print " a || b is true";
+}
+
+===[HIDDEN TESTS/bad20.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad20.bminor Output]===
+SINGLE_COMMENT       // test comparotors and boolean logic
+IF                                     if
+LEFT_PARENTHESIS                        (
+IDENTIFIER                              a
+scan error: | is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad21.bminor Input]===
+
+"""
+
+
+===[HIDDEN TESTS/bad21.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad21.bminor Output]===
+STRING_LITERAL                         ""
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad22.bminor Input]===
+"012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+
+
+===[HIDDEN TESTS/bad22.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad22.bminor Output]===
+encode error: decoded string exceeds maximum length.
+scan error: "012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad23.bminor Input]===
+$minus
+
+===[HIDDEN TESTS/bad23.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad23.bminor Output]===
+scan error: $ is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad25.bminor Input]===
+// invalid character
+'😋'
+
+===[HIDDEN TESTS/bad25.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad25.bminor Output]===
+SINGLE_COMMENT       // invalid character
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad26.bminor Input]===
+/*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+
+"invalid
+
+string"
+
+===[HIDDEN TESTS/bad26.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad26.bminor Output]===
+BLOCK_COMMENT        /*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+scan error: " is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad27.bminor Input]===
+'''
+
+===[HIDDEN TESTS/bad27.bminor Status]===
+return code: 0
+TEST NOT PASSED
+
+===[HIDDEN TESTS/bad27.bminor Output]===
+CHAR_LITERAL                          '''
+
+
+
+
+===[HIDDEN TESTS/bad28.bminor Input]===
+"'"'"
+
+===[HIDDEN TESTS/bad28.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad28.bminor Output]===
+STRING_LITERAL                        "'"
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad29.bminor Input]===
+'\t\e\s\t\ \s\t\r\i\n\g'
+
+===[HIDDEN TESTS/bad29.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad29.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad30.bminor Input]===
+'\0x12\0x34'
+
+===[HIDDEN TESTS/bad30.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad30.bminor Output]===
+scan error: ' is not invalid token.
+scanning failed.
+
+
+
+
+===[HIDDEN TESTS/bad0.bminor Input]===
+!@#$*(!&%!@)#(@!+)!@*!@)*$!@_)(%!@_%(*!
+
+===[HIDDEN TESTS/bad0.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[HIDDEN TESTS/bad0.bminor Output]===
+NOT                                     !
+scan error: @ is not invalid token.
+scanning failed.
+
+
+
+
+===== SUMMARIZED SCANNER RESULTS =====
+{
+  "student_tests": {
+    "Good": {
+      "correct": 26,
+      "incorrect": 0
+    },
+    "Bad": {
+      "correct": 26,
+      "incorrect": 0
+    }
+  },
+  "hidden_tests": {
+    "Good": {
+      "correct": 15,
+      "incorrect": 0
+    },
+    "Bad": {
+      "correct": 29,
+      "incorrect": 1
+    }
+  }
+}
+Scanner Project Grade
+    ---------------------------------
+
+    General Structure (35/35 points)
+    ----------------------------------------------
+    Looks good!
+
+    Student Tests (20/20 points)
+    ------------------------------------------
+    Wow! 52 tests means a very well tested system
+
+    Hidden Tests (44/45 points)
+    ------------------------------------------
+    Missed a case where you have an unescaped single quote
+
+    Coding Style (10/10 points)
+    ------------------------------------------
+    I like the format of the scanner.flex file, very easy to understand from even a glance
