@@ -219,6 +219,10 @@ int scan() {
     return 0;
 }
 
+int parse() {
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     if (argc != 3) {
         print_usage(argv[0]);
@@ -263,6 +267,18 @@ int main(int argc, char *argv[]) {
         }
         if (scan() == 1) {
             printf("scanning failed.\n");
+            return 1;
+        }
+        
+    } else if (strcmp(argv[1], "--parse") == 0) {
+        file = argv[2];
+        yyin = fopen(file, "r");
+        if (!yyin) {
+            print_usage(argv[0]);
+            return 1;
+        }
+        if (parse() == 1) {
+            printf("parsing failed.\n");
             return 1;
         }
     }
