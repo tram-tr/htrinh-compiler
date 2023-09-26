@@ -201,8 +201,8 @@ int char_decode(const char *es, char *c) {
                 return 1;
         }
     }
-    else if (es[es_index] < 32 || es[es_index] > 126 || es[es_index] == 92) {
-        printf("encode error: invalid character found.\n");
+    else if (es[es_index] < 32 || es[es_index] > 126 || es[es_index] == 92 || es[es_index] == 39) {
+        printf("encode error: invalid character.\n");
         return 1;
     }
     else (*c) = es[es_index];
