@@ -1,5 +1,5 @@
 %{
-    #include "../inc/token.h"
+    #include "../inc/parser.h"
     #include "../inc/encoder.h"
 %}
 SINGLE_COMMENT  \/\/[^\n\r]*
@@ -11,18 +11,19 @@ INTEGER         [-+]?[0-9]+
 IDENT           ([a-zA-Z]|_)+([a-zA-Z]|[0-9]|_)* 
 %%
 (" "|\t|\n|\s)          /* skip whitespace */
-{SINGLE_COMMENT}        {   return TOKEN_SINGLE_COMMENT; }
-{BLOCK_COMMENT}         {   return TOKEN_BLOCK_COMMENT;  }
+{SINGLE_COMMENT}        
+{BLOCK_COMMENT}  
 
 array                   {   return TOKEN_ARRAY;          }
 auto                    {   return TOKEN_AUTO;           }
-bool                    {   return TOKEN_BOOL;           }
+boolean                 {   return TOKEN_BOOL;           }
 char                    {   return TOKEN_CHAR;           }
 else                    {   return TOKEN_ELSE;           }
 false                   {   return TOKEN_FALSE;          }
 for                     {   return TOKEN_FOR;            }
 function                {   return TOKEN_FUNC;           }
 if                      {   return TOKEN_IF;             }
+integer                 {   return TOKEN_INT;            }
 print                   {   return TOKEN_PRINT;          }        
 return                  {   return TOKEN_RETURN;         }
 string                  {   return TOKEN_STRING;         }
@@ -40,7 +41,6 @@ while                   {   return TOKEN_WHILE;          }
 \!\=                    {   return TOKEN_NE;             }
 \!                      {   return TOKEN_NOT;            }
 
-\?                      {   return TOKEN_TERNARY;        }
 :                       {   return TOKEN_COLON;          }
 ;                       {   return TOKEN_SEMICOLON;      }
 ,                       {   return TOKEN_COMMA;          }
@@ -65,8 +65,10 @@ while                   {   return TOKEN_WHILE;          }
                             char c_decoded;
                             if (char_decode(yytext, &c_decoded) == 0) 
                                 return TOKEN_TYPE_CHAR; 
-                            else
-                                return TOKEN_ERROR;     
+                            else {
+                                    printf("scanning failed.\n");
+                                    exit(1);
+                            }              
                         }
 {STRING}                {
                             char s_decoded[256];
@@ -74,15 +76,25 @@ while                   {   return TOKEN_WHILE;          }
                             if (string_decode(yytext, s_decoded) == 0) {
                                 if (string_encode(s_decoded, s_encoded) == 0) 
                                     return TOKEN_TYPE_STRING;
-                                else
-                                    return TOKEN_ERROR;
-                            } else 
-                                    return TOKEN_ERROR;   
+                                else {
+                                    printf("scanning failed.\n");
+                                    exit(1);
+                                }
+                            } else {
+                                    printf("scanning failed.\n");
+                                    exit(1);
+                            }          
                         }
 {INTEGER}               {   return TOKEN_TYPE_INT;       }
 {FLOAT}                 {   return TOKEN_TYPE_FLOAT;     }
-{IDENT}                 {   return TOKEN_IDENT;          }
+{IDENT}                 {   return TOKEN_IDENT;          }       
 
-.                       {   return TOKEN_ERROR;          }
+.                       {   
+                            printf("scanning failed.\n");
+                            return TOKEN_ERROR;          
+                        }
 %%
-int yywrap()            {   return 1;                    }
+int yywrap()            {   
+                            printf("scanning succeed.\n"); 
+                            return 1;                    
+                        }

@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -std=gnu99 -g
 SHELL = /bin/bash
 SRCDIR = src
-INCDIR = inc 
+INCDIR = inc
 OBJSDIR = objs
 TESTSDIR = tests
 TARGET = bminor
@@ -15,7 +15,10 @@ dirs:
 $(OBJSDIR)/%.o: $(SRCDIR)/%.c 
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-$(SRCDIR)/scanner.c: $(SRCDIR)/scanner.flex 
+$(SRCDIR)/parser.c $(INCDIR)/parser.h: $(SRCDIR)/parser.bison 
+	bison --defines=inc/parser.h --output=src/parser.c -v src/parser.bison
+
+$(SRCDIR)/scanner.c: $(SRCDIR)/scanner.flex $(INCDIR)/parser.h
 	flex -o src/scanner.c src/scanner.flex
 
 test_encoder: dirs $(TARGET)
@@ -25,10 +28,10 @@ test: dirs $(TARGET)
 	$(SHELL) runtest.sh encode
 	$(SHELL) runtest.sh scanner
 
-$(TARGET): $(OBJSDIR)/hash_table.o $(OBJSDIR)/library.o $(OBJSDIR)/encoder.o $(OBJSDIR)/scanner.o $(OBJSDIR)/bminor.o
+$(TARGET): $(OBJSDIR)/parser.o $(OBJSDIR)/scanner.o $(OBJSDIR)/encoder.o $(OBJSDIR)/bminor.o $(OBJSDIR)/hash_table.o $(OBJSDIR)/library.o  
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-	rm -rf $(TARGET) $(OBJSDIR) $(SRCDIR)/scanner.c
+	rm -rf $(TARGET) $(OBJSDIR) $(SRCDIR)/scanner.c $(SRCDIR)/parser.c $(SRCDIR)/parser.output $(INCDIR)/parser.h
 
 .PHONY: all clean test test_encoder

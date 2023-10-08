@@ -3,11 +3,18 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../inc/encoder.h" 
-#include "../inc/token.h" 
+#include "../inc/parser.h" 
+#include "../inc/decl.h"
 
 extern FILE *yyin;
 extern int yylex();
 extern char *yytext;
+extern int yyparse();
+extern int yydebug;
+typedef enum yytokentype token_t;
+extern struct decl* parser_result;
+
+#define TOKEN_EOF 0
 
 void print_usage(const char *program) {
     printf("usage: %s [options]\n", program);
@@ -54,6 +61,9 @@ int scan() {
         case TOKEN_IF:
             printf("%-20s %20s\n", "IF", yytext);
             break;
+        case TOKEN_INT:
+            printf("%-20s %20s\n", "INT", yytext);
+            break;
         case TOKEN_PRINT:
             printf("%-20s %20s\n", "PRINT", yytext);
             break;
@@ -98,9 +108,6 @@ int scan() {
             break;
         case TOKEN_NOT:
             printf("%-20s %20s\n", "NOT", yytext);
-            break;
-        case TOKEN_TERNARY:
-            printf("%-20s %20s\n", "TERNARY", yytext);
             break;
         case TOKEN_COLON:
             printf("%-20s %20s\n", "COLON", yytext);
@@ -219,9 +226,6 @@ int scan() {
     return 0;
 }
 
-int parse() {
-    return 0;
-}
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
@@ -266,7 +270,6 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         if (scan() == 1) {
-            printf("scanning failed.\n");
             return 1;
         }
         
@@ -277,10 +280,15 @@ int main(int argc, char *argv[]) {
             print_usage(argv[0]);
             return 1;
         }
-        if (parse() == 1) {
+
+        //yydebug = 1;
+        int y = yyparse();
+        if (y == 1 || y == 2) {
             printf("parsing failed.\n");
             return 1;
         }
-    }
+        printf("parsing succed.\n");
+    } 
+
     return 0;
 }
