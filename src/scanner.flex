@@ -8,9 +8,10 @@ STRING          \"([^\"\0\n\t]|(\\.))*\"
 CHAR            \'(\\.|\\0x[0-7][0-9a-fA-F]|.)\'
 FLOAT           [-+]?[0-9]*\.[0-9]|[-+]?[0-9]+([eE][-+]?[0-9]+)?
 INTEGER         [-+]?[0-9]+
-IDENT           ([a-zA-Z]|_)+([a-zA-Z]|[0-9]|_)* 
+LETTER          [a-zA-Z]
+IDENT           (_|{LETTER}|\s)(_|{LETTER}|\s|[0-9])* 
 %%
-(" "|\t|\n|\s)          /* skip whitespace */
+[[:space:]]+            /* skip whitespace */
 {SINGLE_COMMENT}        
 {BLOCK_COMMENT}  
 
