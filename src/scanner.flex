@@ -22,6 +22,7 @@ char                    {   return TOKEN_CHAR;           }
 else                    {   return TOKEN_ELSE;           }
 false                   {   return TOKEN_FALSE;          }
 for                     {   return TOKEN_FOR;            }
+float                   {   return TOKEN_FLOAT;          }
 function                {   return TOKEN_FUNC;           }
 if                      {   return TOKEN_IF;             }
 integer                 {   return TOKEN_INT;            }

@@ -1,0 +1,5 @@
+// wrong function format
+
+main:function void () {
+	print "hello";
+}

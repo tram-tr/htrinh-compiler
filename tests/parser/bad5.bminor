@@ -1,0 +1,4 @@
+main:function void(x:string, y:float, )=
+{
+	print hello;
+}

@@ -95,11 +95,13 @@ expr        : expr1 TOKEN_ASSIGN expr
             ;
 
 expr1       : expr1 TOKEN_OR expr2                                                           
-            | expr2             
+            | expr2
+            ;             
                                                                                             
 
 expr2       : expr2 TOKEN_AND expr3                                                              
-            | expr3   
+            | expr3
+            ;   
                                                                                                       
 
 expr3       : expr3 TOKEN_LT expr4                                                                
@@ -142,7 +144,8 @@ expr9       : TOKEN_LPAREN expr TOKEN_RPAREN
             | atomic                                                                                       
             ;
 
-atomic      : TOKEN_TYPE_INT                                                                               
+atomic      : TOKEN_TYPE_INT 
+            | TOKEN_TYPE_FLOAT                                                                              
             | TOKEN_TYPE_STRING                                                                         
             | TOKEN_TYPE_CHAR                                                                            
             | TOKEN_TRUE                                                                                  

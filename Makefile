@@ -27,6 +27,7 @@ test_encoder: dirs $(TARGET)
 test: dirs $(TARGET)
 	$(SHELL) runtest.sh encode
 	$(SHELL) runtest.sh scanner
+	$(SHELL) runtest.sh parser
 
 $(TARGET): $(OBJSDIR)/parser.o $(OBJSDIR)/scanner.o $(OBJSDIR)/encoder.o $(OBJSDIR)/bminor.o $(OBJSDIR)/hash_table.o $(OBJSDIR)/library.o  
 	$(CC) $(CFLAGS) $^ -o $@

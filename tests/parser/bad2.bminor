@@ -1,0 +1,19 @@
+// else without a if to match it
+
+func: function void(x: integer) = {
+			if(x < 5)
+			{
+				x++;
+			}
+			else
+			{
+                print "not error";
+			}
+		 
+	else 
+	{
+		print "error";
+	}
+			
+	
+}
