@@ -1,16 +1,19 @@
-a: array [10] float = {10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0};
-b: array [10] array [10] float;
+/* A function contains a sequence of statements */
+/* Try decls and stmts and exprs together. */
+/* Add some float */
 
-func: function void () = {
-    i: integer;
-    j: integer;
+simplefunc: function boolean ( x: integer, y: integer ) = {
 
-    for(i=0;i<10;i++) {
-        b[i] = a[i] * 10;
-    }
+     // A declaration
+     z: integer = x * y;
+	
+     // A float declaration
+     q: float = 10e9;
+     
+     // another float
+     v: float = 2.10e2;
 
-    for(i=0;i<5;i++) {
-        b[i*2] = a[i] + b[i];
-    }
+     // a float operation
+     return v;
 
 }

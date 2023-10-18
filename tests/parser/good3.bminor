@@ -1,1 +1,8 @@
-// empty program
+main: function boolean() = {
+	x: boolean = true;
+	if((4 >= 1)) {
+		return x;	
+	}
+
+    return false;
+}

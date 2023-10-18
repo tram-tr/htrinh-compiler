@@ -49,7 +49,7 @@ elif [ "$TEST_TYPE" == "scanner" ] || [ "$TEST_TYPE" == "scanner-sample" ]; then
             echo "$testfile failure (as expected)"
         fi
     done
-elif [ "$TEST_TYPE" == "parser" ] || [ "$TEST_TYPE" == "parser-sample" ]; then
+elif [ "$TEST_TYPE" == "parser" ] || [ "$TEST_TYPE" == "parser-sample" ] || [ "$TEST_TYPE" == "parser-hidden" ]; then
     for testfile in $TEST_DIR/$TEST_TYPE/good*.bminor
     do
         if $BMINOR --parse "$testfile" > "$testfile.out"

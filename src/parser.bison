@@ -72,7 +72,9 @@ extern int yyerror(char *str);
 
 %%
 
-program     : decl_list                                                                                                                                                          
+program     : decl_list
+            |
+            { return 1; }                                                                                                                                                          
             ;  
 
 /* EXPRESSIONS */
