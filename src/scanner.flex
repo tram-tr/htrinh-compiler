@@ -6,8 +6,8 @@ SINGLE_COMMENT  \/\/[^\n\r]*
 BLOCK_COMMENT   \/\*[^*]*\*+([^*\/][^*]*\*+)*\/
 STRING          \"([^\"\0\n\t]|(\\.))*\"
 CHAR            \'(\\.|\\0x[0-7][0-9a-fA-F]|.)\'
-FLOAT           [-+]?[0-9]+(.[0-9]+)?([eE][-+]?[0-9]+)?
-INTEGER         [-+]?[0-9]+
+FLOAT           [0-9]+(.[0-9]+)?([eE][-+]?[0-9]+)?
+INTEGER         [0-9]+
 LETTER          [a-zA-Z]
 IDENT           (_|{LETTER}|\s)(_|{LETTER}|\s|[0-9])* 
 %%
@@ -54,9 +54,9 @@ while                   {   return TOKEN_WHILE;          }
 \)                      {   return TOKEN_RPAREN;         }
 
 \=                      {   return TOKEN_ASSIGN;         }
-\^                      {   return TOKEN_EXPONENT;       }
 \+\+                    {   return TOKEN_INCREMENT;      }
---                      {   return TOKEN_DECREMENT;      }
+\-\-                    {   return TOKEN_DECREMENT;      }
+\^                      {   return TOKEN_EXPONENT;       }
 \+                      {   return TOKEN_ADD;            }
 \-                      {   return TOKEN_HYPHEN;         }
 \*                      {   return TOKEN_ASTERISK;       }
@@ -92,11 +92,11 @@ while                   {   return TOKEN_WHILE;          }
 {IDENT}                 {   return TOKEN_IDENT;          }       
 
 .                       {   
-                            printf("scanning failed.\n");
+                            //printf("scanning failed.\n");
                             return TOKEN_ERROR;          
                         }
 %%
 int yywrap()            {   
-                            printf("scanning succeed.\n"); 
+                            //printf("scanning succeed.\n"); 
                             return 1;                    
                         }

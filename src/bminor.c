@@ -288,7 +288,21 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         printf("parsing succed.\n");
-    } 
+        
+    } else if (strcmp(argv[1], "--print") == 0) {
+        file = argv[2];
+        yyin = fopen(file, "r");
+        if (!yyin) {
+            print_usage(argv[0]);
+            return 1;
+        }
+        int y = yyparse();
+        if (y) {
+            printf("parse failed.\n");
+            return 1;
+        }
+        decl_print(parser_result, 0);
+    }
 
     return 0;
 }
