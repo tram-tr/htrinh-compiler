@@ -14,22 +14,26 @@ struct decl * decl_create( char *name, struct type *type, struct expr *value, st
 
 void decl_print( struct decl *d, int indent ) {
     if (d == 0) return;
-    for (int i = 0; i < indent; i++)
-        printf("\t");
 
+    indent_print(indent);
     printf("%s: ", d->name);
     type_print(d->type);
 
     if(d->value) {
         printf(" = ");
         expr_print(d->value);
-        printf(";");
+        printf(";\n");
 
     } else if (d->code) {
-        printf(" =\n");
+        printf(" = ");
         stmt_print(d->code, indent);
 
-    } else printf(";");
+    } else printf(";\n");
     
     decl_print(d->next, indent);
+}
+
+void indent_print( int indent ) {
+    for (int i = 0; i < indent; i++)
+        printf("\t");
 }

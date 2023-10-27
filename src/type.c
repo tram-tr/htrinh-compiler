@@ -2,12 +2,11 @@
 #include "../inc/expr.h"
 #include <stdlib.h>
 
-struct type * type_create( type_t kind, struct type *subtype, struct param_list *params, struct expr *arr_expr ) {
+struct type * type_create( type_t kind, struct type *subtype, struct param_list *params ) {
     struct type* t = malloc(sizeof(struct type));
     t->kind = kind;
     t->params = params;
     t->subtype = subtype;
-    t->arr_expr = arr_expr;
     return t;
 }
 
@@ -15,19 +14,19 @@ void type_print( struct type *t ) {
     if (t == 0) return;
     switch (t->kind) {
         case TYPE_VOID:
-            printf("void ");
+            printf("void");
             break;
         case TYPE_BOOLEAN:
-            printf("boolean ");
+            printf("boolean");
             break;
         case TYPE_CHARACTER:
-            printf("char ");
+            printf("char");
             break;
         case TYPE_INTEGER:
-            printf("integer ");
+            printf("integer");
             break;
         case TYPE_STRING:
-            printf("string ");
+            printf("string");
             break;
         case TYPE_ARRAY:
             printf("array[");
@@ -38,12 +37,16 @@ void type_print( struct type *t ) {
         case TYPE_FUNCTION:
             printf("function ");
             type_print(t->subtype);
-            printf("( ");
-            param_list_print(t->params);
+            printf(" (");
+            if (t->params != 0) {
+                printf(" ");
+                param_list_print(t->params);
+                printf(" ");
+            }
             printf(")");
             break;
         case TYPE_AUTO:
-            printf("auto ");
+            printf("auto");
             break;
     }
 }

@@ -11,87 +11,109 @@ struct stmt * stmt_create( stmt_t kind, struct decl *decl, struct expr *init_exp
     s->body = body;
     s->else_body = else_body;
     s->next = next;
-    s->else_if = 0;
+    s->else_if = 1;
+    s->no_indent = 1;
     return s; 
 }
 
 void stmt_print( struct stmt *s, int indent ) {
     if (s == 0) return;
-    if (s->else_if == 0 && s->kind != STMT_DECL) {
-        for (int i = 0; i < indent; i++)
-            printf("\t");
-    }
     switch (s->kind) {
         case STMT_DECL:
             decl_print(s->decl, indent);
-
             stmt_print(s->next, indent);
             break;
 
         case STMT_EXPR:
+            indent_print(indent);
             expr_print(s->expr);
             printf(";\n");
-            
             stmt_print(s->next, indent);
             break;
 
         case STMT_IF_ELSE:
+            if (s->else_if == 1) indent_print(indent);
+            
             printf("if (");
             expr_print(s->expr);
-            printf(") \n");
+            printf(") ");
 
             if (s->body->kind == STMT_BLOCK) stmt_print(s->body, indent);
-            else stmt_print(s->body, indent + 1);
-
-            for (int i = 0; i < indent; i++)
-                printf("\t");
+            else {
+                printf("{\n");
+                stmt_print(s->body, indent + 1);
+                indent_print(indent);
+                printf("}\n");
+            }
                   
-            if (s->else_body) {
+            if (s->else_body != 0) {
+                indent_print(indent);
                 printf("else ");
-                if (s->else_body->kind == STMT_IF_ELSE) {
-                    s->else_body->else_if = 1;
-                    stmt_print(s->else_body, indent); 
-                } else {
-                    printf("\n");
-                    if (s->else_body->kind == STMT_BLOCK) stmt_print(s->else_body, indent);
-                    else stmt_print(s->else_body, indent + 1);
-                } 
-            } else printf("\n");
+                if (s->else_body->kind == STMT_BLOCK) stmt_print(s->else_body, indent);
+                else {
+                    if (s->else_body->kind == STMT_IF_ELSE) stmt_print(s->else_body, indent);
+                    else {
+                        printf("{\n");
+                        stmt_print(s->else_body, indent + 1);
+                        indent_print(indent);
+                        printf("}\n");
+                    }
+                }
+            }
 
             stmt_print(s->next, indent);
             break;
 
         case STMT_FOR:
+            indent_print(indent);
             printf("for ("); 
-            expr_print(s->init_expr);
+            if (s->init_expr != 0) expr_print(s->init_expr);
             printf(";");
-            expr_print(s->expr);
+            if (s->expr != 0) {
+                printf(" ");
+                expr_print(s->expr);
+            }
             printf(";");
-            expr_print(s->next_expr);
+            if (s->next_expr != 0) {
+                printf(" ");
+                expr_print(s->next_expr);
+            }
             printf(") ");
             
             if(s->body) {
-                if (s->else_body->kind == STMT_BLOCK) stmt_print(s->else_body, indent);
-                else stmt_print(s->else_body, indent + 1);
+                if (s->body->kind == STMT_BLOCK) stmt_print(s->body, indent);
+                else {
+                    printf("{\n");
+                    stmt_print(s->body, indent + 1);
+                    indent_print(indent);
+                    printf("}\n");
+                }
             }
             
             stmt_print(s->next, indent);
             break;
 
         case STMT_WHILE:
+            indent_print(indent);
             printf("while (");
             expr_print(s->expr);
             printf(") ");
 
             if(s->body) {
-                if (s->else_body->kind == STMT_BLOCK) stmt_print(s->else_body, indent);
-                else stmt_print(s->else_body, indent + 1);
+                if (s->body->kind == STMT_BLOCK) stmt_print(s->body, indent);
+                else {
+                    printf("{\n");
+                    stmt_print(s->body, indent + 1);
+                    indent_print(indent);
+                    printf("}\n");
+                }
             } 
             
             stmt_print(s->next, indent);
             break;
 
         case STMT_PRINT:
+            indent_print(indent);
             printf("print ");
             struct expr *t = s->expr;
             while(t) {
@@ -106,6 +128,7 @@ void stmt_print( struct stmt *s, int indent ) {
             break;
 
         case STMT_RETURN:
+            indent_print(indent);
             printf("return ");
             expr_print(s->expr);
             printf(";\n");
@@ -114,12 +137,15 @@ void stmt_print( struct stmt *s, int indent ) {
             break;
         
         case STMT_BLOCK:
+            if(s->else_if == 0 || s->no_indent == 0); 
+            else indent_print(indent);
+            
             printf("{\n");
             stmt_print(s->body, indent + 1);
-            for (int i = 0; i < indent; i++)
-                printf("\t");
-                
+            indent_print(indent);
             printf("}\n");
+
+            stmt_print(s->next, indent);
             break;
 
     }

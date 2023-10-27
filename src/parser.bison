@@ -1,5 +1,6 @@
 %define parse.trace
 
+%token TOKEN_EOF 0
 /* types */
 %token TOKEN_IDENT
 %token TOKEN_TYPE_INT
@@ -94,7 +95,7 @@ struct decl * parser_result;
 
 %%
 
-program     : decl_list
+program     : decl_list TOKEN_EOF
             { $$ = $1; parser_result = $$; }
             ;  
 
@@ -198,9 +199,9 @@ expr8       : expr8 TOKEN_INCREMENT
 expr9       : TOKEN_LPAREN expr TOKEN_RPAREN
             { $2->group = 1; $$ = $2; }
             | ident TOKEN_LPAREN exprs_or_e TOKEN_RPAREN 
-            { $$ = expr_create(EXPR_FUNC, expr_create_name($1), $3); }
+            { $$ = expr_create_mid(EXPR_FUNC_CALL, $1, $3); }
             | ident arr_idx
-            { $$ = expr_create(EXPR_ARRAY, expr_create_name($1), $2); }
+            { $$ = expr_create_mid(EXPR_ARR, $1, $2); }
             | atomic
             { $$ = $1; }
             ;
@@ -210,15 +211,15 @@ atomic      : TOKEN_TYPE_INT
             | TOKEN_TYPE_FLOAT
             { $$ = expr_create_float_literal(atof(yytext)); }
             | TOKEN_TYPE_STRING
-            { $$ = expr_create_string_literal(yytext); } 
+            { $$ = expr_create_string_literal(strdup(yytext)); } 
             | TOKEN_TYPE_CHAR
-            { $$ = expr_create_char_literal(yytext); }
+            { $$ = expr_create_char_literal(strdup(yytext)); }
             | TOKEN_TRUE
             { $$ = expr_create_boolean_literal(0); }
             | TOKEN_FALSE
             { $$ = expr_create_boolean_literal(1); }
             | TOKEN_LBRACE expr_list TOKEN_RBRACE
-            { $$ = expr_create(EXPR_ARRAY_LITERAL, 0, $2); }
+            { $$ = expr_create_mid(EXPR_ARR_LITERAL, 0, $2); }
             | ident 
             { $$ = expr_create_name($1); }
             ;
@@ -236,23 +237,23 @@ ident       : TOKEN_IDENT
 
 /* TYPES */
 type        : TOKEN_CHAR 
-            { $$ = type_create(TYPE_CHARACTER, 0, 0, 0); }
+            { $$ = type_create(TYPE_CHARACTER, 0, 0); }
             | TOKEN_STRING 
-            { $$ = type_create(TYPE_STRING, 0, 0, 0); }
+            { $$ = type_create(TYPE_STRING, 0, 0); }
             | TOKEN_INT
-            { $$ = type_create(TYPE_INTEGER, 0, 0, 0); }
+            { $$ = type_create(TYPE_INTEGER, 0, 0); }
             | TOKEN_FLOAT
-            { $$ = type_create(TYPE_FLOAT, 0, 0, 0); }
+            { $$ = type_create(TYPE_FLOAT, 0, 0); }
             | TOKEN_BOOL
-            { $$ = type_create(TYPE_BOOLEAN, 0, 0, 0); }
+            { $$ = type_create(TYPE_BOOLEAN, 0, 0); }
             | TOKEN_AUTO 
-            { $$ = type_create(TYPE_AUTO, 0, 0, 0); }
+            { $$ = type_create(TYPE_AUTO, 0, 0); }
             | TOKEN_VOID 
-            { $$ = type_create(TYPE_VOID, 0, 0, 0); }
+            { $$ = type_create(TYPE_VOID, 0, 0); }
             | TOKEN_ARRAY TOKEN_LBRACKET expr_or_e TOKEN_RBRACKET type
-            { $$ = type_create(TYPE_ARRAY, $5, 0, $3); }
+            { $$ = type_create(TYPE_ARRAY, $5, 0); $$->arr_expr = $3; }
             | TOKEN_FUNC type TOKEN_LPAREN params_or_e TOKEN_RPAREN
-            { $$ = type_create(TYPE_FUNCTION, $2, $4, 0); }
+            { $$ = type_create(TYPE_FUNCTION, $2, $4); }
             ;
 
 /* DECLARATIONS */
@@ -268,8 +269,8 @@ decl        : ident TOKEN_COLON type TOKEN_ASSIGN TOKEN_LBRACE stmts_or_e TOKEN_
             
 decl_list   : decl decl_list
             { $1->next = $2; $$ = $1; }
-            | decl 
-            { $$ = $1; }
+            | 
+            { $$ = 0; }
             ;
 
 /* PARAMETERS */
@@ -310,22 +311,22 @@ stmt        : stmt1
 
 /* open statements */
 stmt1       : TOKEN_FOR TOKEN_LPAREN expr_or_e TOKEN_SEMICOLON expr_or_e TOKEN_SEMICOLON expr_or_e TOKEN_RPAREN stmt1
-            { $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
+            { $9->no_indent = 0; $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
             | TOKEN_WHILE TOKEN_LPAREN expr TOKEN_RPAREN stmt1
-            { $$ = stmt_create(STMT_WHILE, 0, 0, $3, 0, $5, 0, 0); }
+            { $5->no_indent = 0; $$ = stmt_create(STMT_WHILE, 0, 0, $3, 0, $5, 0, 0); }
             | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt2 TOKEN_ELSE stmt1 
-            { $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
+            { $5->no_indent = 0; $7->else_if = 0; $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
             | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt 
-            { $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, 0, 0); }
+            { $5->no_indent = 0; $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, 0, 0); }
             ;
 
 /* closed statementa */
 stmt2       : TOKEN_FOR TOKEN_LPAREN expr_or_e TOKEN_SEMICOLON expr_or_e TOKEN_SEMICOLON expr_or_e TOKEN_RPAREN stmt2
-            { $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
+            { $9->no_indent = 0; $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
             | TOKEN_WHILE TOKEN_LPAREN expr TOKEN_RPAREN stmt2
-            { $$ = stmt_create(STMT_WHILE, 0, 0, $3, 0, $5, 0, 0); }
+            { $5->no_indent = 0; $$ = stmt_create(STMT_WHILE, 0, 0, $3, 0, $5, 0, 0); }
             | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt2 TOKEN_ELSE stmt2
-            { $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
+            { $5->no_indent = 0; $7->else_if = 0; $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
             | stmt3
             { $$ = $1; }
             ;

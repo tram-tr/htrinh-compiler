@@ -3,19 +3,20 @@
 
 struct expr * expr_create( expr_t kind, struct expr *left, struct expr *right ) {
     struct expr* e = malloc(sizeof(struct expr));
-    if (kind == EXPR_FUNC || kind == EXPR_ARRAY) {
-        e = left;
-        e->kind = kind;
-        e->mid = right;
-    }
-    else {
-        e->kind = kind;
-        if (e->kind == EXPR_GROUP) e->mid = right;
-        else {
-            e->left = left;
-            e->right = right;
-        }
-    }
+    if (!e)
+        return NULL;
+
+    e->kind = kind;
+    e->left = left;
+    e->right = right;
+    return e;
+}
+
+struct expr * expr_create_mid( expr_t kind, const char *n, struct expr *mid ) {
+    struct expr* e = expr_create(kind, 0, 0);
+    e->mid = mid;
+    if (n)
+        e->name = n;
     return e;
 }
 
@@ -64,37 +65,37 @@ void expr_print( struct expr *e ) {
     struct expr *t = 0;
     switch (e->kind) {
         case EXPR_ASSIGN:
-            printf("=");
+            printf(" = ");
             break;
         case EXPR_AND:
-            printf("&&");
+            printf(" && ");
             break;
         case EXPR_OR:
-            printf("||");
+            printf(" || ");
             break;
         case EXPR_EQ:
-            printf("==");
+            printf(" == ");
             break;
         case EXPR_LE:
-            printf("<=");
+            printf(" <= ");
             break;
         case EXPR_GE:
-            printf(">=");
+            printf(" >= ");
             break;
         case EXPR_LT:
-            printf("<");
+            printf(" < ");
             break;
         case EXPR_GT:
-            printf(">");
+            printf(" > ");
             break;
         case EXPR_NE:
-            printf("!=");
+            printf(" != ");
             break;
         case EXPR_NOT:
-            printf("!");
+            printf(" ! ");
             break;
         case EXPR_NEG:
-            printf("-");
+            printf(" - ");
             break;
         case EXPR_INC:
             printf("++");
@@ -103,22 +104,22 @@ void expr_print( struct expr *e ) {
             printf("--");
             break;
         case EXPR_ADD:
-            printf("+");
+            printf(" + ");
             break;
         case EXPR_SUB:
-            printf("-");
+            printf(" - ");
             break;
         case EXPR_MUL:
-            printf("*");
+            printf(" * ");
             break;
         case EXPR_MOD:
-            printf("%");
+            printf(" %" );
             break;
         case EXPR_EXP:
-            printf("^");
+            printf(" ^ ");
             break;
         case EXPR_DIV:
-            printf("/");
+            printf(" / ");
             break;
         case EXPR_INT:
             printf("%d", e->int_literal);
@@ -131,15 +132,15 @@ void expr_print( struct expr *e ) {
             else printf("false");
             break;
         case EXPR_CHAR:
-            printf("%c", e->char_literal);
+            printf("%s", e->char_literal);
             break;
         case EXPR_STRING:
             printf("%s", e->string_literal);
             break;
-        case EXPR_FUNC:
+        case EXPR_FUNC_CALL:
             printf("%s(", e->name);
             t = e->mid;
-            while(t) {
+            while(t != 0) {
                 expr_print(t);
                 if(t->next)
                     printf(", ");
@@ -147,28 +148,31 @@ void expr_print( struct expr *e ) {
             }
             printf(")");
             break;
-        case EXPR_ARRAY:
+        case EXPR_ARR:
             printf("%s", e->name);
-            t = e->mid;
-            while(t) {
+            if (e->mid != 0) {
                 printf("[");
-                expr_print(t);
-                if(t->next)
-                    printf("]");
-                t = t->next;
+                expr_print(e->mid);
+                t = e->mid->next;
+                while (t) {
+                    expr_print(t);
+                    t = t->next;
+                }
+                printf("]");
             }
-            printf("]");
             break;
-        case EXPR_ARRAY_LITERAL:
-            printf("{");
-            expr_print(e->mid);
-            t = e->next->mid;
-            while(t) {
-                printf(", ");
-                expr_print(t);
-                t = t->next;
-            };
-            printf("}");
+        case EXPR_ARR_LITERAL:
+            if (e->mid != 0) {
+                printf("{");
+                expr_print(e->mid);
+                t = e->mid->next;
+                while(t) {
+                    printf(", ");
+                    expr_print(t);
+                    t = t->next;
+                };
+                printf("}");
+            }
             break;
         case EXPR_GROUP:
             expr_print(e->mid);

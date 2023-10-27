@@ -6,7 +6,7 @@ SINGLE_COMMENT  \/\/[^\n\r]*
 BLOCK_COMMENT   \/\*[^*]*\*+([^*\/][^*]*\*+)*\/
 STRING          \"([^\"\0\n\t]|(\\.))*\"
 CHAR            \'(\\.|\\0x[0-7][0-9a-fA-F]|.)\'
-FLOAT           [0-9]+(.[0-9]+)?([eE][-+]?[0-9]+)?
+FLOAT           [0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?
 INTEGER         [0-9]+
 LETTER          [a-zA-Z]
 IDENT           (_|{LETTER}|\s)(_|{LETTER}|\s|[0-9])* 

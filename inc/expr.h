@@ -2,6 +2,7 @@
 #define EXPR_H
 
 #include "symbol.h"
+#include "decl.h"
 
 typedef enum {
 	EXPR_ASSIGN = 0,
@@ -23,14 +24,14 @@ typedef enum {
 	EXPR_NEG,
 	EXPR_INC = 80,
 	EXPR_DEC,
-	EXPR_FUNC = 90,
+	EXPR_FUNC_CALL = 90,
 	EXPR_INT = 100,
 	EXPR_FLOAT,
 	EXPR_BOOL,
 	EXPR_CHAR,
 	EXPR_STRING,
-	EXPR_ARRAY,
-	EXPR_ARRAY_LITERAL,
+	EXPR_ARR,
+	EXPR_ARR_LITERAL,
 	EXPR_GROUP,
 	EXPR_IDENT
 	/* many more kinds of exprs to add here */
@@ -56,7 +57,7 @@ struct expr {
 };
 
 struct expr * expr_create( expr_t kind, struct expr *left, struct expr *right );
-
+struct expr * expr_create_mid( expr_t kind, const char *n, struct expr *mid );
 struct expr * expr_create_name( const char *n );
 struct expr * expr_create_integer_literal( int c );
 struct expr * expr_create_float_literal( float c );
