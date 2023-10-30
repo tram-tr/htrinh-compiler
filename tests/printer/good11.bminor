@@ -1,6 +1,5 @@
 /* single statement ifs */
 
-x: integer = 65;
 s: string = "hello";
 b: boolean = false;
 

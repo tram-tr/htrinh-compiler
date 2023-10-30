@@ -1,4 +1,6 @@
 *.out
+*.ou1
+*.out2
 objs/*.o 
 tests/*-hidden/
 note
