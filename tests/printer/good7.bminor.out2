@@ -1,0 +1,9 @@
+s: string = "this is a string";
+s2: string;
+a: integer;
+print_func: function void () = {
+	print ;
+	print "\a \b \e \f \n \r \r \v \\ \' \"";
+	print x, "hello!", true, false;
+	print s, " hello, worldddd ", x, s2;
+}

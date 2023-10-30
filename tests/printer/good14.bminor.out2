@@ -1,0 +1,6 @@
+simplefunc: function boolean ( x: integer, y: integer ) = {
+	z: integer = x * y;
+	q: float = 1e+10;
+	v: float = 210;
+	return v;
+}

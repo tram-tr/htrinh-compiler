@@ -25,6 +25,9 @@ void type_print( struct type *t ) {
         case TYPE_INTEGER:
             printf("integer");
             break;
+        case TYPE_FLOAT:
+            printf("float");
+            break;
         case TYPE_STRING:
             printf("string");
             break;

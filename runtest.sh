@@ -69,6 +69,22 @@ elif [ "$TEST_TYPE" == "parser" ] || [ "$TEST_TYPE" == "parser-sample" ] || [ "$
             echo "$testfile failure (as expected)"
         fi
     done
+elif [ "$TEST_TYPE" == "printer" ]; then
+    for testfile in $TEST_DIR/$TEST_TYPE/good*.bminor
+    do
+        if $BMINOR --print "$testfile" > "$testfile.out1"
+        then
+            $BMINOR --print "$testfile.out1" > "$testfile.out2"
+	        if cmp -s "$testfile.out1" "$testfile.out2"
+	        then
+		        echo "$testfile success (as expected)"
+	        else
+		        echo "$testfile failure (INCORRECT)"
+	        fi
+        else
+            echo "$testfile success (INCORRECT)"
+        fi
+    done
 else
     echo "Unknown test type: $TEST_TYPE"
 fi

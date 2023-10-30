@@ -1,0 +1,22 @@
+if_else: function boolean ( x: integer, y: integer ) = {
+	if (x < y) {
+		print "hi\n";
+	}
+	else {
+		print "hello\n";
+	}
+	if (x < y) {
+		print "hihi\n";
+	}
+	else {
+		print "hellohello\n";
+	}
+	if (1 < 0) {
+		if (0 < 1) {
+			print "incorrect!";
+		}
+		else {
+			print "???";
+		}
+	}
+}

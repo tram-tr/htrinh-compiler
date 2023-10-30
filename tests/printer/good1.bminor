@@ -1,0 +1,16 @@
+a: array [10] float = {10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0};
+b: array [10] array [10] float;
+
+func: function void () = {
+    i: integer;
+    j: integer;
+
+    for(i=0;i<10;i++) {
+        b[i] = a[i] * 10;
+    }
+
+    for(i=0;i<5;i++) {
+        b[i*2] = a[i] + b[i];
+    }
+
+}

@@ -1,0 +1,5 @@
+foo: function integer (a: integer, b: float) = {
+    return a + b;
+}
+
+result: integer = foo(3, 4.5); 

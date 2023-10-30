@@ -113,7 +113,7 @@ void expr_print( struct expr *e ) {
             printf(" * ");
             break;
         case EXPR_MOD:
-            printf(" %" );
+            printf(" %% " );
             break;
         case EXPR_EXP:
             printf(" ^ ");
@@ -125,7 +125,7 @@ void expr_print( struct expr *e ) {
             printf("%d", e->int_literal);
             break;
         case EXPR_FLOAT:
-            printf("%f", e->float_literal);
+            printf("%g", e->float_literal);
             break;
         case EXPR_BOOL:
             if (e->bool_literal == 0)   printf("true");
@@ -197,8 +197,8 @@ int compare_expr( struct expr *expr, struct expr *expr_next, int right ) {
     if(expr_next->kind/10 > expr->kind/10) return 1;
 
     if(expr_next->kind/10 == expr->kind/10) {
-        if (expr_next->group && right == 0) return 1;
-        else return 0;
+        if (expr_next->group && right == 0) return 0;
+        else return 1;
     }
-    else return 1;
+    else return 0;
 }

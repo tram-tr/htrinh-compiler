@@ -1,0 +1,8 @@
+x: integer = 1;
+y: float = 100000;
+z: char = 'Z';
+str: string = "hello";
+a: array[4] integer = {1, 2, 3, 4};
+b: array[4] char = {'a', 'b', 'c', 'd'};
+c: array[4] boolean = {true, false, true, false};
+d: array[4] array[4] integer;
