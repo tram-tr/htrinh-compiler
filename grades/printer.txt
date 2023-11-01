@@ -1,0 +1,1254 @@
+=====STUDENT TESTS=====
+====Good Tests====
+===[STUDENT TESTS/good0.bminor Input]===
+func: function void () = {
+    print "hello, world!";
+}
+===[STUDENT TESTS/good0.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good0.bminor Output]===
+func: function void () = {
+	print "hello, world!";
+}
+
+
+
+
+===[STUDENT TESTS/good1.bminor Input]===
+a: array [10] float = {10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0};
+b: array [10] array [10] float;
+
+func: function void () = {
+    i: integer;
+    j: integer;
+
+    for(i=0;i<10;i++) {
+        b[i] = a[i] * 10;
+    }
+
+    for(i=0;i<5;i++) {
+        b[i*2] = a[i] + b[i];
+    }
+
+}
+===[STUDENT TESTS/good1.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good1.bminor Output]===
+a: array[10] float = {10, 20, 30, 40, 50, 60, 70, 80, 90};
+b: array[10] array[10] float;
+func: function void () = {
+	i: integer;
+	j: integer;
+	for (i = 0; i < 10; i++) {
+		b[i] = a[i] * 10;
+	}
+	for (i = 0; i < 5; i++) {
+		b[i * 2] = a[i] + b[i];
+	}
+}
+
+
+
+
+===[STUDENT TESTS/good10.bminor Input]===
+main: function void() = {
+	// empty function
+}
+===[STUDENT TESTS/good10.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good10.bminor Output]===
+main: function void () = {
+}
+
+
+
+
+===[STUDENT TESTS/good11.bminor Input]===
+/* single statement ifs */
+
+s: string = "hello";
+b: boolean = false;
+
+min: function integer ( a: integer, b: integer ) =
+{
+	if(a > b) return a;
+	else return b;
+}
+
+testfunc: function void ( z: integer ) =
+{
+	print "minimum", min(10, 5), "\n";
+}
+
+===[STUDENT TESTS/good11.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good11.bminor Output]===
+s: string = "hello";
+b: boolean = false;
+min: function integer ( a: integer, b: integer ) = {
+	if (a > b) {
+		return a;
+	}
+	else {
+		return b;
+	}
+}
+testfunc: function void ( z: integer ) = {
+	print "minimum", min(10, 5), "\n";
+}
+
+
+
+
+===[STUDENT TESTS/good12.bminor Input]===
+/* code blocks */
+
+testfunc: function void ( x: integer, y:integer, z:integer ) = {
+	{
+		return x == 10;
+		{
+			return testfunc(x, y, z);
+		}
+	}
+}
+===[STUDENT TESTS/good12.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good12.bminor Output]===
+testfunc: function void ( x: integer, y: integer, z: integer ) = {
+	{
+		return x == 10;
+		{
+			return testfunc(x, y, z);
+		}
+	}
+}
+
+
+
+
+===[STUDENT TESTS/good13.bminor Input]===
+/* A function contains a sequence of statements */
+/* Try decls and stmts and exprs together. */
+
+simplefunc: function boolean ( x: integer, y: integer ) = {
+
+     // A declaration
+     z: integer = x * y;
+
+     // An expression with a semicolon
+     z = 16 + x / y;
+
+     // Print statement
+     print "input is: ", x, " and ", y, "\n";
+
+     // Simple if-else statement
+     if( x < y ) {
+         return true;
+     } else {
+         return false;
+     }
+
+}
+
+===[STUDENT TESTS/good13.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good13.bminor Output]===
+simplefunc: function boolean ( x: integer, y: integer ) = {
+	z: integer = x * y;
+	z = 16 + x / y;
+	print "input is: ", x, " and ", y, "\n";
+	if (x < y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
+
+
+===[STUDENT TESTS/good14.bminor Input]===
+/* A function contains a sequence of statements */
+/* Try decls and stmts and exprs together. */
+/* Add some float */
+
+simplefunc: function boolean ( x: integer, y: integer ) = {
+
+     // A declaration
+     z: integer = x * y;
+	
+     // A float declaration
+     q: float = 10e9;
+     
+     // another float
+     v: float = 2.10e2;
+
+     // a float operation
+     return v;
+
+}
+===[STUDENT TESTS/good14.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good14.bminor Output]===
+simplefunc: function boolean ( x: integer, y: integer ) = {
+	z: integer = x * y;
+	q: float = 1e+10;
+	v: float = 210;
+	return v;
+}
+
+
+
+
+===[STUDENT TESTS/good15.bminor Input]===
+/* Test various nestings of if-else statements */
+
+testit: function boolean ( x: integer, y: integer ) = {
+
+	/* If statement without braces */
+	if( x<y ) print "less\n"; else print "low\n";
+
+	/* If statement with braces */
+	if( x<y ) { print "less\n"; } else { print "low\n"; }
+
+	/* This statement should print nothing */
+        if(20<10) if(10<20) print "incorrect!"; else print "dangling else!";
+
+	/* statements and decls inside of if-else */
+
+        if( x>y ) {
+              i: integer;
+              for(i=0;i<x;i++) print i, "\n";
+        } else {
+              i: integer;
+              for(i=0;i<y;i++) print i, "\n";
+        }
+
+	/* A decl can come after a few statements */
+	i: integer;
+
+	/* try the other way around */
+	for(i=0;i<x;i++) {
+              if( i<x ) print "small"; else print "large";
+        }
+
+        return true;
+}
+
+===[STUDENT TESTS/good15.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good15.bminor Output]===
+testit: function boolean ( x: integer, y: integer ) = {
+	if (x < y) {
+		print "less\n";
+	}
+	else {
+		print "low\n";
+	}
+	if (x < y) {
+		print "less\n";
+	}
+	else {
+		print "low\n";
+	}
+	if (20 < 10) {
+		if (10 < 20) {
+			print "incorrect!";
+		}
+		else {
+			print "dangling else!";
+		}
+	}
+	if (x > y) {
+		i: integer;
+		for (i = 0; i < x; i++) {
+			print i, "\n";
+		}
+	}
+	else {
+		i: integer;
+		for (i = 0; i < y; i++) {
+			print i, "\n";
+		}
+	}
+	i: integer;
+	for (i = 0; i < x; i++) {
+		if (i < x) {
+			print "small";
+		}
+		else {
+			print "large";
+		}
+	}
+	return true;
+}
+
+
+
+
+===[STUDENT TESTS/good16.bminor Input]===
+/* Now try some expressions */
+
+x: integer = 65;
+s: string = "hello";
+b: boolean = false;
+
+min: function integer ( a: integer, b: integer ) =
+{
+	if( a<b ) return a; else return b;
+}
+
+testfunc: function void ( z: integer ) =
+{
+	// Nested integer operators.
+	y: integer = x*(x*10 + 55%6 + z/10);
+	print "y: ", y, "\n";
+
+	// Nested boolean operations.
+	c: boolean = ( x<100 && y>200 ) || !(b=true);
+	print "c: ", c, "\n";
+
+	// Boolean operations on strings?
+	d: boolean = (s == "goodbye");
+	print "d: ", d, "\n";
+	z = y;
+
+	a: array [100] integer;
+
+	// Function calls and array accesses:
+	y = min(a[10],a[20]);
+}
+
+===[STUDENT TESTS/good16.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good16.bminor Output]===
+x: integer = 65;
+s: string = "hello";
+b: boolean = false;
+min: function integer ( a: integer, b: integer ) = {
+	if (a < b) {
+		return a;
+	}
+	else {
+		return b;
+	}
+}
+testfunc: function void ( z: integer ) = {
+	y: integer = x * (x * 10 + 55 % 6 + z / 10);
+	print "y: ", y, "\n";
+	c: boolean = x < 100 && y > 200 ||  ! (b = true);
+	print "c: ", c, "\n";
+	d: boolean = s == "goodbye";
+	print "d: ", d, "\n";
+	z = y;
+	a: array[100] integer;
+	y = min(a[10], a[20]);
+}
+
+
+
+
+===[STUDENT TESTS/good17.bminor Input]===
+/* Function prototypes are declarations without bodies. */
+
+ComputeAscii: function char ( c: char );
+
+GetLength: function integer ( s: string, i: integer );
+
+/* Function body has some code in it */
+
+GetArea: function integer ( width: integer, height: integer ) =
+{
+	return width * height;
+}
+
+===[STUDENT TESTS/good17.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good17.bminor Output]===
+ComputeAscii: function char ( c: char );
+GetLength: function integer ( s: string, i: integer );
+GetArea: function integer ( width: integer, height: integer ) = {
+	return width * height;
+}
+
+
+
+
+===[STUDENT TESTS/good18.bminor Input]===
+isEven: function boolean (n: integer) = {
+    return n % 2 == 0;
+}
+
+x: integer = 10;
+y: integer = 15;
+===[STUDENT TESTS/good18.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good18.bminor Output]===
+isEven: function boolean ( n: integer ) = {
+	return n % 2 == 0;
+}
+x: integer = 10;
+y: integer = 15;
+
+
+
+
+===[STUDENT TESTS/good19.bminor Input]===
+foo: function integer (a: integer, b: float) = {
+    return a + b;
+}
+
+result: integer = foo(3, 4.5); 
+===[STUDENT TESTS/good19.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good19.bminor Output]===
+foo: function integer ( a: integer, b: float ) = {
+	return a + b;
+}
+result: integer = foo(3, 4.5);
+
+
+
+
+===[STUDENT TESTS/good2.bminor Input]===
+func: function void ( x: integer, y:integer, z:integer ) = {
+	return (true && false) || (false && true);
+}
+===[STUDENT TESTS/good2.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good2.bminor Output]===
+func: function void ( x: integer, y: integer, z: integer ) = {
+	return true && false || false && true;
+}
+
+
+
+
+===[STUDENT TESTS/good3.bminor Input]===
+main: function boolean() = {
+	x: boolean = true;
+	if((4 >= 1)) {
+		return x;	
+	}
+
+    return false;
+}
+===[STUDENT TESTS/good3.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good3.bminor Output]===
+main: function boolean () = {
+	x: boolean = true;
+	if (4 >= 1) {
+		return x;
+	}
+	return false;
+}
+
+
+
+
+===[STUDENT TESTS/good4.bminor Input]===
+func1: function char (x: char) =
+{
+	print "hello";
+	return 1;
+}
+func2: function integer (x: integer) =
+{
+	print x;
+	return 2;
+}
+func3: function integer (x:integer, y:char, z:string)=
+{
+	print z;
+	return 4;
+}
+
+main: function void ()=
+{
+	x:integer = 4;
+	y:char = 'c';
+	z:string = "hello";
+    func1(y);
+	func1(x);
+    
+	func2('c');
+	func2(x);
+	
+	func3(4, y, z);
+}
+===[STUDENT TESTS/good4.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good4.bminor Output]===
+func1: function char ( x: char ) = {
+	print "hello";
+	return 1;
+}
+func2: function integer ( x: integer ) = {
+	print x;
+	return 2;
+}
+func3: function integer ( x: integer, y: char, z: string ) = {
+	print z;
+	return 4;
+}
+main: function void () = {
+	x: integer = 4;
+	y: char = 'c';
+	z: string = "hello";
+	func1(y);
+	func1(x);
+	func2('c');
+	func2(x);
+	func3(4, y, z);
+}
+
+
+
+
+===[STUDENT TESTS/good5.bminor Input]===
+main: function boolean() = {
+	x: boolean = true;
+	if(!((1*x^2 + 3) - 4 >= 1)) {
+		return x;	
+	}
+
+    return false;
+}
+===[STUDENT TESTS/good5.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good5.bminor Output]===
+main: function boolean () = {
+	x: boolean = true;
+	if ( ! (1 * x ^ 2 + 3 - 4 >= 1)) {
+		return x;
+	}
+	return false;
+}
+
+
+
+
+===[STUDENT TESTS/good6.bminor Input]===
+f: function void() = {
+	for(;;)
+	{
+		x:integer = 5;
+		{
+			x:integer = 6;
+			print x;
+		}
+	}
+}
+===[STUDENT TESTS/good6.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good6.bminor Output]===
+f: function void () = {
+	for (;;) {
+		x: integer = 5;
+		{
+			x: integer = 6;
+			print x;
+		}
+	}
+}
+
+
+
+
+===[STUDENT TESTS/good7.bminor Input]===
+s:string = "this is a string";
+s2:string;
+a:integer;
+print_func: function void () = {
+	print;
+	print "\a \b \e \f \n \r \r \v \\ \' \"";
+	print x, "hello!", true, false;
+	print s, " hello, worldddd ", x, s2; 
+}
+===[STUDENT TESTS/good7.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good7.bminor Output]===
+s: string = "this is a string";
+s2: string;
+a: integer;
+print_func: function void () = {
+	print ;
+	print "\a \b \e \f \n \r \r \v \\ \' \"";
+	print x, "hello!", true, false;
+	print s, " hello, worldddd ", x, s2;
+}
+
+
+
+
+===[STUDENT TESTS/good8.bminor Input]===
+if_else: function boolean ( x: integer, y: integer ) = {
+
+	if( x<y ) print "hi\n"; else print "hello\n";
+
+	if( x<y ) { print "hihi\n"; } else { print "hellohello\n"; }
+
+    if(1<0) if(0<1) print "incorrect!"; else print "???";
+}
+
+===[STUDENT TESTS/good8.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good8.bminor Output]===
+if_else: function boolean ( x: integer, y: integer ) = {
+	if (x < y) {
+		print "hi\n";
+	}
+	else {
+		print "hello\n";
+	}
+	if (x < y) {
+		print "hihi\n";
+	}
+	else {
+		print "hellohello\n";
+	}
+	if (1 < 0) {
+		if (0 < 1) {
+			print "incorrect!";
+		}
+		else {
+			print "???";
+		}
+	}
+}
+
+
+
+
+===[STUDENT TESTS/good9.bminor Input]===
+x:integer = 1;
+y:float = 1e5;
+z:char = 'Z';
+str:string = "hello";
+a: array [4] integer = {1,2,3,4};
+b:array [4] char = {'a', 'b', 'c', 'd'};
+c:array [4] boolean = {true, false, true, false};
+d: array [4] array [4] integer;
+===[STUDENT TESTS/good9.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[STUDENT TESTS/good9.bminor Output]===
+x: integer = 1;
+y: float = 100000;
+z: char = 'Z';
+str: string = "hello";
+a: array[4] integer = {1, 2, 3, 4};
+b: array[4] char = {'a', 'b', 'c', 'd'};
+c: array[4] boolean = {true, false, true, false};
+d: array[4] array[4] integer;
+
+
+
+
+====Bad Tests====
+=====HIDDEN TESTS=====
+====Good Tests====
+===[HIDDEN TESTS/good1.bminor Input]===
+/* A program is a sequence of declarations */
+/* Try a variety of variable declarations. */
+
+n: integer;
+m: integer = 20;
+
+b: boolean;
+c: boolean = false;
+s: string;
+t: string = "world\n";
+d: char;
+e: char = 'x';
+
+f: float = 1.23;
+
+x: array [] string;
+y: array [] string = { "a", "b", "c" };
+z: array [] array [] string = { {"a","b","c"}, {"x","y","z"} };
+
+g: array [3] string;
+h: array [3] string = { "a", "b", "c" };
+i: array [2] array [3] string = { {"a","b","c"}, {"x","y","z"} };
+
+===[HIDDEN TESTS/good1.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good1.bminor Output]===
+n: integer;
+m: integer = 20;
+b: boolean;
+c: boolean = false;
+s: string;
+t: string = "world\n";
+d: char;
+e: char = 'x';
+f: float = 1.23;
+x: array[] string;
+y: array[] string = {"a", "b", "c"};
+z: array[] array[] string = {{"a", "b", "c"}, {"x", "y", "z"}};
+g: array[3] string;
+h: array[3] string = {"a", "b", "c"};
+i: array[2] array[3] string = {{"a", "b", "c"}, {"x", "y", "z"}};
+
+
+
+
+===[HIDDEN TESTS/good10.bminor Input]===
+/* Try accesssing arrays of various sizes; */
+
+a: array [10] integer = {100,200,300,400,500,600,700,800,900};
+b: array [10] integer;
+c: array [10] array [10] integer;
+
+testfunc: function void () = {
+    i: integer;
+    j: integer;
+
+    for(i=0;i<10;i++) {
+        b[i] = a[i] * 10;
+    }
+
+    for(i=0;i<5;i++) {
+        b[i*2] = a[i] + b[i];
+    }
+
+    for(j=0;j<10;i++) {
+        for(i=0;i<10;i++) {
+            c[i][j] = i*j;
+        }
+    }
+
+    for(j=0;j<10;i++) {
+        for(i=0;i<10;i++) {
+            print c[i][j];
+            print " ";
+        }
+        print "\n";
+    }
+}
+
+===[HIDDEN TESTS/good10.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good10.bminor Output]===
+a: array[10] integer = {100, 200, 300, 400, 500, 600, 700, 800, 900};
+b: array[10] integer;
+c: array[10] array[10] integer;
+testfunc: function void () = {
+	i: integer;
+	j: integer;
+	for (i = 0; i < 10; i++) {
+		b[i] = a[i] * 10;
+	}
+	for (i = 0; i < 5; i++) {
+		b[i * 2] = a[i] + b[i];
+	}
+	for (j = 0; j < 10; i++) {
+		for (i = 0; i < 10; i++) {
+			c[ij] = i * j;
+		}
+	}
+	for (j = 0; j < 10; i++) {
+		for (i = 0; i < 10; i++) {
+			print c[ij];
+			print " ";
+		}
+		print "\n";
+	}
+}
+
+
+
+
+===[HIDDEN TESTS/good2.bminor Input]===
+/* Function prototypes are declarations without bodies. */
+
+ComputeAscii: function char ( c: char );
+
+GetLength: function integer ( s: string, i: integer );
+
+/* Function body has some code in it */
+
+GetArea: function integer ( width: float, height: float ) =
+{
+	return width * height;
+}
+
+===[HIDDEN TESTS/good2.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good2.bminor Output]===
+ComputeAscii: function char ( c: char );
+GetLength: function integer ( s: string, i: integer );
+GetArea: function integer ( width: float, height: float ) = {
+	return width * height;
+}
+
+
+
+
+===[HIDDEN TESTS/good3.bminor Input]===
+/* A function contains a sequence of statements */
+/* Some of those statements can be decls */
+
+simplefunc: function void () = {
+     x: integer;
+     y: integer = 20;
+     s: string = "hello world";
+     f: float = 3.3e1;
+}
+
+===[HIDDEN TESTS/good3.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good3.bminor Output]===
+simplefunc: function void () = {
+	x: integer;
+	y: integer = 20;
+	s: string = "hello world";
+	f: float = 33;
+}
+
+
+
+
+===[HIDDEN TESTS/good4.bminor Input]===
+/* A function contains a sequence of statements */
+/* Try decls and stmts and exprs together. */
+
+simplefunc: function boolean ( x: integer, y: integer ) = {
+
+     // A declaration
+     z: integer = x * y;
+
+     // An expression with a semicolon
+     z = 16 - x / y;
+
+     r: integer = x + (y + z);
+
+     // Print statement
+     print "input is: ", x, " and ", y, "\n";
+
+     // Simple if-else statement
+     if( x <= y ) {
+         return true;
+     } else {
+         return false;
+     }
+
+}
+
+===[HIDDEN TESTS/good4.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good4.bminor Output]===
+simplefunc: function boolean ( x: integer, y: integer ) = {
+	z: integer = x * y;
+	z = 16 - x / y;
+	r: integer = x + (y + z);
+	print "input is: ", x, " and ", y, "\n";
+	if (x <= y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
+
+
+===[HIDDEN TESTS/good5.bminor Input]===
+/* A function contains a sequence of statements */
+/* Try decls and stmts and exprs together. */
+
+simplefunc: function boolean ( x: integer, y: integer ) = {
+
+     // A declaration
+     z: integer = x * y;
+
+     // An expression with a semicolon
+     z = 16 + x / y;
+
+     // Print statement
+     print "input is: ", x, " and ", y, "\n";
+
+     // Simple if-else statement
+     if( x < y ) {
+         return true;
+     } else {
+         return false;
+     }
+
+}
+
+===[HIDDEN TESTS/good5.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good5.bminor Output]===
+simplefunc: function boolean ( x: integer, y: integer ) = {
+	z: integer = x * y;
+	z = 16 + x / y;
+	print "input is: ", x, " and ", y, "\n";
+	if (x < y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
+
+
+===[HIDDEN TESTS/good6.bminor Input]===
+/* Try several variations of for-loops */
+
+simplefunc: function void (r: integer, s: integer, t: integer ) = {
+
+    i: integer;
+
+    for( i=0; i<r; i++ ) {
+        print i,"\n";
+    }
+
+    i=0;
+    for( ; i<s; i++ ) {
+        print i,"\n";
+    }
+
+    i=0;
+    for( ; i<r; ) {
+        print i,"\n";
+        i++;
+    }
+
+    for(;;) print "forever!\n";
+}
+
+===[HIDDEN TESTS/good6.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good6.bminor Output]===
+simplefunc: function void ( r: integer, s: integer, t: integer ) = {
+	i: integer;
+	for (i = 0; i < r; i++) {
+		print i, "\n";
+	}
+	i = 0;
+	for (; i < s; i++) {
+		print i, "\n";
+	}
+	i = 0;
+	for (; i < r;) {
+		print i, "\n";
+		i++;
+	}
+	for (;;) {
+		print "forever!\n";
+	}
+}
+
+
+
+
+===[HIDDEN TESTS/good7.bminor Input]===
+/* Test various nestings of if-else statements */
+
+testit: function boolean ( x: integer, y: integer ) = {
+
+	/* If statement without braces */
+	if( x<y ) print "less\n"; else print "low\n";
+
+	/* If statement with braces */
+	if( x<y ) { print "less\n"; } else { print "low\n"; }
+
+	/* This statement should print nothing */
+        if(20<10) if(10<20) print "incorrect!"; else print "dangling else!";
+
+	/* statements and decls inside of if-else */
+
+        if( x>y ) {
+              i: integer;
+              for(i=0;i<x;i++) print i, "\n";
+        } else {
+              i: integer;
+              for(i=0;i<y;i++) print i, "\n";
+        }
+
+	/* A decl can come after a few statements */
+	i: integer;
+
+	/* try the other way around */
+	for(i=0;i<x;i++) {
+              if( i<x ) print "small"; else print "large";
+        }
+
+        return true;
+}
+
+===[HIDDEN TESTS/good7.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good7.bminor Output]===
+testit: function boolean ( x: integer, y: integer ) = {
+	if (x < y) {
+		print "less\n";
+	}
+	else {
+		print "low\n";
+	}
+	if (x < y) {
+		print "less\n";
+	}
+	else {
+		print "low\n";
+	}
+	if (20 < 10) {
+		if (10 < 20) {
+			print "incorrect!";
+		}
+		else {
+			print "dangling else!";
+		}
+	}
+	if (x > y) {
+		i: integer;
+		for (i = 0; i < x; i++) {
+			print i, "\n";
+		}
+	}
+	else {
+		i: integer;
+		for (i = 0; i < y; i++) {
+			print i, "\n";
+		}
+	}
+	i: integer;
+	for (i = 0; i < x; i++) {
+		if (i < x) {
+			print "small";
+		}
+		else {
+			print "large";
+		}
+	}
+	return true;
+}
+
+
+
+
+===[HIDDEN TESTS/good8.bminor Input]===
+/* Now try some expressions */
+
+x: integer = 65;
+s: string = "hello";
+b: boolean = false;
+
+min: function integer ( a: integer, b: integer ) =
+{
+	if( a<b ) return a; else return b;
+}
+
+testfunc: function void ( z: integer ) =
+{
+	// Nested integer operators.
+	y: integer = x*(x*10 + 55%6 + z/10);
+	print "y: ", y, "\n";
+
+	// Nested boolean operations.
+	c: boolean = ( x<100 && y>200 ) || !(b=true);
+	print "c: ", c, "\n";
+
+	// Boolean operations on strings?
+	d: boolean = (s == "goodbye");
+	print "d: ", d, "\n";
+
+	// Can we stack up assignments?
+	z = y = x;
+
+	a: array [100] integer;
+
+	// Function calls and array accesses:
+	y = min(a[10],a[20]);
+
+	// float operations
+	f: float = 3.4 + 5.6;
+	g: float = 34.1e7 + 9.9e3;
+}
+
+===[HIDDEN TESTS/good8.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good8.bminor Output]===
+x: integer = 65;
+s: string = "hello";
+b: boolean = false;
+min: function integer ( a: integer, b: integer ) = {
+	if (a < b) {
+		return a;
+	}
+	else {
+		return b;
+	}
+}
+testfunc: function void ( z: integer ) = {
+	y: integer = x * (x * 10 + 55 % 6 + z / 10);
+	print "y: ", y, "\n";
+	c: boolean = x < 100 && y > 200 ||  ! (b = true);
+	print "c: ", c, "\n";
+	d: boolean = s == "goodbye";
+	print "d: ", d, "\n";
+	z = y = x;
+	a: array[100] integer;
+	y = min(a[10], a[20]);
+	f: float = 3.4 + 5.6;
+	g: float = 3.41e+08 + 9900;
+}
+
+
+
+
+===[HIDDEN TESTS/good9.bminor Input]===
+/* Check for minimum use of parentheses. */
+
+testfunc: function void ( x: integer, y:integer, z:integer ) = {
+
+          r: integer;
+	  b: boolean;
+
+          // Parens required
+	  r = (x+y)/z;
+	  r = x+(y+z);
+	  b = (true||false) && (false||true);
+
+          // Parens not required
+	  r = x+(y/z);
+	  r = (x+y)+z;
+	  b = (x+y) < (x+z);
+	  b = (true&&false) || (false&&true);
+
+}
+
+===[HIDDEN TESTS/good9.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[HIDDEN TESTS/good9.bminor Output]===
+testfunc: function void ( x: integer, y: integer, z: integer ) = {
+	r: integer;
+	b: boolean;
+	r = (x + y) / z;
+	r = x + (y + z);
+	b = (true || false) && (false || true);
+	r = x + y / z;
+	r = x + y + z;
+	b = x + y < x + z;
+	b = true && false || false && true;
+}
+
+
+
+
+====Bad Tests====
+===== SUMMARIZED PRINTER RESULTS =====
+{
+  "student_tests": {
+    "Good": {
+      "correct": 20,
+      "incorrect": 0
+    }
+  },
+  "hidden_tests": {
+    "Good": {
+      "correct": 10,
+      "incorrect": 0
+    }
+  }
+}
+
+Printer Project
+---------------
+
+General Structure (20/20 points)
+----------------------------------------------
+Program stucture checks out and looks well formed
+
+Construction of the abstract syntax tree and coverage of all language elements (30/30 points)
+----------------------------------------------
+
+Indentation of Blocks (10 points)
+Nicely done! Indenting is consistent
+
+Parentheses Display: (10 points)
+Good job! Parentheses only appear where necessary.
+
+Spacing of Expressions: (10 points)
+Expressions formatting appears to be correct
+
+Student Tests (20/20 points)
+------------------------------------------
+Nice test coverage
+
+Hidden Tests (20/20 points)
+------------------------------------------
+Good work passing all of the hidden tests
+
+Coding Style (10/10 points)
+------------------------------------------
+Coding style looks quite nice. Well done!
+
+---------------
