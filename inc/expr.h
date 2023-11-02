@@ -3,6 +3,7 @@
 
 #include "symbol.h"
 #include "decl.h"
+#include "scope.h"
 
 typedef enum {
 	EXPR_ASSIGN = 0,
@@ -67,5 +68,7 @@ struct expr * expr_create_char_literal( const char *c );
 
 void expr_print( struct expr *e );
 int compare_expr( struct expr *expr, struct expr *expr_next, int right );
+
+void expr_resolve( struct scope *s, struct expr *e);
 
 #endif

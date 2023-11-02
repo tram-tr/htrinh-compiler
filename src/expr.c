@@ -1,6 +1,8 @@
 #include "../inc/expr.h"
 #include <stdlib.h>
 
+extern int resolve_error;
+
 struct expr * expr_create( expr_t kind, struct expr *left, struct expr *right ) {
     struct expr* e = malloc(sizeof(struct expr));
     if (!e)
@@ -201,4 +203,26 @@ int compare_expr( struct expr *expr, struct expr *expr_next, int right ) {
         else return 1;
     }
     else return 0;
+}
+
+void expr_resolve( struct scope *s, struct expr *e) {
+    if (e == 0) return;
+
+    // e->kind == EXPR_NAME
+    if(e->kind == EXPR_IDENT || e->kind == EXPR_FUNC_CALL || e->kind == EXPR_ARR) {
+        struct symbol *sym = scope_lookup(s, e->name);
+        if (sym == 0) {
+            resolve_error++;
+            printf("resolve error: %s is not defined\n", e->name);
+        } else {
+            e->symbol = sym;
+            symbol_print(sym);
+        }
+
+    } else {
+        expr_resolve(s, e->left);
+        expr_resolve(s, e->mid);
+        expr_resolve(s, e->right);
+        expr_resolve(s, e->next);
+    }
 }

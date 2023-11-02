@@ -25,4 +25,6 @@ struct type {
 struct type * type_create( type_t kind, struct type *subtype, struct param_list *params );
 void          type_print( struct type *t );
 
+void type_resolve( struct scope *s, struct type *t );
+
 #endif

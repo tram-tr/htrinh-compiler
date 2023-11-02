@@ -3,4 +3,5 @@ isEven: function boolean (n: integer) = {
 }
 
 x: integer = 10;
+z: char = '\0x32';
 y: integer = 15;

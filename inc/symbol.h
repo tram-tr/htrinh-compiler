@@ -14,9 +14,10 @@ struct symbol {
 	symbol_t kind;
 	struct type *type;
 	char *name;
-	int which;
+	int which; // // ordinal position of local variables and parameters
 };
 
 struct symbol * symbol_create( symbol_t kind, struct type *type, char *name );
+void symbol_print( struct symbol *s );
 
 #endif

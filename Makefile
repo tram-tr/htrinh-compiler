@@ -30,7 +30,7 @@ test: dirs $(TARGET)
 	$(SHELL) runtest.sh parser
 	$(SHELL) runtest.sh printer
 
-$(TARGET): $(OBJSDIR)/parser.o $(OBJSDIR)/scanner.o $(OBJSDIR)/decl.o $(OBJSDIR)/expr.o $(OBJSDIR)/param_list.o $(OBJSDIR)/stmt.o $(OBJSDIR)/symbol.o $(OBJSDIR)/type.o $(OBJSDIR)/encoder.o $(OBJSDIR)/bminor.o $(OBJSDIR)/hash_table.o $(OBJSDIR)/library.o  
+$(TARGET): $(OBJSDIR)/parser.o $(OBJSDIR)/scanner.o $(OBJSDIR)/decl.o $(OBJSDIR)/expr.o $(OBJSDIR)/param_list.o $(OBJSDIR)/stmt.o $(OBJSDIR)/symbol.o $(OBJSDIR)/type.o $(OBJSDIR)/scope.o $(OBJSDIR)/encoder.o $(OBJSDIR)/bminor.o $(OBJSDIR)/hash_table.o $(OBJSDIR)/library.o  
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
