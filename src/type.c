@@ -7,6 +7,7 @@ struct type * type_create( type_t kind, struct type *subtype, struct param_list 
     t->kind = kind;
     t->params = params;
     t->subtype = subtype;
+    t->arr_expr = 0;
     return t;
 }
 

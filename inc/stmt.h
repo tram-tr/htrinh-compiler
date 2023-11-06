@@ -25,6 +25,7 @@ struct stmt {
 	struct stmt *else_body;
 	struct stmt *next;
 	int else_if;
+	int in_func;
 	int no_indent;
 };
 

@@ -1,6 +1,8 @@
 #include "../inc/stmt.h"
 #include <stdlib.h>
 
+extern int resolve_error;
+
 struct stmt * stmt_create( stmt_t kind, struct decl *decl, struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next ) {
     struct stmt * s = malloc(sizeof(struct stmt));
     s->kind = kind;
@@ -13,6 +15,7 @@ struct stmt * stmt_create( stmt_t kind, struct decl *decl, struct expr *init_exp
     s->next = next;
     s->else_if = 1;
     s->no_indent = 1;
+    s->in_func = 1;
     return s; 
 }
 
@@ -149,4 +152,55 @@ void stmt_print( struct stmt *s, int indent ) {
             break;
 
     }
+}
+
+// call the appropriate resolve on each of its sub-components
+void stmt_resolve( struct scope *sc, struct stmt *st) {
+    if (st == 0) return;
+    int which;
+    switch (st->kind) {
+        case STMT_DECL:
+            decl_resolve(sc, st->decl);
+            break;
+
+        case STMT_IF_ELSE:
+            expr_resolve(sc, st->expr);
+            stmt_resolve(sc, st->body);
+            stmt_resolve(sc, st->else_body);
+            break;
+
+        case STMT_FOR:
+            expr_resolve(sc, st->init_expr);
+            expr_resolve(sc, st->expr);
+            expr_resolve(sc, st->next_expr);
+            stmt_resolve(sc, st->body);
+            break;
+
+        case STMT_WHILE:
+            expr_resolve(sc, st->expr);
+            stmt_resolve(sc, st->body);
+            break;
+
+        // enter and leave a new scope
+        case STMT_BLOCK:
+            which = sc->which;
+            if (st->in_func == 0)
+                stmt_resolve(sc, st->body);
+            else {
+                scope_enter(sc);
+                sc->next->which = which;
+                stmt_resolve(sc->next, st->body);
+                sc->which = sc->next->which;
+                scope_exit(sc->next);
+            }
+            break;
+
+        case STMT_EXPR:
+        case STMT_PRINT:
+        case STMT_RETURN:
+            expr_resolve(sc, st->expr);
+            break;
+    }
+
+    stmt_resolve(sc, st->next);
 }

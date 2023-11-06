@@ -29,7 +29,7 @@ void scope_exit( struct scope *s ) {
         s->prev->next = 0;
 
     hash_table_delete(s->hash_table);
-    free(s);
+    //free(s);
 }
 
 // the numbers of hash tables in the current stack
@@ -42,6 +42,7 @@ int scope_level( struct scope *s ) {
 int scope_bind( struct scope *s, const char *name, struct symbol *sym ) {
     int bind = hash_table_insert(s->hash_table, name, sym);
     if (bind == 1) {
+        //printf("%d\n", s->which);
         s->which++;
         return 0;
     }

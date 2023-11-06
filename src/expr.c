@@ -210,14 +210,12 @@ void expr_resolve( struct scope *s, struct expr *e) {
 
     // e->kind == EXPR_NAME
     if(e->kind == EXPR_IDENT || e->kind == EXPR_FUNC_CALL || e->kind == EXPR_ARR) {
-        struct symbol *sym = scope_lookup(s, e->name);
-        if (sym == 0) {
+        e->symbol = scope_lookup(s, e->name);
+        if (e->symbol == 0) {
             resolve_error++;
             printf("resolve error: %s is not defined\n", e->name);
-        } else {
-            e->symbol = sym;
-            symbol_print(sym);
-        }
+        } else symbol_print(e->symbol);
+        
 
     } else {
         expr_resolve(s, e->left);

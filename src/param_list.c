@@ -37,5 +37,5 @@ void param_list_resolve( struct scope *s, struct param_list *a ) {
         sym->which = s->which;
         t = t->next;
     }
-
 }
+

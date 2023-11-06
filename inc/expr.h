@@ -2,8 +2,11 @@
 #define EXPR_H
 
 #include "symbol.h"
+#include "scope.h"
 #include "decl.h"
 #include "scope.h"
+
+struct decl;
 
 typedef enum {
 	EXPR_ASSIGN = 0,

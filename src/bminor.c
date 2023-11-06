@@ -5,6 +5,7 @@
 #include "../inc/encoder.h" 
 #include "../inc/parser.h" 
 #include "../inc/decl.h"
+#include "../inc/hash_table.h"
 
 extern FILE *yyin;
 extern int yylex();
