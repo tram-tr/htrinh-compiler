@@ -1,9 +1,13 @@
-// testing auto in arrays
-arr: array [4] auto = {{1,2}, {3,4}, {5,6}, {7,8}};
+main: function boolean() = {
+	main: integer = 1;
+    main: boolean = 1;
+	if((4 >= 1)) {
+		return main;	
+	}
 
-arr2: array [4] array[2] auto = {{1,2}, {5,6}, {5,6}, {7,8}};
-fxn: function void () = {
-    a: integer = arr[0][1];    
-    b: integer = arr2[0][arr[1][0]];
+    return false;
 }
 
+main: function integer() = {
+    return 1;
+}

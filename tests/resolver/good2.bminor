@@ -1,0 +1,11 @@
+main: function integer() = {
+	x: integer = 1;
+	if (true) {
+		x: boolean = false;
+        y: string = "Hello world!";
+        z: integer = 0;
+        return z;
+	}
+    y: integer = 2;
+    return y;
+}

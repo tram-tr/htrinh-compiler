@@ -1,0 +1,7 @@
+main: function integer() = {
+	main: integer = 1;
+	if((4 >= 1)) {
+		return main;	
+	}
+    return 0;
+}

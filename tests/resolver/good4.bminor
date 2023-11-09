@@ -1,0 +1,4 @@
+x: boolean = true;
+main: function void() = {
+	x: integer = 1;
+}

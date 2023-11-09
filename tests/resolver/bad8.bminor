@@ -1,0 +1,10 @@
+f: function void() = {
+	for(;;)
+	{
+		{
+			x:integer = 6;
+			print x;
+            x:integer = 5;
+		}
+	}
+}

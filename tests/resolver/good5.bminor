@@ -1,0 +1,10 @@
+s:string = "this is a string";
+s2:string;
+
+print_func: function void () = {
+	a:integer;
+	print;
+	print "\a \b \e \f \n \r \r \v \\ \' \"";
+	print a, "hello!", true, false;
+	print s, " hello, worldddd ", a, s2; 
+}

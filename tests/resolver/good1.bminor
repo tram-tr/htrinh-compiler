@@ -1,0 +1,8 @@
+f: function void ();
+f: function void ();
+f: function void ();
+f: function void ();
+f: function void () = {
+    x: integer = 1;
+    return;
+}

@@ -1,0 +1,11 @@
+a: integer = 1;
+b: integer = 2;
+c: boolean = false;
+
+main: function boolean () = {
+    s: string = "hello";
+    str: string = "world";
+    return (a > b) && (a < b) || (a <= b);
+    return true;
+    return (s==str) || (s!=str);
+}

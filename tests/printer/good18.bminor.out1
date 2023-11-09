@@ -1,4 +1,4 @@
-isEven: function boolean ( n: integer ) = {
+isEven: function boolean ( x: integer ) = {
 	return n % 2 == 0;
 }
 x: integer = 10;

@@ -1,0 +1,10 @@
+main: function integer() = {
+	if((4 >= 1)) {
+		return main;	
+	}
+    return 0;
+}
+
+main: function boolean() = {
+    return true;
+}

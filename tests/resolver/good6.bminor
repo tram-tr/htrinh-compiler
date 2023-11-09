@@ -1,0 +1,9 @@
+main: function void() = {
+	x: integer = 10;
+    y: integer = 0;
+    i: integer;
+    for (i = 0; i < x; i++) {
+        print y;
+        y++;
+    }
+}

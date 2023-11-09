@@ -1,0 +1,13 @@
+main: function void() = {
+	x: integer = 10;
+    y: integer = 0;
+    i: integer;
+    for (i = 0; i < x; i++) {
+        if (i % 2 == 0) {
+            y: string = "hello";
+            print y;
+        } else {
+            print x;
+        }
+    }
+}

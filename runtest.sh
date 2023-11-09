@@ -85,6 +85,26 @@ elif [ "$TEST_TYPE" == "printer" ]; then
             echo "$testfile success (INCORRECT)"
         fi
     done
+elif [ "$TEST_TYPE" == "resolver" ]; then
+    for testfile in $TEST_DIR/$TEST_TYPE/good*.bminor
+    do
+        if $BMINOR --resolve "$testfile" > "$testfile.out"
+        then
+            echo "$testfile success (as expected)"
+        else
+            echo "$testfile failure (INCORRECT)"
+        fi
+    done
+
+    for testfile in $TEST_DIR/$TEST_TYPE/bad*.bminor
+    do
+        if $BMINOR --resolve "$testfile" > "$testfile.out"
+        then
+            echo "$testfile success (INCORRECT)"
+        else
+            echo "$testfile failure (as expected)"
+        fi
+    done
 else
     echo "Unknown test type: $TEST_TYPE"
 fi
