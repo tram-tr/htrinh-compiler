@@ -85,7 +85,7 @@ elif [ "$TEST_TYPE" == "printer" ]; then
             echo "$testfile success (INCORRECT)"
         fi
     done
-elif [ "$TEST_TYPE" == "resolver" ]; then
+elif [ "$TEST_TYPE" == "resolve" ]; then
     for testfile in $TEST_DIR/$TEST_TYPE/good*.bminor
     do
         if $BMINOR --resolve "$testfile" > "$testfile.out"

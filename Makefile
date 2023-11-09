@@ -29,7 +29,7 @@ test: dirs $(TARGET)
 	$(SHELL) runtest.sh scanner
 	$(SHELL) runtest.sh parser
 	$(SHELL) runtest.sh printer
-	$(SHELL) runtest.sh resolver
+	$(SHELL) runtest.sh resolve
 
 $(TARGET): $(OBJSDIR)/parser.o $(OBJSDIR)/scanner.o $(OBJSDIR)/bminor.o $(OBJSDIR)/stmt.o $(OBJSDIR)/decl.o $(OBJSDIR)/expr.o $(OBJSDIR)/symbol.o $(OBJSDIR)/type.o $(OBJSDIR)/param_list.o $(OBJSDIR)/scope.o $(OBJSDIR)/encoder.o $(OBJSDIR)/hash_table.o $(OBJSDIR)/library.o  
 	$(CC) $(CFLAGS) $^ -o $@
