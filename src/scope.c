@@ -13,23 +13,19 @@ struct scope *scope_create( int level, struct hash_table *hash_table, struct sco
 }
 
 // a new hash table to be pushed on the top of the stack - new scope
-void scope_enter( struct scope *s ) {
-    if (s == 0) return;
-
+struct scope * scope_enter( struct scope *s ) {
     struct hash_table *h = hash_table_create(0, 0);
     struct scope *new_scope = scope_create(s->level + 1, h, s, 0);
-    s->next = new_scope;
+    new_scope->next = s;
+    return new_scope;
 }
 
 // remove the topmost hash table
-void scope_exit( struct scope *s ) {
-    if (s == 0) return;
-
-    if (s->prev != 0)
-        s->prev->next = 0;
-
+struct scope * scope_exit( struct scope *s ) {
+    struct scope *head = s->next;
     hash_table_delete(s->hash_table);
     //free(s);
+    return head;
 }
 
 // the numbers of hash tables in the current stack
@@ -46,7 +42,16 @@ int scope_bind( struct scope *s, const char *name, struct symbol *sym ) {
         s->which++;
         return 0;
     }
-    return 1;
+    struct symbol *t = scope_lookup(s, name); 
+    if (sym->type->kind != TYPE_FUNCTION) {
+        printf("resolve error: %s is already defined\n", sym->name);
+        return 1;
+    }
+    else if (type_compare(sym->type, t->type) == 1) {
+        printf("resolve error: type %s does not match\n", sym->name);
+        return 1;
+    }
+    return 0;
 }
 
 // search thet stack of hash tables from top to bottom

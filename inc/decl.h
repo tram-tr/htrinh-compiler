@@ -18,11 +18,13 @@ struct decl {
 	int local_count;
 	int param_count;
 	int var_count;
+	int has_return;
 };
 
 struct decl * decl_create( char *name, struct type *type, struct expr *value, struct stmt *code, struct decl *next );
 void decl_print( struct decl *d, int indent );
 void indent_print( int indent );
 void decl_resolve ( struct scope *s, struct decl *d );
+void decl_typecheck ( struct decl *d );
 
 #endif

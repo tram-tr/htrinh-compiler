@@ -15,6 +15,7 @@ extern int yydebug;
 typedef enum yytokentype token_t;
 extern struct decl* parser_result;
 int resolve_error;
+int typecheck_error;
 
 #define TOKEN_EOF 0
 
@@ -26,6 +27,7 @@ void print_usage(const char *program) {
     printf("\t--parse input.bminor\n");
     printf("\t--print input.bminor\n");
     printf("\t--resolve input.bminor\n");
+    printf("\t--typecheck input.bminor\n");
 }
 
 int scan() {
@@ -324,11 +326,42 @@ int main(int argc, char *argv[]) {
         resolve_error = 0;
         
         struct hash_table *h = hash_table_create(0, 0);
-        struct scope *s = scope_create(1, h, 0, 0);
+        struct scope *s = scope_create(0, h, 0, 0);
 
         decl_resolve(s, parser_result);
 
         if (resolve_error != 0)
+            return 1;
+    
+    } else if (strcmp(argv[1], "--typecheck") == 0) {
+        file = argv[2];
+        yyin = fopen(file, "r");
+        if (!yyin) {
+            print_usage(argv[0]);
+            return 1;
+        }
+        int y = yyparse();
+        if (y) {
+            printf("parse failed.\n");
+            return 1;
+        }
+
+        resolve_error = 0;
+        
+        struct hash_table *h = hash_table_create(0, 0);
+        struct scope *s = scope_create(0, h, 0, 0);
+
+        printf("resolving...\n");
+        decl_resolve(s, parser_result);
+
+        if (resolve_error != 0)
+            return 1;
+
+        typecheck_error = 0;
+        printf("\ntype checking...\n");
+        decl_typecheck(parser_result);
+        
+        if (typecheck_error != 0)
             return 1;
     }
 

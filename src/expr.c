@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 extern int resolve_error;
+extern int typecheck_error;
 
 struct expr * expr_create( expr_t kind, struct expr *left, struct expr *right ) {
     struct expr* e = malloc(sizeof(struct expr));
@@ -11,6 +12,7 @@ struct expr * expr_create( expr_t kind, struct expr *left, struct expr *right ) 
     e->kind = kind;
     e->left = left;
     e->right = right;
+    e->cond_expr = 1;
     return e;
 }
 
@@ -217,10 +219,247 @@ void expr_resolve( struct scope *s, struct expr *e) {
         } else symbol_print(e->symbol);
         
 
-    } else {
-        expr_resolve(s, e->left);
-        expr_resolve(s, e->mid);
-        expr_resolve(s, e->right);
-        expr_resolve(s, e->next);
+    } 
+    
+    expr_resolve(s, e->left);
+    expr_resolve(s, e->mid);
+    expr_resolve(s, e->right);
+    expr_resolve(s, e->next);
+}
+
+struct type * expr_typecheck( struct expr *e ) {
+    if (e == 0)
+        return 0;
+
+    struct type *lt = expr_typecheck(e->left);
+    if(e->left)
+        e->left->type_err = type_copy(lt);
+    struct type *mt;
+    struct type *rt = expr_typecheck(e->right);
+    if(e->right)
+        e->right->type_err = type_copy(rt);
+
+    struct type *t;
+
+    switch (e->kind) {
+        case EXPR_INT:
+            t = type_create(TYPE_INTEGER, 0, 0);
+            break;
+        case EXPR_FLOAT:
+            t = type_create(TYPE_FLOAT, 0, 0);
+            break;
+        case EXPR_BOOL:
+            t = type_create(TYPE_BOOLEAN, 0, 0);
+            break;
+        case EXPR_IDENT:
+            t = type_copy(e->symbol->type);
+            break;
+        case EXPR_CHAR:
+            t = type_create(TYPE_CHARACTER, 0, 0);
+            break;
+        case EXPR_STRING:
+            t = type_create(TYPE_STRING, 0, 0);
+            break;
+        case EXPR_INC:
+            if(lt->kind != TYPE_INTEGER && e->left->kind != EXPR_IDENT && e->left->kind != EXPR_ARR) {
+                type_error_print(ERR_DEC, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+            }  
+            t = type_copy(lt);
+            break;
+        case EXPR_DEC:
+            if(lt->kind != TYPE_INTEGER && e->left->kind != EXPR_IDENT && e->left->kind != EXPR_ARR) {
+                type_error_print(ERR_DEC, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+            }  
+            t = type_copy(lt);
+            break;
+        case EXPR_NOT:
+            if(rt->kind != TYPE_BOOLEAN) {
+                type_error_print(ERR_NOT, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+            }
+            t = type_copy(rt);
+            break;
+        case EXPR_NEG:
+            if(rt->kind != TYPE_INTEGER) {
+                type_error_print(ERR_NEG, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+            }
+            t = type_copy(rt);
+            break;
+
+        // arithmetic operations
+        case EXPR_EXP:
+        case EXPR_MUL:
+        case EXPR_DIV:
+        case EXPR_MOD:
+        case EXPR_ADD:
+        case EXPR_SUB:
+            if(!(lt->kind == TYPE_INTEGER && rt->kind == TYPE_INTEGER && type_compare(lt, rt) == 0) &&
+               !(lt->kind == TYPE_FLOAT && rt->kind == TYPE_FLOAT && type_compare(lt, rt) == 0)) {
+                type_error_print(ERR_MATH, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+                t = type_copy(lt);
+            }
+            t = type_copy(lt);
+            break;
+
+        // comparison
+        case EXPR_LT:
+        case EXPR_LE:
+        case EXPR_GT:
+        case EXPR_GE:
+            if(!(lt->kind == TYPE_INTEGER && rt->kind == TYPE_INTEGER && type_compare(lt, rt) == 0) &&
+               !(lt->kind == TYPE_FLOAT && rt->kind == TYPE_FLOAT && type_compare(lt, rt) == 0)) {
+                type_error_print(ERR_COMP, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+            }
+                
+            t = type_create(TYPE_BOOLEAN, 0, 0);
+            break;
+
+        case EXPR_EQ:
+        case EXPR_NE:
+            if(lt->kind != TYPE_VOID && lt->kind != TYPE_ARRAY && lt->kind != TYPE_FUNCTION && 
+               rt->kind != TYPE_VOID && rt->kind != TYPE_ARRAY && rt->kind != TYPE_FUNCTION) {
+                if (type_compare(lt, rt) == 1) {
+                    type_error_print(ERR_COMP, 0, e, 0, 0, 0, 0);
+                    typecheck_error++;
+                }
+            } else {
+                //printf("type error: cannot compare value type of void, function, or array\n");
+                type_error_print(ERR_COMP_INVALID_TYPE, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+            }
+
+            t = type_create(TYPE_BOOLEAN, 0, 0);
+            break;
+        // logical operators
+        case EXPR_OR:
+        case EXPR_AND:
+            if(!(lt->kind == TYPE_BOOLEAN && rt->kind == TYPE_BOOLEAN && type_compare(lt, rt) == 0)) {
+                type_error_print(ERR_LOGIC, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+            }
+            t = type_copy(lt);
+            break;
+
+        case EXPR_ASSIGN:
+            if(e->left && e->left->symbol && e->left->symbol->type->kind == TYPE_AUTO) {
+                if(rt && rt->kind == TYPE_AUTO) {
+                   type_error_print(ERR_AUTO, 0, e, 0, 0, 0, 0);
+                   typecheck_error++;
+
+                } else { 
+                    printf("type notice: type of %s is ", e->left->name);
+                    e->left->symbol->type= type_copy(rt);
+                    type_print(e->left->symbol->type);
+                    printf("\n");
+                }
+                t = type_copy(rt);     
+
+            } else if (e->left->kind != EXPR_IDENT && e->left->kind != EXPR_ARR) {
+                type_error_print(ERR_ASSIGN_LEFT, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+
+            } else if (type_compare(lt, rt) == 0) {
+                t = type_copy(lt);
+
+            } else {
+                type_error_print(ERR_ASSIGN, 0, e, 0, 0, 0, 0);
+                typecheck_error++;
+                t = type_copy(lt);
+            }
+            break;
+        case EXPR_FUNC_CALL: {
+            struct expr *a = e->mid;
+            struct param_list *p = e->symbol->type->params;
+            while (p != 0) {
+                if (a == 0) {
+                    type_error_print(ERR_FUNC_MISSING_ARGS, 0, e, 0, e->symbol->type->params, 0, 0);
+                    typecheck_error++;
+                    break;
+                }
+                if (type_compare(expr_typecheck(a), p->type) == 1) {
+                    p->err = a;
+                    type_error_print(ERR_FUNC_PARAM, 0, e, 0, p, 0, 0);
+                    typecheck_error++;
+                }
+                if (a != 0)
+                    a = a->next;
+                p = p->next;
+            }
+            if (a != 0) {
+                type_error_print(ERR_FUNC_MANY_ARGS, 0, e, 0, e->symbol->type->params, 0, 0);
+                typecheck_error++;
+            }
+            t = type_copy(e->symbol->type->subtype);
+            break;
+        }
+        case EXPR_GROUP:
+            t = expr_typecheck(e->mid);
+            break;
+        case EXPR_ARR: {
+            struct expr *curr = e->mid;
+            struct type *subtype = type_copy(e->symbol->type);
+            struct type *currtype;
+
+            while (curr) {
+                if (subtype->kind != TYPE_ARRAY) {
+                    type_error_print(ERR_NON_ARR, 0, e, curr, 0, 0, 0);
+                    typecheck_error++;
+                    break;
+                }
+
+                currtype = expr_typecheck(curr);
+                curr->type_err = currtype;
+                if (currtype->kind != TYPE_INTEGER) {
+                    type_error_print(ERR_ARR_INDEX, 0, e, curr, 0, 0, 0);
+                    typecheck_error++;
+                }
+
+                subtype = type_copy(subtype->subtype);
+
+                if (subtype->kind == TYPE_VOID || subtype->kind == TYPE_FUNCTION) {
+                    type_error_print(ERR_BAD_ARR_TYPE, 0, e, 0, 0, 0, 0);
+                    typecheck_error++;
+                }
+
+                curr = curr->next;
+            }
+
+            t = subtype;
+            break;
+        }
+        case EXPR_ARR_LITERAL:
+            t = type_convert_arr_literal(e);
+            break;
     }
+ 
+    return t;
+}
+
+struct expr * expr_copy(struct expr *e) {
+    if(e == 0) 
+        return 0;
+
+    struct expr *t = expr_create(e->kind, expr_copy(e->left), expr_copy(e->right));
+    t->bool_literal = e->bool_literal;
+    t->char_literal = e->char_literal;
+    t->float_literal = e->float_literal;
+    t->int_literal = e->int_literal;
+    t->string_literal = e->string_literal;
+
+    return t;
+}
+
+int expr_value_compare( struct expr *a, struct expr *b ) {
+    if (!a && !b) return 0;
+    if (!a || !b) return 1;
+
+    if (a->int_literal == b->int_literal && a->float_literal == b->float_literal && a->bool_literal == b->bool_literal)
+        return 0;
+    else 
+        return 1;
 }

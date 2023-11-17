@@ -56,8 +56,10 @@ struct expr {
 	int bool_literal;
 	const char * string_literal;
 	const char * char_literal;
-	struct symbol *symbol;
+	struct symbol * symbol;
 	int group;
+	int cond_expr;
+	struct type * type_err;
 };
 
 struct expr * expr_create( expr_t kind, struct expr *left, struct expr *right );
@@ -73,5 +75,8 @@ void expr_print( struct expr *e );
 int compare_expr( struct expr *expr, struct expr *expr_next, int right );
 
 void expr_resolve( struct scope *s, struct expr *e);
+struct type * expr_typecheck( struct expr *e );
+struct expr * expr_copy( struct expr *e );
+int expr_value_compare( struct expr *a, struct expr *b );
 
 #endif

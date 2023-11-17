@@ -17,8 +17,8 @@ struct scope {
 
 struct scope * scope_create( int level, struct hash_table *hash_table, struct scope *prev, struct scope *next );
 
-void scope_enter( struct scope *s );
-void scope_exit( struct scope *s );
+struct scope * scope_enter( struct scope *s );
+struct scope * scope_exit( struct scope *s );
 int scope_level( struct scope *s );
 
 int scope_bind( struct scope *s, const char *name, struct symbol *sym );
