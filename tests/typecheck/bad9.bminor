@@ -1,0 +1,8 @@
+f1: function void() = {
+	i : integer;
+	return i;
+}
+
+f2: function integer() = {
+	return;
+}

@@ -363,6 +363,9 @@ int main(int argc, char *argv[]) {
         
         if (typecheck_error != 0)
             return 1;
+        else {
+            printf("no type error\n");
+        }
     }
 
     return 0;

@@ -1,0 +1,10 @@
+str: string = "bye";
+f: function auto () = {
+    if (false) {
+        return "hello";
+    }
+    else {
+        return str;
+    }
+}
+

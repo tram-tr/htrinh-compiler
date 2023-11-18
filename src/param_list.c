@@ -55,6 +55,7 @@ int param_compare( struct param_list *a, struct param_list *b ) {
 int param_typecheck( struct param_list *a ) {
     struct param_list *t = a;
     while (a != 0) {
+        // check for auto type
         if(a->type->kind == TYPE_AUTO)
             return 1;
         a = a->next;

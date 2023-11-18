@@ -1,0 +1,10 @@
+main:function integer () = {
+	i: integer = 0;
+	for (i = 0;i;i++) { // non-boolean expression
+		i = i + 1;
+		print ' ';
+	}
+	print '\n';
+
+	return 0;
+}

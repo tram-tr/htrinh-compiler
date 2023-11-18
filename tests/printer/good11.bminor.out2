@@ -1,7 +1,7 @@
 s: string = "hello";
 b: boolean = false;
 min: function integer ( a: integer, b: integer ) = {
-	if (a > b) {
+	if (a>b) {
 		return a;
 	}
 	else {

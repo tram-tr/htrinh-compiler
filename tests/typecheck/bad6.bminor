@@ -1,0 +1,5 @@
+num: array [6] char = {1, -10, -40, -175, 0, 0};
+
+main:function integer () = {
+	num[5] = -123;
+}

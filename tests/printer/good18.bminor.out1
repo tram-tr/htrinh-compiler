@@ -1,5 +1,5 @@
 isEven: function boolean ( x: integer ) = {
-	return n % 2 == 0;
+	return n%2==0;
 }
 x: integer = 10;
 y: integer = 15;

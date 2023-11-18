@@ -219,49 +219,18 @@ struct type * stmt_typecheck(struct stmt *s, struct decl *return_type) {
     
     struct type *t;
     switch(s->kind) {
-        case STMT_BLOCK:
-            stmt_typecheck(s->body, return_type); 
-            break;
-        case STMT_EXPR:
-            expr_typecheck(s->expr);
-            break;    
-        case STMT_RETURN:
-            t = expr_typecheck(s->expr);
-            if(return_type->symbol->type->subtype->kind == TYPE_AUTO) {
-                if(t != 0 && t->kind == TYPE_AUTO) {
-                    type_error_print(ERR_AUTO, 0, 0, 0, 0, 0, 0);
-                    typecheck_error++;
-                }
-                
-                if (t != 0) 
-                    return_type->symbol->type->subtype = type_copy(t);
-                else 
-                    return_type->symbol->type->subtype = type_create(TYPE_VOID, 0, 0);
-
-                t->kind = return_type->symbol->type->subtype->kind;
-                printf("type notice: return type of function %s is now ", return_type->name);
-                type_print(return_type->symbol->type->subtype);
-                printf("\n");
-            }
-    
-            if(!(t == 0 && return_type->symbol->type->subtype->kind == TYPE_VOID) 
-                     && (t == 0 || t->kind != return_type->symbol->type->subtype->kind)) {
-                
-                type_error_print(ERR_FUNC_TYPE, return_type, 0, 0, 0, 0, t);
-                typecheck_error++;
-            }
-        
-            s->func_return = return_type->name;
-            return_type->has_return = 0;
-            break;
-
         case STMT_DECL:
             decl_typecheck(s->decl);
             break;
 
+        case STMT_EXPR:
+            expr_typecheck(s->expr);
+            break;    
+
         case STMT_IF_ELSE:
             t = expr_typecheck(s->expr);
             s->expr->cond_expr = 0;
+            // check type of condidtion
             if(t->kind != TYPE_BOOLEAN) {
                 type_error_print(ERR_IF_COND, 0, s->expr, 0, 0, 0, t);
                 typecheck_error++;
@@ -270,10 +239,25 @@ struct type * stmt_typecheck(struct stmt *s, struct decl *return_type) {
             stmt_typecheck(s->body, return_type);
             stmt_typecheck(s->else_body, return_type);
             break;
-            
+
+        case STMT_FOR:
+            t = expr_typecheck(s->init_expr);
+            t = expr_typecheck(s->expr);
+            // check type of condidtion
+            if(s->expr && t->kind != TYPE_BOOLEAN) {
+                type_error_print(ERR_FOR_COND, 0, 0, 0, 0, s, t);
+                typecheck_error++;
+            }
+            if  (s->expr != 0) 
+                s->expr->cond_expr = 0;
+            t = expr_typecheck(s->next_expr);
+            t = stmt_typecheck(s->body, return_type);
+            break;
+
         case STMT_WHILE:
             t = expr_typecheck(s->expr);
             s->expr->cond_expr = 0;
+            // check type of condidtion
             if(t->kind != TYPE_BOOLEAN) {
                 type_error_print(ERR_WHILE_COND, 0, s->expr, 0, 0, 0, t);
                 typecheck_error++;
@@ -285,19 +269,43 @@ struct type * stmt_typecheck(struct stmt *s, struct decl *return_type) {
             expr_typecheck(s->expr);
             break;
 
-        case STMT_FOR:
-            t = expr_typecheck(s->init_expr);
+        case STMT_RETURN:
             t = expr_typecheck(s->expr);
-            if(s->expr && t->kind != TYPE_BOOLEAN) {
-                type_error_print(ERR_FOR_COND, 0, 0, 0, 0, s, t);
+            // check for auto type
+            if(return_type->symbol->type->subtype->kind == TYPE_AUTO) {
+                if(t != 0 && t->kind == TYPE_AUTO) {
+                    type_error_print(ERR_AUTO, 0, 0, 0, 0, 0, 0);
+                    typecheck_error++;
+                }
+                
+                // check if the void return
+                if (t != 0) 
+                    return_type->symbol->type->subtype = type_copy(t);
+                else 
+                    return_type->symbol->type->subtype = type_create(TYPE_VOID, 0, 0);
+
+                t->kind = return_type->symbol->type->subtype->kind;
+                printf("type notice: return type of function %s is now ", return_type->name);
+                type_print(return_type->symbol->type->subtype);
+                printf("\n");
+            }
+
+            // check the return type and type of return value
+            if(!(t == 0 && return_type->symbol->type->subtype->kind == TYPE_VOID) 
+                     && (t == 0 || t->kind != return_type->symbol->type->subtype->kind)) {
+                
+                type_error_print(ERR_FUNC_TYPE, return_type, 0, 0, 0, 0, t);
                 typecheck_error++;
             }
-            if  (s->expr != 0) 
-                s->expr->cond_expr = 0;
-            t = expr_typecheck(s->next_expr);
-            t = stmt_typecheck(s->body, return_type);
+        
+            s->func_return = return_type->name;
+            return_type->has_return = 0;
             break;
 
+        case STMT_BLOCK:
+            stmt_typecheck(s->body, return_type); 
+            break;
+       
         default:
             break;
     }

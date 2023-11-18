@@ -1,0 +1,6 @@
+// compare different types
+f: function void () = {
+    x: integer = 10;
+    y: boolean = false;
+    print x > y || (3 == "string");
+}

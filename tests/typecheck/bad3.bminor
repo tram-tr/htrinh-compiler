@@ -1,0 +1,4 @@
+// missing return
+f: function string (x: integer) = {
+    x = x + 1;
+}

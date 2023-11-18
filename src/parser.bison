@@ -181,7 +181,7 @@ expr6       : expr7 TOKEN_EXPONENT expr6
             ;
 
 expr7       : TOKEN_HYPHEN expr7
-            { $$ = expr_create(EXPR_NE, 0, $2); }
+            { $$ = expr_create(EXPR_NEG, 0, $2); }
             | TOKEN_NOT expr7
             { $$ = expr_create(EXPR_NOT, 0, $2); }
             | expr8

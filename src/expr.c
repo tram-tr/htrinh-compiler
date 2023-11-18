@@ -69,37 +69,37 @@ void expr_print( struct expr *e ) {
     struct expr *t = 0;
     switch (e->kind) {
         case EXPR_ASSIGN:
-            printf(" = ");
+            printf("=");
             break;
         case EXPR_AND:
-            printf(" && ");
+            printf("&&");
             break;
         case EXPR_OR:
-            printf(" || ");
+            printf("||");
             break;
         case EXPR_EQ:
-            printf(" == ");
+            printf("==");
             break;
         case EXPR_LE:
-            printf(" <= ");
+            printf("<=");
             break;
         case EXPR_GE:
-            printf(" >= ");
+            printf(">=");
             break;
         case EXPR_LT:
-            printf(" < ");
+            printf("<");
             break;
         case EXPR_GT:
-            printf(" > ");
+            printf(">");
             break;
         case EXPR_NE:
-            printf(" != ");
+            printf("!=");
             break;
         case EXPR_NOT:
-            printf(" ! ");
+            printf("!");
             break;
         case EXPR_NEG:
-            printf(" - ");
+            printf("-");
             break;
         case EXPR_INC:
             printf("++");
@@ -108,22 +108,22 @@ void expr_print( struct expr *e ) {
             printf("--");
             break;
         case EXPR_ADD:
-            printf(" + ");
+            printf("+");
             break;
         case EXPR_SUB:
-            printf(" - ");
+            printf("-");
             break;
         case EXPR_MUL:
-            printf(" * ");
+            printf("*");
             break;
         case EXPR_MOD:
-            printf(" %% " );
+            printf("%%" );
             break;
         case EXPR_EXP:
-            printf(" ^ ");
+            printf("^");
             break;
         case EXPR_DIV:
-            printf(" / ");
+            printf("/");
             break;
         case EXPR_INT:
             printf("%d", e->int_literal);
@@ -232,16 +232,17 @@ struct type * expr_typecheck( struct expr *e ) {
         return 0;
 
     struct type *lt = expr_typecheck(e->left);
-    if(e->left)
-        e->left->type_err = type_copy(lt);
+    if(e->left) e->left->type_err = type_copy(lt);
+
     struct type *mt;
+
     struct type *rt = expr_typecheck(e->right);
-    if(e->right)
-        e->right->type_err = type_copy(rt);
+    if(e->right) e->right->type_err = type_copy(rt);
 
     struct type *t;
 
     switch (e->kind) {
+        // literal values
         case EXPR_INT:
             t = type_create(TYPE_INTEGER, 0, 0);
             break;
@@ -335,6 +336,7 @@ struct type * expr_typecheck( struct expr *e ) {
 
             t = type_create(TYPE_BOOLEAN, 0, 0);
             break;
+
         // logical operators
         case EXPR_OR:
         case EXPR_AND:
@@ -345,6 +347,7 @@ struct type * expr_typecheck( struct expr *e ) {
             t = type_copy(lt);
             break;
 
+        // assign
         case EXPR_ASSIGN:
             if(e->left && e->left->symbol && e->left->symbol->type->kind == TYPE_AUTO) {
                 if(rt && rt->kind == TYPE_AUTO) {
@@ -372,6 +375,8 @@ struct type * expr_typecheck( struct expr *e ) {
                 t = type_copy(lt);
             }
             break;
+
+        // function call
         case EXPR_FUNC_CALL: {
             struct expr *a = e->mid;
             struct param_list *p = e->symbol->type->params;
@@ -397,9 +402,12 @@ struct type * expr_typecheck( struct expr *e ) {
             t = type_copy(e->symbol->type->subtype);
             break;
         }
+
         case EXPR_GROUP:
             t = expr_typecheck(e->mid);
             break;
+
+        // array
         case EXPR_ARR: {
             struct expr *curr = e->mid;
             struct type *subtype = type_copy(e->symbol->type);
@@ -446,10 +454,8 @@ struct expr * expr_copy(struct expr *e) {
 
     struct expr *t = expr_create(e->kind, expr_copy(e->left), expr_copy(e->right));
     t->bool_literal = e->bool_literal;
-    t->char_literal = e->char_literal;
     t->float_literal = e->float_literal;
     t->int_literal = e->int_literal;
-    t->string_literal = e->string_literal;
 
     return t;
 }
@@ -458,6 +464,7 @@ int expr_value_compare( struct expr *a, struct expr *b ) {
     if (!a && !b) return 0;
     if (!a || !b) return 1;
 
+    // compare literal values of expr
     if (a->int_literal == b->int_literal && a->float_literal == b->float_literal && a->bool_literal == b->bool_literal)
         return 0;
     else 

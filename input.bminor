@@ -1,8 +1,27 @@
-a: array [2] auto = {{1, 2}, {1, 2}};
-b: array [2] void;
-c: array [2] function void ();
-main: function void (p: auto) = {
-    a[0][0] = 2;
-    c:array [2] auto;
-    c[0] = 1;
+/*
+Correct: Testing invocation of external function.
+*/
+
+abs: function integer(n: integer);
+
+digits: array [6] integer = {
+	14,
+	8,
+	6168,
+	42,
+	0,
+	74546
+};
+
+main:function integer () = {
+	digits[4] = -468;
+	i: integer = 0;
+	for (; abs(digits[i]) == digits[i];) {
+		print digits[i];
+		i = i + 1;
+		print ' ';
+	}
+	print '\n';
+
+	return 0;
 }

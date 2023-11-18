@@ -87,12 +87,14 @@ void decl_typecheck ( struct decl *d ) {
 
     struct type *t, *l;
 
+    // check for subtype void
     if (d->type->kind == TYPE_VOID) {
         //printf("type error: cannot declare void type\n");
         type_error_print(ERR_VOID, 0, d->value, 0, 0, 0, 0);
         typecheck_error++;
     }
 
+    // check for subtype of type array
     if (d->symbol->type->kind == TYPE_ARRAY) {
         t = d->symbol->type;
         while (t->subtype != 0) {
@@ -105,6 +107,7 @@ void decl_typecheck ( struct decl *d ) {
     }
 
     if (d->value != 0) {
+        // check global declarations
         if (d->symbol->kind == SYMBOL_GLOBAL) {
             switch (d->value->kind) {
                 case EXPR_INT:
@@ -132,6 +135,7 @@ void decl_typecheck ( struct decl *d ) {
                 l = literal;
                 // check for subtype
                 while(t->subtype && l->subtype) {
+                    // convert type auto
                     if(t->subtype->kind == TYPE_AUTO) {
                         t->subtype = type_copy(l->subtype);
                         printf("type notice: type of %s is now ", d->name);
@@ -151,6 +155,7 @@ void decl_typecheck ( struct decl *d ) {
             }
         }
         else {
+            // compare declared type and value type
             t = expr_typecheck(d->value);
             if(d->symbol->type->kind == TYPE_AUTO) {
                 if(t->kind == TYPE_AUTO) {
@@ -166,6 +171,7 @@ void decl_typecheck ( struct decl *d ) {
 
             d->value->type_err = type_copy(t);
 
+            // handle auto type
             if (d->symbol->type->kind == TYPE_AUTO) {
                 if(t->kind == TYPE_AUTO) {
                     /*printf("type error: cannot infer auto\n");
@@ -195,7 +201,7 @@ void decl_typecheck ( struct decl *d ) {
     if(d->code != 0) {
         stmt_typecheck(d->code, d);
 
-        // change return type of function if auto
+        // auto type function
         if(d->symbol->type->subtype->kind == TYPE_AUTO) {
             d->symbol->type->subtype = type_create(TYPE_VOID, 0, 0);
             printf("type notice: return type of function %s is now ", d->name);
@@ -205,12 +211,7 @@ void decl_typecheck ( struct decl *d ) {
     }
 
     // check for a return if non-void
-    if (d->symbol->type->kind == TYPE_FUNCTION 
-        && d->symbol->type->subtype->kind != TYPE_VOID 
-        && d->has_return == 1
-        && d->code
-        && strcmp(d->name, "main")) {
-
+    if (d->symbol->type->kind == TYPE_FUNCTION && d->symbol->type->subtype->kind != TYPE_VOID  && d->has_return == 1 && d->code && strcmp(d->name, "main")) {
         //printf("type error: non-void function %s missing return value\n", d->name);
         type_error_print(ERR_NO_RETURN, d, 0, 0, 0, 0, 0);        
         typecheck_error++;
