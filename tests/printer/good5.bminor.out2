@@ -1,7 +1,0 @@
-main: function boolean () = {
-	x: boolean = true;
-	if (!(1*x^2+3-4>=1)) {
-		return x;
-	}
-	return false;
-}

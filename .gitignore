@@ -1,6 +1,6 @@
 *.out
-*.bminor.out1
-*.bminor.out2
+tests/printer/*.out1
+tests/printer/*.out2
 objs/*.o 
 tests/*-hidden/
 note

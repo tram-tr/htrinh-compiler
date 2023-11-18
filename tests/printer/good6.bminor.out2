@@ -1,9 +1,0 @@
-f: function void () = {
-	for (;;) {
-		x: integer = 5;
-		{
-			x: integer = 6;
-			print x;
-		}
-	}
-}
