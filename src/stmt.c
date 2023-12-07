@@ -3,6 +3,8 @@
 
 extern int resolve_error;
 extern int typecheck_error;
+extern int codegen_error;
+extern FILE *fp;
 
 struct stmt * stmt_create( stmt_t kind, struct decl *decl, struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next ) {
     struct stmt * s = malloc(sizeof(struct stmt));
@@ -311,4 +313,160 @@ struct type * stmt_typecheck(struct stmt *s, struct decl *return_type) {
     }
 
     return stmt_typecheck(s->next, return_type);
+}
+
+void stmt_codegen( struct stmt *s ) {
+    if (s == 0)
+        return;
+
+    fprintf(fp, "# STMT\n");
+    int l1, l2;
+
+    switch(s->kind) {
+        case STMT_DECL:
+            decl_codegen(s->decl);
+            break;
+        case STMT_EXPR:
+            expr_codegen(s->expr);
+            scratch_free(s->expr->reg);
+            break;
+        case STMT_IF_ELSE:
+            fprintf(fp, "# start of if stmt\n");
+            l1 = label_create(); // else label
+            l2 = label_create(); // done label
+
+            fprintf(fp, "# condition expr\n");
+            expr_codegen(s->expr);
+            
+            fprintf(fp, "\tcmpq $0, %s\n",scratch_name(s->expr->reg));
+            fprintf(fp, "\tje %s\n",label_name(l1)); // else label
+
+            fprintf(fp, "# if body\n");
+            stmt_codegen(s->body);
+            fprintf(fp, "\tjmp %s\n",label_name(l2)); //done label
+
+            fprintf(fp, "# false label\n");
+            fprintf(fp, "%s:\n", label_name(l1));
+
+            fprintf(fp, "# else body\n");
+            stmt_codegen(s->else_body);
+
+            fprintf(fp, "%s:\n",label_name(l2)); //done label
+
+            scratch_free(s->expr->reg);
+            fprintf(fp, "# end of if stmt\n");
+            break;
+        case STMT_FOR:
+            fprintf(fp, "# start of for loop\n");
+
+            fprintf(fp, "# init expr\n");
+            if (s->init_expr) {
+                expr_codegen(s->init_expr);
+                scratch_free(s->init_expr->reg);
+            }
+
+            l1 = label_create(); // top label
+            l2 = label_create(); // done label
+            fprintf(fp, "%s:\n", label_name(l1)); // top label
+
+            // expr
+            fprintf(fp, "# condition expr\n");
+            if (s->expr) {
+                expr_codegen(s->expr);
+                fprintf(fp, "\tcmpq $0, %s\n", scratch_name(s->expr->reg));
+                scratch_free(s->expr->reg);
+                fprintf(fp, "\tje %s\n", label_name(l2)); // done label
+            }
+
+            fprintf(fp, "# loop body\n");
+            stmt_codegen(s->body);
+
+            // next expr
+            fprintf(fp, "# next expr\n");
+            if (s->next_expr) {
+                expr_codegen(s->next_expr);
+                scratch_free(s->next_expr->reg);
+            }
+
+            fprintf(fp, "\tjmp %s\n", label_name(l1));
+            fprintf(fp, "%s:\n", label_name(l2));
+
+            fprintf(fp, "# end of for loop\n");
+            break;
+        case STMT_WHILE:
+            fprintf(fp, "# start of while loop\n");
+            l1 = label_create(); // top
+            l2 = label_create(); // done
+            fprintf(fp, "%s:\n", label_name(l1));
+
+            fprintf(fp, "# condition expr\n");
+            expr_codegen(s->expr);
+            scratch_free(s->expr->reg);
+
+            fprintf(fp, "\tcmpq $0, %%%s\n", scratch_name(s->expr->reg));
+            fprintf(fp, "\tje %s\n", label_name(l2));
+            
+            fprintf(fp, "# while body\n");
+            stmt_codegen(s->body);
+
+            fprintf(fp, "\tjmp %s\n", label_name(l1));
+            fprintf(fp, "%s:\n", label_name(l2));
+
+            fprintf(fp, "# end of while loop\n");
+            break;
+        case STMT_PRINT:
+            fprintf(fp, "# printing exprs\n");
+            stmt_codegen_print(s);
+            break;
+        case STMT_RETURN:
+            fprintf(fp, "# return stmt\n");
+            expr_codegen(s->expr);
+            fprintf(fp, "\tmovq %s, %%rax\n", scratch_name(s->expr->reg));
+            fprintf(fp, "\tjmp .%s_epilogue\n", s->func_return); 
+            scratch_free(s->expr->reg);
+            break;
+        case STMT_BLOCK:
+            stmt_codegen(s->body);
+            break;
+    }
+
+    stmt_codegen(s->next);
+}
+
+void stmt_codegen_print( struct stmt *s ) {
+    struct expr *e = s->expr;
+    struct type *t;
+    while (e) {
+        t = expr_typecheck(e);
+
+        // save r10 r11, store left into rdi
+        fprintf(fp, "\tpushq %%r10\n");
+        fprintf(fp, "\tpushq %%r11\n");
+
+        expr_codegen(e);
+        fprintf(fp, "\tmovq %s, %%rdi\n", scratch_name(e->reg));
+        switch (t->kind) {
+            case TYPE_BOOLEAN:
+            fprintf(fp, "\tcall print_boolean\n");
+            break;
+            case TYPE_STRING:
+                fprintf(fp, "\tcall print_string\n");
+                break;
+            case TYPE_CHARACTER:
+                fprintf(fp, "\tcall print_character\n");
+                break;
+            case TYPE_INTEGER:
+                fprintf(fp, "\tcall print_integer\n");
+                break;
+            case TYPE_FLOAT:
+                fprintf(fp, "\tcall print_float\n");
+                break;
+        }
+        // restore r10, r11
+        fprintf(fp, "\tpopq %%r11\n");
+        fprintf(fp, "\tpopq %%r10\n");
+
+        scratch_free(e->reg);
+        e = e->next;
+    }
 }

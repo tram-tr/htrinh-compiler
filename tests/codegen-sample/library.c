@@ -25,12 +25,10 @@ x = integer_power(a,b);
 */
 
 #include <stdio.h>
-#include <stdint.h>
-#include <string.h>
 
-void print_integer( long x )
+void print_integer( int x )
 {
-	printf("%ld",x);
+	printf("%d",x);
 }
 
 void print_string( const char *s )
@@ -48,9 +46,9 @@ void print_character( char c )
 	printf("%c",c);
 }
 
-long integer_power( long x, long y )
+int integer_power( int x, int y )
 {
-	long result = 1;
+	int result = 1;
 	while(y>0) {
 		result = result * x;
 		y = y -1;
@@ -58,9 +56,3 @@ long integer_power( long x, long y )
 	return result;
 }
 
-long string_compare ( const char *s1, const char *s2 ) {
-    if (strcmp(s1, s2) != 0)
-        return 0;
-    else
-        return 1;
-}

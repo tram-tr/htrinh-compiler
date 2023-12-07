@@ -24,3 +24,19 @@ void symbol_print( struct symbol *s ) {
             break;
     }
 }
+
+char * symbol_codegen( struct symbol *s ) {
+    if (!s) return 0;
+
+    char str[100];
+    switch (s->kind) {
+        // global: name is same as in source language
+        case SYMBOL_GLOBAL:
+            return s->name;
+        // local and func parameters: address computation -8(%rbp)
+        case SYMBOL_LOCAL:
+        case SYMBOL_PARAM:
+            sprintf(str, "%d(%%rbp)", -8*(s->which));
+            return strdup(str);    
+    }
+}

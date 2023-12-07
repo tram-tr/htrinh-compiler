@@ -16,6 +16,8 @@ typedef enum yytokentype token_t;
 extern struct decl* parser_result;
 int resolve_error;
 int typecheck_error;
+int codegen_error;
+FILE *fp;
 
 #define TOKEN_EOF 0
 
@@ -28,6 +30,7 @@ void print_usage(const char *program) {
     printf("\t--print input.bminor\n");
     printf("\t--resolve input.bminor\n");
     printf("\t--typecheck input.bminor\n");
+    printf("\t--codegen input.bminor program.s\n");
 }
 
 int scan() {
@@ -233,13 +236,58 @@ int scan() {
     return 0;
 }
 
-
-int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        print_usage(argv[0]);
+int typecheck(char *file, char *program) {
+    yyin = fopen(file, "r");
+    if (!yyin) {
+        print_usage(program);
+        return 1;
+    }
+    int y = yyparse();
+    if (y) {
+        printf("parse failed.\n");
         return 1;
     }
 
+    resolve_error = 0;
+    
+    struct hash_table *h = hash_table_create(0, 0);
+    struct scope *s = scope_create(0, h, 0, 0);
+
+    printf("resolving...\n");
+    decl_resolve(s, parser_result);
+
+    if (resolve_error != 0)
+        return 1;
+
+    typecheck_error = 0;
+    printf("\ntype checking...\n");
+    decl_typecheck(parser_result);
+    
+    if (typecheck_error != 0)
+        return 1;
+    else {
+        printf("no type error\n");
+        return 0;
+    }
+}
+
+int codegen(char *file, char *assembly, char* program) {
+    int t = typecheck(file, program);
+    if (t == 1) {
+        printf("typecheck failed.\n");
+        return 1;
+    }
+    codegen_error = 0;
+    fp = fopen(assembly, "w");
+    fprintf(fp, ".file \"%s\"\n", file);
+    decl_codegen(parser_result);
+    
+    if (codegen_error != 0)
+        return 1;
+    else return 0;
+}
+
+int main(int argc, char *argv[]) {
     char *file;
 
     if (strcmp(argv[1], "--encode") == 0) {
@@ -335,37 +383,18 @@ int main(int argc, char *argv[]) {
     
     } else if (strcmp(argv[1], "--typecheck") == 0) {
         file = argv[2];
-        yyin = fopen(file, "r");
-        if (!yyin) {
-            print_usage(argv[0]);
-            return 1;
-        }
-        int y = yyparse();
-        if (y) {
-            printf("parse failed.\n");
-            return 1;
-        }
+        int t = typecheck(file, argv[0]);
+        if (t == 1) return 1;
 
-        resolve_error = 0;
-        
-        struct hash_table *h = hash_table_create(0, 0);
-        struct scope *s = scope_create(0, h, 0, 0);
-
-        printf("resolving...\n");
-        decl_resolve(s, parser_result);
-
-        if (resolve_error != 0)
-            return 1;
-
-        typecheck_error = 0;
-        printf("\ntype checking...\n");
-        decl_typecheck(parser_result);
-        
-        if (typecheck_error != 0)
-            return 1;
-        else {
-            printf("no type error\n");
-        }
+    } else if (strcmp(argv[1], "--codegen") == 0) {
+        file = argv[2];
+        char *assembly = argv[3];
+        int c = codegen(file, assembly, argv[0]);
+        if (c == 1) return 1;
+    }
+    else {
+        print_usage(argv[0]);
+        return 1;
     }
 
     return 0;
