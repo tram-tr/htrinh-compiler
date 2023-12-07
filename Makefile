@@ -36,6 +36,6 @@ $(TARGET): $(OBJSDIR)/parser.o $(OBJSDIR)/scanner.o $(OBJSDIR)/bminor.o $(OBJSDI
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-	rm -rf $(TARGET) $(OBJSDIR) $(SRCDIR)/scanner.c $(SRCDIR)/parser.c $(SRCDIR)/parser.output $(INCDIR)/parser.h
+	rm -rf $(TARGET) $(OBJSDIR) $(SRCDIR)/scanner.c $(SRCDIR)/parser.c $(SRCDIR)/parser.output $(INCDIR)/parser.h program.s program
 
 .PHONY: all clean test test_encoder

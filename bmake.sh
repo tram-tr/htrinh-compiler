@@ -7,9 +7,9 @@ fi
 
 FILE=$1
 
-if ./bminor --codegen $FILE out.s ; then 
-    if gcc -g out.s ./src/library.c -o prog ; then
-        ./prog
+if ./bminor --codegen $FILE program.s ; then 
+    if gcc -g program.s ./src/library.c -o program ; then
+        ./program
         echo "output from run: $?"
         exit 0
     else

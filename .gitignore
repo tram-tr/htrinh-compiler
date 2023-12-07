@@ -3,4 +3,3 @@ tests/printer/*.out1
 tests/printer/*.out2
 objs/*.o 
 tests/*-hidden/
-note
