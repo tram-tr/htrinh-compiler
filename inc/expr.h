@@ -82,6 +82,7 @@ int expr_value_compare( struct expr *a, struct expr *b );
 void expr_codegen( struct expr *e );
 void expr_codegen_assign( struct expr *e );
 void expr_codegen_cmp( struct expr *e );
+void expr_codegen_cmp_string( struct expr *e );
 void expr_codegen_func( struct expr *e );
 
 #endif

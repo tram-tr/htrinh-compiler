@@ -1,8 +1,5 @@
-// tests auto 
-x: auto = 1;
-b: auto = true;
-c: auto = 'a';
-
 main: function integer () = {
-	print x, b, c, "\n";
+	x: string = "hello";
+	y: string = "hello";
+	print x == "hello";
 }

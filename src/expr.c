@@ -718,9 +718,13 @@ void expr_codegen( struct expr *e ) {
         case EXPR_LE:
         case EXPR_GT:
         case EXPR_GE:
+            expr_codegen_cmp(e);
         case EXPR_EQ:
         case EXPR_NE:
-            expr_codegen_cmp(e);
+            if (e->left != 0 && e->left->symbol != 0 && e->left->symbol->type->kind == TYPE_STRING)
+                expr_codegen_cmp_string(e);
+            else 
+                expr_codegen_cmp(e);
             break;
 
     }
@@ -777,6 +781,57 @@ void expr_codegen_assign( struct expr *e ) {
     }
 }
 
+void expr_codegen_cmp_string( struct expr *e ) {
+    if (e == 0) 
+        return;
+
+    fprintf(fp, "# code of string cmp \n");
+    expr_codegen(e->left);
+    expr_codegen(e->right);
+    e->reg = e->right->reg;
+
+    fprintf(fp, "\tpushq %%r10\n");
+    fprintf(fp, "\tpushq %%r11\n");
+    fprintf(fp, "\tmovq %s, %%rdi\n", scratch_name(e->left->reg));
+    fprintf(fp, "\tmovq %s, %%rsi\n", scratch_name(e->right->reg));
+    fprintf(fp, "\tcall string_compare\n");
+    fprintf(fp, "\tpopq %%r11\n");
+    fprintf(fp, "\tpopq %%r10\n");
+    fprintf(fp, "\tcmpq $1, %%rax\n"); 
+
+    int true_label = label_create();
+    switch (e->kind) {
+        case EXPR_EQ:
+            fprintf(fp, "\tje %s\n", label_name(true_label));
+            break;
+        case EXPR_NE:
+            fprintf(fp, "\tjne %s\n", label_name(true_label));
+            break;
+    }
+
+    int false_label = label_create();
+    int cont_label = label_create();
+
+    // false
+    fprintf(fp, "# if false\n"); 
+    fprintf(fp, "%s:\n", label_name(false_label)); 
+    fprintf(fp, "\tmovq $0, %s\n", scratch_name(e->reg)); 
+    fprintf(fp, "\tjmp %s\n", label_name(cont_label)); 
+
+    // true
+    fprintf(fp, "# if true\n");
+    fprintf(fp, "%s:\n", label_name(true_label)); 
+    fprintf(fp, "\tmovq $1, %s\n", scratch_name(e->reg)); 
+    fprintf(fp, "\tjmp %s\n", label_name(cont_label)); 
+
+    // cont
+    fprintf(fp, "# continue\n");
+    fprintf(fp, "%s:\n", label_name(cont_label));
+    
+    scratch_free(e->left->reg);
+    fprintf(fp, "# end of cmp \n");
+}
+
 void expr_codegen_cmp( struct expr *e ) {
     if (e == 0) 
         return;
@@ -786,18 +841,7 @@ void expr_codegen_cmp( struct expr *e ) {
     expr_codegen(e->right);
     e->reg = e->right->reg;
 
-    //fprintf(fp, "# CMP\n");
-    if (e->left != 0 && e->left->symbol != 0 && e->left->symbol->type->kind == TYPE_STRING) {
-        fprintf(fp, "\tpushq %%r10\n");
-        fprintf(fp, "\tpushq %%r11\n");
-        fprintf(fp, "\tmovq %s, %%rdi\n", scratch_name(e->left->reg));
-        fprintf(fp, "\tmovq %s, %%rsi\n", scratch_name(e->right->reg));
-        fprintf(fp, "\tcall string_compare\n");
-        fprintf(fp, "\tpopq %%r11\n");
-        fprintf(fp, "\tpopq %%r10\n");
-        fprintf(fp, "\tcmpq $1, %%rax\n"); 
-    } 
-    else fprintf(fp, "\tcmpq %s, %s\n", scratch_name(e->right->reg), scratch_name(e->left->reg));
+    fprintf(fp, "\tcmpq %s, %s\n", scratch_name(e->right->reg), scratch_name(e->left->reg));
 
     int true_label = label_create();
     switch (e->kind) {
