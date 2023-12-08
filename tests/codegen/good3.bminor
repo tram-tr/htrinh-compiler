@@ -1,0 +1,6 @@
+// test return 
+
+main:function integer ()=
+{
+	return 2 * 5;
+}

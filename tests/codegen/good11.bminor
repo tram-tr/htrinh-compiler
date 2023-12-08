@@ -1,0 +1,9 @@
+// negate
+
+main:function integer ()= {
+    x: integer = 0;
+    a: integer = x++;
+    a = -a;
+    print "a should be -1, x should be 1: ", "a = ", a, " x = ", x, "\n";
+}
+

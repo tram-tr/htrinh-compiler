@@ -1,0 +1,13 @@
+// test func call
+
+arr: array [4] integer = {1,2,3,4};
+
+func: function boolean(x: integer) = {
+    print x;
+    return x == 2;
+}
+main:function integer () =
+{
+    print func(arr[0]), "\n", func(arr[1]), "\n", func(2), "\n";
+    return 0;	
+}

@@ -476,22 +476,25 @@ int expr_value_compare( struct expr *a, struct expr *b ) {
 void expr_codegen( struct expr *e ) {
     if (e == 0)
         return;
-    fprintf(fp, "# EXPR\n");
+    // fprintf(fp, "# EXPR\n");
     int l, l1, r;
     switch (e->kind) {
         case EXPR_INT:
+            fprintf(fp, "# expr int\n");
             e->reg = scratch_alloc();
-            fprintf(fp, "\tmovq $%d, %s\n", e->int_literal, scratch_name(e->reg)); 
+            fprintf(fp, "\tmovq $%d, %s\n", e->int_literal, scratch_name(e->reg));
             break;
         case EXPR_FLOAT:
             printf("codegen error: floating not supported\n");
             codegen_error++;
             break;
         case EXPR_BOOL:
+            fprintf(fp, "# expr bool\n");
             e->reg = scratch_alloc();
             fprintf(fp, "\tmovq $%d, %s\n", e->bool_literal, scratch_name(e->reg));
             break;
         case EXPR_STRING:
+            fprintf(fp, "# expr string\n");
             e->reg = scratch_alloc();
             l = label_create();
             fprintf(fp, ".data\n"); 
@@ -500,8 +503,10 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, ".text\n");
             // move to register
             fprintf(fp, "\tleaq %s, %s\n", label_name(l), scratch_name(e->reg));
+            fprintf(fp, "# end of expr string\n");
             break;
         case EXPR_CHAR:
+            fprintf(fp, "# expr char\n");
             e->reg = scratch_alloc();
             if (e->char_literal[1] == '\\')
                 fprintf(fp, "\tmovq $%d, %s\n", e->char_literal[2], scratch_name(e->reg));
@@ -509,13 +514,12 @@ void expr_codegen( struct expr *e ) {
                 fprintf(fp, "\tmovq $%d, %s\n", e->char_literal[1], scratch_name(e->reg));
             break;
         case EXPR_IDENT:
+            fprintf(fp, "# expr id\n");
             e->reg = scratch_alloc();
             fprintf(fp, "\tmovq %s, %s\n", symbol_codegen(e->symbol), scratch_name(e->reg));
             break;
         case EXPR_FUNC_CALL:
-            fprintf(fp, "# start of func call\n");
             expr_codegen_func(e);
-            fprintf(fp, "# end of func call\n");
             break;
         case EXPR_GROUP:
             expr_codegen(e->mid);
@@ -526,7 +530,7 @@ void expr_codegen( struct expr *e ) {
             expr_codegen(e->mid);
 
             fprintf(fp, "\tleaq %s, %s\n", symbol_codegen(e->symbol), scratch_name(e->reg));
-            fprintf(fp, "\tmovq , %%rax\n", scratch_name(e->mid->reg));
+            fprintf(fp, "\tmovq %s, %%rax\n", scratch_name(e->mid->reg));
             
             int r = scratch_alloc();
             fprintf(fp, "\tmovq $8, %s\n", scratch_name(r));
@@ -535,10 +539,10 @@ void expr_codegen( struct expr *e ) {
 
             fprintf(fp, "\taddq %s, %%rax\n", scratch_name(e->reg));
             fprintf(fp, "\tmovq (%%rax), %s\n", scratch_name(e->reg));
+            fprintf(fp, "# end of index array\n");
             break;
         case EXPR_ARR_LITERAL:
             fprintf(fp, "# code of array literals\n");
-            e->reg = scratch_alloc();
             fprintf(fp, ".data\n%s:\n", label_name(l));
             struct expr *curr = e->mid;
             while (curr != 0) {
@@ -548,10 +552,10 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, ".text\n");
             e->reg = scratch_alloc();
             fprintf(fp, "\tleaq %s, %s\n", label_name(l), scratch_name(e->reg));
+            fprintf(fp, "# end of array literals\n");
             break;
         case EXPR_NOT:
             fprintf(fp, "# code of not\n");
-
             l = label_create();
             l1 = label_create();
             expr_codegen(e->right);
@@ -561,9 +565,10 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\tje %s\n", label_name(l));
             fprintf(fp, "\tmovq $0, %s\n", scratch_name(e->right->reg));
             fprintf(fp, "\tjmp %s\n", label_name(l1));
-            fprintf(fp, "%s:\n", label_name(l1));
+            fprintf(fp, "%s:\n", label_name(l));
             fprintf(fp, "\tmovq $1, %s\n", scratch_name(e->right->reg));
             fprintf(fp, "%s:\n", label_name(l1));
+            fprintf(fp, "# end of not\n");
             break;
         case EXPR_NEG:
             fprintf(fp, "# code of negate\n");
@@ -571,6 +576,7 @@ void expr_codegen( struct expr *e ) {
             expr_codegen(e->right);
             e->reg = e->right->reg;
             fprintf(fp, "\tnegq %s\n", scratch_name(e->right->reg));
+            fprintf(fp, "# end of negate\n");
             break;
         case EXPR_INC:
             fprintf(fp, "# code of ++\n");
@@ -582,6 +588,7 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\tmovq %s, %s\n", scratch_name(e->left->reg), symbol_codegen(e->left->symbol));
             
             scratch_free(e->left->reg); 
+            fprintf(fp, "# end of ++\n");
             break;
         case EXPR_DEC:
             fprintf(fp, "# code of --\n");
@@ -593,6 +600,7 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\tmovq %s, %s\n", scratch_name(e->left->reg), symbol_codegen(e->left->symbol));
             
             scratch_free(e->left->reg); 
+            fprintf(fp, "# end of --\n");
             break;
         case EXPR_ASSIGN:
             expr_codegen_assign(e);
@@ -606,6 +614,7 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\taddq %s, %s\n",scratch_name(e->left->reg), scratch_name(e->right->reg));
             
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of add\n");
             break;
         case EXPR_SUB:
             fprintf(fp, "# code of sub\n");
@@ -616,6 +625,7 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\tsubq %s, %s\n",scratch_name(e->left->reg), scratch_name(e->right->reg));
             
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of sub\n");
             break;
         case EXPR_MUL:
             fprintf(fp, "# code of mult\n");
@@ -629,6 +639,7 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\tmovq %%rax, %s\n", scratch_name(e->right->reg));
             
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of mult\n");
             break;
         case EXPR_DIV:
             fprintf(fp, "# code of div\n");
@@ -643,6 +654,7 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\tmovq %%rax, %s\n", scratch_name(e->right->reg));
             
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of div\n");
             break;
         case EXPR_MOD:
             fprintf(fp, "# code of mod\n");
@@ -652,10 +664,12 @@ void expr_codegen( struct expr *e ) {
             e->reg = e->right->reg;
             
             fprintf(fp, "\tmovq %s, %%rax\n", scratch_name(e->left->reg));
+            fprintf(fp, "\txor %%rdx, %%rdx\n"); // allows to clear remainder
             fprintf(fp, "\tidivq %s\n", scratch_name(e->right->reg));
-            fprintf(fp, "\tmovq %%rax, %s\n", scratch_name(e->right->reg));
+            fprintf(fp, "\tmovq %%rdx, %s\n", scratch_name(e->right->reg));
             
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of mod\n");
             break;
         case EXPR_EXP:
             fprintf(fp, "# code of exp\n");
@@ -673,9 +687,10 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\tmovq %%rax, %s\n", scratch_name(e->reg));
             
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of exp\n");
             break;
         case EXPR_OR:
-            fprintf(fp, "# code for or\n");
+            fprintf(fp, "# code of or\n");
 
             expr_codegen(e->left);
             expr_codegen(e->right);
@@ -684,9 +699,10 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\torq %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
             
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of or\n");
             break;
         case EXPR_AND:
-            fprintf(fp, "# code for and\n");
+            fprintf(fp, "# code of and\n");
 
             expr_codegen(e->left);
             expr_codegen(e->right);
@@ -695,6 +711,7 @@ void expr_codegen( struct expr *e ) {
             fprintf(fp, "\tandq %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
             
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of and\n");
             break; 
 
         case EXPR_LT:
@@ -725,11 +742,17 @@ void expr_codegen_assign( struct expr *e ) {
             fprintf(fp, "\tmovq %s, (%s)\n", scratch_name(e->right->reg), scratch_name(e->left->reg));
 
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of id =\n");
             break;
         case EXPR_ARR:
             fprintf(fp, "# code of array =\n");
 
+            // source value
             expr_codegen(e->left->mid);
+            e->left->reg = scratch_alloc();
+
+            // target value
+            expr_codegen(e->right);
             e->reg = e->right->reg;
 
             fprintf(fp, "\tleaq %s, %s\n", symbol_codegen(e->left->symbol), scratch_name(e->left->reg));
@@ -749,6 +772,7 @@ void expr_codegen_assign( struct expr *e ) {
             scratch_free(r);
             scratch_free(e->left->mid->reg);
             scratch_free(e->left->reg);
+            fprintf(fp, "# end of array =\n");
             break;
     }
 }
@@ -762,7 +786,7 @@ void expr_codegen_cmp( struct expr *e ) {
     expr_codegen(e->right);
     e->reg = e->right->reg;
 
-    fprintf(fp, "# CMP\n");
+    //fprintf(fp, "# CMP\n");
     if (e->left != 0 && e->left->symbol != 0 && e->left->symbol->type->kind == TYPE_STRING) {
         fprintf(fp, "\tpushq %%r10\n");
         fprintf(fp, "\tpushq %%r11\n");
@@ -815,14 +839,17 @@ void expr_codegen_cmp( struct expr *e ) {
     // cont
     fprintf(fp, "# continue\n");
     fprintf(fp, "%s:\n", label_name(cont_label));
-
+    
     scratch_free(e->left->reg);
+    fprintf(fp, "# end of cmp \n");
 }
 
 void expr_codegen_func( struct expr *e ) {
     if (e == 0)
         return;
     
+    fprintf(fp, "# start of func call\n");
+
     fprintf(fp, "# save regs for func call\n");
     fprintf(fp, "\tpushq %%r10\n");
     fprintf(fp, "\tpushq %%r11\n");
@@ -858,4 +885,5 @@ void expr_codegen_func( struct expr *e ) {
         e->reg = scratch_alloc();
         fprintf(fp, "\tmovq %%rax, %s\n", scratch_name(e->reg));
     }
+    fprintf(fp, "# end of func call\n");
 } 

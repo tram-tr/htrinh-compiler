@@ -1,0 +1,14 @@
+// test comparing integers
+
+x: integer = 5;
+y: integer = 4;
+z: integer = 5;
+
+main:function integer () = {
+	print "x > y should be true: ", x>y, "\n";
+	print "x >= y should be true: ", x>=y, "\n";
+	print "x < y should be false: ", x<y, "\n";
+	print "x <= y should be false: ", x<=y, "\n";
+	print "x == y should be false: ", x==y, "\n";
+	print "x != y should be true: ", x!=y, "\n";
+}

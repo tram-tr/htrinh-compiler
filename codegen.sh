@@ -1,10 +1,5 @@
 #! /bin/sh
 
-if [ $# -ne 1 ]; then
-    echo "usage: ./bmake [file]"
-    exit 1
-fi
-
 FILE=$1
 
 if ./bminor --codegen $FILE program.s ; then 

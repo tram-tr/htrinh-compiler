@@ -1,0 +1,13 @@
+// test comparing bools
+
+t: boolean = true;
+f: boolean = false;
+
+main:function integer () = {
+	print "true == false should be false: ", t==f, "\n";
+    print "true == true should be true: ", t==t, "\n";
+    print "false == false should be true: ", f==f, "\n";
+    print "true != false should be true: ", t!=f, "\n";
+    print "true != true should be false: ", t!=t, "\n";
+    print "false != false should be false: ", f!=f, "\n";
+}

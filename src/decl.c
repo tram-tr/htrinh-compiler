@@ -228,7 +228,7 @@ void decl_codegen(struct decl *d) {
     if (d == 0)
         return;
     
-    fprintf(fp, "# DECL\n");
+    // fprintf(fp, "# DECL\n");
     // global decl
     if (d->symbol->kind == SYMBOL_GLOBAL) {
         switch (d->symbol->type->kind) {
@@ -283,7 +283,7 @@ void decl_codegen(struct decl *d) {
                 if (d->value != 0)
                     curr = d->value->mid;
                 for (int i = 0; i < d->type->arr_expr->int_literal; i++) {
-                    fprintf(fp, ".quad %d\n", d->value ? curr->int_literal : 0);
+                    fprintf(fp, "\t.quad %d\n", d->value ? curr->int_literal : 0);
                     if (curr != 0) curr = curr->next;
                 }
                 break;

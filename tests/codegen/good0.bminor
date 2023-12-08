@@ -1,0 +1,7 @@
+str: string = "bye";
+main: function void () = {
+    if (1 == 1) {
+        print "hello world!\n";
+    }
+}
+

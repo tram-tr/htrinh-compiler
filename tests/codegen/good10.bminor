@@ -1,0 +1,15 @@
+// test ++ and -- 
+
+
+main:function integer ()= {
+    x: integer = 0;
+    y:integer = 1;
+    
+    a: integer = x++;
+    print "a should be 0, x should be 1: ", "a = ", a, " x = ", x, "\n";
+
+    a = y--;
+    print "a should be 1, y should be 0: ", "a = ", a, " y = ", y, "\n";	
+
+}
+

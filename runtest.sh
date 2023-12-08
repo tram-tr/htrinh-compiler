@@ -128,7 +128,7 @@ elif [ "$TEST_TYPE" == "typecheck" ]; then
 elif [ "$TEST_TYPE" = "codegen" ]; then
     for testfile in $TEST_DIR/$TEST_TYPE/good*.bminor
     do 
-        if bmake.sh "$testfile" > "$testfile.out" 
+        if ./codegen.sh "$testfile" > "$testfile.out" 
         then 
             echo "$testfile success (as expected)"
         else
@@ -138,7 +138,7 @@ elif [ "$TEST_TYPE" = "codegen" ]; then
 elif [ "$TEST_TYPE" = "codegen-sample" ]; then
     for testfile in $TEST_DIR/codegen-sample/good*.bminor
     do 
-        if ./bmake.sh "$testfile" > "$testfile.out"
+        if ./codegen.sh "$testfile" > "$testfile.out"
         then 
             echo "$testfile success (as expected)"
         else

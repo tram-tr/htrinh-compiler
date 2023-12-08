@@ -1,0 +1,15 @@
+// tests array index
+
+arr: array [4] integer = {1,2,3,4};
+
+main:function integer () = {
+
+    arr[0] = 234;
+    arr[1] = 45;
+    arr[2] = 11;
+    arr[3] = 12;
+    
+    print arr[0]," ", arr[1], " ", arr[2], " ", arr[3], "\n";
+    
+    return 0;	
+}

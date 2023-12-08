@@ -319,7 +319,7 @@ void stmt_codegen( struct stmt *s ) {
     if (s == 0)
         return;
 
-    fprintf(fp, "# STMT\n");
+    // fprintf(fp, "# STMT\n");
     int l1, l2;
 
     switch(s->kind) {
@@ -403,7 +403,7 @@ void stmt_codegen( struct stmt *s ) {
             expr_codegen(s->expr);
             scratch_free(s->expr->reg);
 
-            fprintf(fp, "\tcmpq $0, %%%s\n", scratch_name(s->expr->reg));
+            fprintf(fp, "\tcmpq $0, %s\n", scratch_name(s->expr->reg));
             fprintf(fp, "\tje %s\n", label_name(l2));
             
             fprintf(fp, "# while body\n");
@@ -415,8 +415,9 @@ void stmt_codegen( struct stmt *s ) {
             fprintf(fp, "# end of while loop\n");
             break;
         case STMT_PRINT:
-            fprintf(fp, "# printing exprs\n");
+            fprintf(fp, "# print stmt\n");
             stmt_codegen_print(s);
+            fprintf(fp, "# end of print stmt\n");
             break;
         case STMT_RETURN:
             fprintf(fp, "# return stmt\n");
@@ -424,6 +425,7 @@ void stmt_codegen( struct stmt *s ) {
             fprintf(fp, "\tmovq %s, %%rax\n", scratch_name(s->expr->reg));
             fprintf(fp, "\tjmp .%s_epilogue\n", s->func_return); 
             scratch_free(s->expr->reg);
+            fprintf(fp, "# end of return stmt\n");
             break;
         case STMT_BLOCK:
             stmt_codegen(s->body);

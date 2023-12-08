@@ -1,0 +1,14 @@
+// test comparing char
+
+a: char = 'a';
+b: char = 'b';
+c: char = 'a';
+
+main:function integer () = {
+
+    print "a == b should be false: ", a==b, "\n";
+    print "a != b should be true: ", a!=b, "\n";
+    print "a == c should be true: ", a==c, "\n";
+    print "a != c should be false: ", a!=c, "\n";
+
+}

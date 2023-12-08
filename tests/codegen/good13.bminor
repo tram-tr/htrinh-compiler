@@ -1,0 +1,8 @@
+// test and, or, not 
+
+main:function integer () =
+{
+	print "true: ", true&&true, " false: ", true&&false, ", true: ", true||false, "\n";
+
+    print "false: ", !true, ", false: ", !true, ", true: ", !!true, "\n";
+}

@@ -1,0 +1,28 @@
+// tests arithmetic 
+
+main:function integer () =
+{
+    print 1 + 2, "\n";
+    x: integer = 0;
+    x = x + 1; 
+    print x; 
+    print " should be 1\n";
+    x = x - 1; 
+    print x; print " should be 0\n";
+    x = 6;
+    x = x * x; 
+    print x; 
+    print " should be 36\n";
+    x = x / x; 
+    print x; 
+    print " should be 1\n";
+    x = 2;
+    print x % 2; 
+    print " should be 0\n";
+    print x^2; 
+    print " should be 4\n";
+    print x^2^3; 
+    print " should be 256\n";
+
+    return 0;	
+}
